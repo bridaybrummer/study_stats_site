@@ -1,24 +1,64 @@
+# Set the working directory to your project folder.
+setwd("/Users/briday/Desktop/study_stats_site")
+cat("Current working directory:", getwd(), "\n")
 
-system("cd /Users/briday/Desktop/study_stats_site") # change to the directory where the html is stored
-system("ls /Users/briday/Desktop/study_stats_site") # list the files in the directory
-system("pwd")   # print the working directory
-system("git init") # initialize the git repository
-system( "git remote add origin https://github.com/bridaybrummer/study_stats_site.git")
+# List files in the directory.
+cat("Directory listing:\n")
+system("ls")
 
+# Initialize the Git repository if it hasn't been initialized.
+if (!dir.exists(".git")) {
+  system("git init")
+  cat("Initialized new Git repository.\n")
+} else {
+  cat("Git repository already exists.\n")
+}
+
+# Add the remote "origin" if it does not exist.
+remotes <- system("git remote", intern = TRUE)
+if (!("origin" %in% remotes)) {
+  system("git remote add origin https://github.com/bridaybrummer/study_stats_site.git")
+  cat("Added remote 'origin'.\n")
+} else {
+  cat("Remote 'origin' already exists.\n")
+}
+
+# Render your Quarto site.
+cat("Rendering Quarto site...\n")
 system("quarto render")
 
-system("git add .") # add all the files to the repository
+# Add all files to Git.
+system("git add .")
+cat("Added all files to staging.\n")
 
+# Increase the postBuffer size (if needed for large pushes).
 system("git config --global http.postBuffer 524288000")
+
+# Ensure the current branch is named 'main'.
 system("git branch -M main")
-system("git push origin main")
+cat("Renamed branch to 'main'.\n")
+
+# Pull remote changes to ensure your local branch is up-to-date.
+cat("Pulling latest changes from remote 'main' branch...\n")
 system("git pull origin main --rebase")
-system("git commit -m 'first commit'") # commit the changes
-system("git push -u origin main") # create a new branch
 
-# check if push is in progress
-system( "git status") # check the status of the repository
+# Check if there are staged changes that need to be committed.
+status <- system("git diff --cached --quiet")
+if (status != 0) {
+  # If there are changes, commit them.
+  system("git commit -m 'Update site after Quarto render'")
+  cat("Committed changes.\n")
+} else {
+  cat("No changes to commit.\n")
+}
 
+# Push changes to the remote repository.
+cat("Pushing changes to remote 'main' branch...\n")
+system("git push -u origin main")
+
+# Final status check.
+cat("Git status:\n")
+system("git status")
 
 
 # go to gh-pages branch and add the _site folder
