@@ -1,4 +1,9 @@
-# Set the working directory to your project folder.
+
+# ===============================
+# Update GitHub Main & GitHub Pages
+# ===============================
+
+# 1. Set the working directory to your project folder.
 setwd("/Users/briday/Desktop/study_stats_site")
 cat("Current working directory:", getwd(), "\n")
 
@@ -6,7 +11,7 @@ cat("Current working directory:", getwd(), "\n")
 cat("Directory listing:\n")
 system("ls")
 
-# Initialize the Git repository if it hasn't been initialized.
+# 2. Initialize the Git repository if it hasn't been initialized.
 if (!dir.exists(".git")) {
   system("git init")
   cat("Initialized new Git repository.\n")
@@ -23,78 +28,84 @@ if (!("origin" %in% remotes)) {
   cat("Remote 'origin' already exists.\n")
 }
 
-# Render your Quarto site.
+# 3. Render your Quarto site.
 cat("Rendering Quarto site...\n")
 system("quarto render")
 
-# Add all files to Git.
+# 4. Stage all files.
 system("git add .")
-cat("Added all files to staging.\n")
+cat("Staged all files.\n")
 
-# Increase the postBuffer size (if needed for large pushes).
-system("git config --global http.postBuffer 524288000")
-
-# Ensure the current branch is named 'main'.
-system("git branch -M main")
-cat("Renamed branch to 'main'.\n")
-
-# Pull remote changes to ensure your local branch is up-to-date.
-cat("Pulling latest changes from remote 'main' branch...\n")
-system("git pull origin main --rebase")
-
-# Check if there are staged changes that need to be committed.
-status <- system("git diff --cached --quiet")
-if (status != 0) {
-  # If there are changes, commit them.
+# 5. Commit changes if any are staged.
+commit_status <- system("git diff-index --quiet HEAD --")
+if (commit_status != 0) {
   system("git commit -m 'Update site after Quarto render'")
   cat("Committed changes.\n")
 } else {
   cat("No changes to commit.\n")
 }
 
-# Push changes to the remote repository.
+# 6. Increase the HTTP post buffer (useful for large pushes).
+system("git config --global http.postBuffer 524288000")
+
+# 7. Ensure the current branch is named 'main'.
+system("git branch -M main")
+cat("Renamed branch to 'main'.\n")
+
+# 8. Pull remote changes (with rebase) to ensure your local branch is up-to-date.
+cat("Pulling latest changes from remote 'main' branch with rebase...\n")
+pull_result <- system("git pull origin main --rebase")
+if (pull_result != 0) {
+  cat("Pull with rebase failed. Aborting rebase...\n")
+  system("git rebase --abort")
+}
+
+# (Optional) Check again if there are staged changes post-rebase, and commit if needed.
+status <- system("git diff --cached --quiet")
+if (status != 0) {
+  system("git commit -m 'Update site after Quarto render (post-rebase)'")
+  cat("Committed additional changes.\n")
+} else {
+  cat("No additional changes to commit.\n")
+}
+
+# 9. Push changes to the remote 'main' branch.
 cat("Pushing changes to remote 'main' branch...\n")
 system("git push -u origin main")
+cat("Main branch updated.\n")
 
-# Final status check.
-cat("Git status:\n")
-system("git status")
+# ====================================
+# Update GitHub Pages (gh-pages branch)
+# ====================================
 
+cat("\nUpdating gh-pages branch...\n")
 
-# go to gh-pages branch and add the _site folder
-
-# 1. Change to your project directory where your source and rendered files reside.
-setwd("/Users/briday/Desktop/study_stats_site")
-
-# 2. Initialize Git (if not already) and add the remote.
-if (!dir.exists(".git")) {
-  system("git init")
-}
-
-# Add the remote "origin" if it’s not already present.
-remotes <- system("git remote", intern = TRUE)
-if (!"origin" %in% remotes) {
-  system("git remote add origin https://github.com/bridaybrummer/study_stats_site.git")
-}
-
-# 3. Render your Quarto site (this will output your HTML to the _site folder).
-system("quarto render")
-
-# 4. Remove any existing local 'gh-pages' branch.
+# Remove any existing local 'gh-pages' branch.
 local_branches <- system("git branch", intern = TRUE)
 if (any(grepl("gh-pages", local_branches))) {
   system("git branch -D gh-pages")
+  cat("Deleted local 'gh-pages' branch.\n")
 }
 
-# 5. Delete the remote 'gh-pages' branch if it exists.
-#    (This command may output an error if the branch doesn't exist—but that's okay.)
+# Delete the remote 'gh-pages' branch if it exists.
+# (Ignore errors if the branch doesn't exist.)
 system("git push origin --delete gh-pages", ignore.stderr = TRUE)
+cat("Deleted remote 'gh-pages' branch if it existed.\n")
 
-# 6. Create a subtree split from the _site folder into a temporary branch named 'gh-pages'.
+# Create a subtree split from the _site folder into a temporary branch named 'gh-pages'.
 system("git subtree split --prefix _site -b gh-pages")
+cat("Created subtree split for '_site' into 'gh-pages' branch.\n")
 
-# 7. Force push the new 'gh-pages' branch to GitHub.
+# Force push the new 'gh-pages' branch to GitHub.
 system("git push origin gh-pages --force")
+cat("Pushed 'gh-pages' branch to remote.\n")
 
-# 8. Clean up by deleting the temporary local 'gh-pages' branch.
+# Clean up by deleting the temporary local 'gh-pages' branch.
 system("git branch -D gh-pages")
+cat("Cleaned up local 'gh-pages' branch.\n")
+
+# Final status check.
+cat("\nFinal Git status:\n")
+system("git status")
+
+

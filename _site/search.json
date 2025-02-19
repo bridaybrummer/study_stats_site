@@ -2,23 +2,37 @@
   {
     "objectID": "about.html",
     "href": "about.html",
-    "title": "STUDY*STATS*",
+    "title": "about STUDYSTATS",
     "section": "",
-    "text": "Welcome to my website! Enjoy your stay."
+    "text": ".\nStudyStats understands the unique challenges that health professionals face when specializing and crafting their research reports. Our mission is to provide seamless and meticulous statistical consulting services, ensuring that your research project meets the standards of peer-reviewed journals and ultimately advances evidence-based practices. Learn more about our mission."
   },
   {
-    "objectID": "about.html#mission",
-    "href": "about.html#mission",
-    "title": "STUDY*STATS*",
-    "section": "Mission",
-    "text": "Mission\nWelcome to StudyStats. We were founded to meet the distinctive challenges of health professionals, especially Medical Doctors pursuing their Master of Medicine. Recognizing the demands on their time and resources during their specialisation journey, we strive to offer effective solutions for their statistical needs throughout the research project phase. StudyStats is dedicated to easing the burden during the research phase of your specialisation.\nOur mission is to provide a comprehensive service, that, aswell as providing robust biostatistical services, enhances your workflow by creating publication-ready tables, figures , and writing that can seamlessly integrate into your projects. We are committed to offering support throughout the entire research journey, ensuring the accurate interpretation, discussion, and presentation of your results to the standards of peer-reviewed journals and the advancement of evidence-based practice.\nWhile we operate as a for-profit entity, we consider ourselves integral contributors to the enhancement of evidence-based practice. We envision StudyStats as a key ally in maintaining the enthusiasm of medical professionals for their projects, the quality of the projects and ultimately the information generated to improve patient outcomes."
+    "objectID": "about.html#services-offered",
+    "href": "about.html#services-offered",
+    "title": "about STUDYSTATS",
+    "section": "Services Offered",
+    "text": "Services Offered\nWe offer a wide range of statistical solutions for medical professionals, including: - Clean, publication-ready tables and figures - Tailored statistical analyses designed to meet your research objectives - Comprehensive support throughout your research process\nDiscover all our activities."
+  },
+  {
+    "objectID": "about.html#why-choose-studystats",
+    "href": "about.html#why-choose-studystats",
+    "title": "about STUDYSTATS",
+    "section": "Why Choose StudyStats",
+    "text": "Why Choose StudyStats\n\nExpertise in Medical Statistics: Every analysis is purpose-built to align with your project’s aims.\nSeamless Integration: Our bespoke solutions fit perfectly into your existing workflow.\nDedicated Support: From protocol development to final presentations, we are with you every step of the way.\n\nContact us"
+  },
+  {
+    "objectID": "about.html#meet-the-expert",
+    "href": "about.html#meet-the-expert",
+    "title": "about STUDYSTATS",
+    "section": "Meet the Expert",
+    "text": "Meet the Expert\n\n\n\n&lt;h3&gt;Mr Brian Brummer&lt;/h3&gt;\n&lt;p&gt;Brian was a physiotherapist who converted to an epidemiologist during COVID through the South African Field Epidemiology Training Programme, a scholarship with the NICD and MSc thought the university of the Witwatersrand. brian took extra courses in biostatistics and taught himself to code in R. Since then has has developed an interet and skill. &lt;/p&gt;"
   },
   {
     "objectID": "blog/ResearchQuestion_SampleSize.html",
     "href": "blog/ResearchQuestion_SampleSize.html",
     "title": "Research question, hypothesis testing and sample sizes (Continuous data)",
     "section": "",
-    "text": "Welcome to my website! Enjoy your stay."
+    "text": "."
   },
   {
     "objectID": "blog/ResearchQuestion_SampleSize.html#a-good-research-question",
@@ -37,85 +51,85 @@
   {
     "objectID": "details.html",
     "href": "details.html",
-    "title": "STUDY*STATS*",
+    "title": "STUDY**STATS**",
     "section": "",
-    "text": "Welcome to my website! Enjoy your stay."
+    "text": "."
   },
   {
     "objectID": "details.html#activities",
     "href": "details.html#activities",
-    "title": "STUDY*STATS*",
+    "title": "STUDY**STATS**",
     "section": "Activities",
     "text": "Activities\n\nProtocol and Thesis Methodology Writing\nA protocol is your road map. It is your backup when things become confusing later down the line. If you have found our services and you are busy writing your protocol, it is good to touch base and we can advise on what kind of analyses can and cannot answer your research question and ensure your aims and objectives have their statistical partner.\n\n\nSample Size Calculations\nCollaboratively determining sample sizes is a crucial step in your research journey. Our team works with Principal Investigators to refine sample size calculations, incorporating prior work from literature reviews and ensuring statistical validity. Large analyses of secondary dataset may not require a formal sample size calculation but reporting some known sample size of the dataset is favourable.\n\n\nData Wrangling\nData Wrangling—the art of refining and organizing raw data to ensure it’s in optimal shape for analysis. We conduct simple variable recoding up to more complex dataset merging or probablisitc record linkage studies. Useful solutions also inlude natural language text processing, which involved transforming high-volume free-text responses into structured and analyzable data.\n\n\nStatistical Analysis\nOur expertise covers a spectrum of statistical analyses, including descriptive statistics (mean, median), basic comparisons (chi-squared, Fischer’s exact, Wilcoxon, etc.), regression models, survival analysis, and Cox proportional and extended hazard models for longitudinal cohort studies and clinical trials.\n\n\nCost-Effectiveness and QALY Calculations\nWe can assist in navigating the complexities of cost-effectiveness and Quality-Adjusted Life Year (QALY) calculations however this is not an area of expertise.\n\n\nPublication-Ready Tables\nTransforming your data into compelling and publication-ready tables is a critical step in presenting your findings. We have a strong focus on ensuring that your tables are formatted, clean and logical. We also ensure that tables formatting align with the standards of your target journal.\n\n\nFigures\nWe offer extended consulting for the creation of specific figures, including bar graphs, line graphs, and Likert scale graphs when the figure are more efficient than tables.\n\n\nAssistance and Consulting\nBeyond data analysis, we provide comprehensive assistance and consulting on result interpretation and discussion writing. Although it is often overlooked, we take pride in understanding the exact metric we report on and know what you can and cannot say about your data. Our goal is to ensure that the statistical aspects of your research are presented with clarity and depth.\n\n\nReal-time trial monitoring\nWhile this has been set up in theory, it has not yet been done practically for a client. For those wishing to follow the results of their project in near real-time and are collecting data with an active API we may create simple tables and analsyes that run and indicate when your sample size has reached saturation. This may be useful if there is uncertainty in your sample size calculation or if resources per participant is expensive."
   },
   {
     "objectID": "details.html#limitations",
     "href": "details.html#limitations",
-    "title": "STUDY*STATS*",
+    "title": "STUDY**STATS**",
     "section": "Limitations",
     "text": "Limitations\nWhile we excel in the areas mentioned above, there are certain services we do not provide. These include data collection, managing ethics applications (though we support protocol methodology writing), and full results, discussion, and conclusion writing - this is often best done by the expert (you) in the field"
   },
   {
     "objectID": "details.html#outputs",
     "href": "details.html#outputs",
-    "title": "STUDY*STATS*",
+    "title": "STUDY**STATS**",
     "section": "Outputs",
     "text": "Outputs\nWe can produce tables, figures and writing in pdf, html and word documents to the satisfaction of the principal investigator."
+  },
+  {
+    "objectID": "mission.html",
+    "href": "mission.html",
+    "title": "STUDY**STATS**",
+    "section": "",
+    "text": "."
+  },
+  {
+    "objectID": "mission.html#mission",
+    "href": "mission.html#mission",
+    "title": "STUDY**STATS**",
+    "section": "Mission",
+    "text": "Mission\nWelcome to StudyStats. We were founded to meet the distinctive challenges of health professionals, especially Medical Doctors pursuing their Master of Medicine. Recognizing the demands on their time and resources during their specialisation journey, we strive to offer effective solutions for their statistical needs throughout the research project phase. StudyStats is dedicated to easing the burden during the research phase of your specialisation.\nOur mission is to provide a comprehensive service, that, aswell as providing robust biostatistical services, enhances your workflow by creating publication-ready tables, figures , and writing that can seamlessly integrate into your projects. We are committed to offering support throughout the entire research journey, ensuring the accurate interpretation, discussion, and presentation of your results to the standards of peer-reviewed journals and the advancement of evidence-based practice.\nWhile we operate as a for-profit entity, we consider ourselves integral contributors to the enhancement of evidence-based practice. We envision StudyStats as a key ally in maintaining the enthusiasm of medical professionals for their projects, the quality of the projects and ultimately the information generated to improve patient outcomes."
+  },
+  {
+    "objectID": "rates.html",
+    "href": "rates.html",
+    "title": "STUDY**STATS**",
+    "section": "",
+    "text": "."
+  },
+  {
+    "objectID": "rates.html#rates",
+    "href": "rates.html#rates",
+    "title": "STUDY**STATS**",
+    "section": "Rates",
+    "text": "Rates\nScience is flexible, complex and nuanced; all projects have intricacies and it is difficult to charge a flat rate per service. Until a tiered package service is created, an hourly rate of 600 ZAR is charged. This rate is valid until the end of February 2024. Certain services and expected time spent on each is tabulated below.\n\n\n\nService\nEstimated Timeframe (hours)\n\n\n\n\nProtocol Writing\n1-2\n\n\nSample Size Calculations\n1-4\n\n\nData Wrangling\n3-5\n\n\nStatistical Analysis\n3-5\n\n\nPublication-Ready Tables\n2-4\n\n\nFigure Creation\n1-3\n\n\nResults Interpretation\n1-3\n\n\nDiscussion Assistance\n1-3\n\n\n\n*Fees can be billed per stage of the project."
   },
   {
     "objectID": "contact.html",
     "href": "contact.html",
     "title": "contact",
     "section": "",
-    "text": "Welcome to my website! Enjoy your stay.\n  \n\n\n\n\n\n\nEmail: studystatsbb@gmail.com Copy Email\n\n\nCell: +27 71 890 4528 Copy Cell Number"
-  },
-  {
-    "objectID": "rates.html",
-    "href": "rates.html",
-    "title": "STUDY*STATS*",
-    "section": "",
-    "text": "Welcome to my website! Enjoy your stay."
-  },
-  {
-    "objectID": "rates.html#rates",
-    "href": "rates.html#rates",
-    "title": "STUDY*STATS*",
-    "section": "Rates",
-    "text": "Rates\nScience is flexible, complex and nuanced; all projects have intricacies and it is difficult to charge a flat rate per service. Until a tiered package service is created, an hourly rate of 600 ZAR is charged. This rate is valid until the end of February 2024. Certain services and expected time spent on each is tabulated below.\n\n\n\nService\nEstimated Timeframe (hours)\n\n\n\n\nProtocol Writing\n1-2\n\n\nSample Size Calculations\n1-4\n\n\nData Wrangling\n3-5\n\n\nStatistical Analysis\n3-5\n\n\nPublication-Ready Tables\n2-4\n\n\nFigure Creation\n1-3\n\n\nResults Interpretation\n1-3\n\n\nDiscussion Assistance\n1-3\n\n\n\n*Fees can be billed per stage of the project."
+    "text": ".\n  \n\n\n\n\n\n\n\n\n\nEmail: studystatsbb@gmail.com Copy Email\n\n\nCell: +27 71 890 4528 Copy Cell Number"
   },
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "STUDYSTATS",
+    "title": "StudyStats",
     "section": "",
-    "text": "Welcome to my website! Enjoy your stay.\nStudyStats, understands the unique challenges that health professionals face when specializing and crafting their research reports. Our mission is to provide seamless and meticulous statistical consulting services, ensuring that your research project meets the standards of peer-reviewed journals and ultimately advances evidence-based practices. See our mission."
-  },
-  {
-    "objectID": "index.html#services-offered",
-    "href": "index.html#services-offered",
-    "title": "STUDYSTATS",
-    "section": "Services offered",
-    "text": "Services offered\nWe offer a wide range of statistical solutions for medical professionals as well as clean, publication-ready tables, figures, and writing.\nFor details on what we offer, check out our activities."
-  },
-  {
-    "objectID": "index.html#why-choose-studystats",
-    "href": "index.html#why-choose-studystats",
-    "title": "STUDYSTATS",
-    "section": "Why Choose StudyStats:",
-    "text": "Why Choose StudyStats:\n\nExpertise in Medical Statistics: All analyses we do have a purpose that relates back to the aims and objectives of your project. We are precise and understand the pertinent themes of your topics.\nSeamless Integration: We offer bespoke statistical analyses and publication-ready content with excellent integration into your current workflow.\nDedicated Support: We provide dedicated support throughout the research process, from protocol writing to the final presentation of results.\n\ncontact"
+    "text": ".\n  \n\n\n\n\n\n\n\n\n\n \n\n\nExpert statistical consulting for health professionals and researchers.\n\n\n\nHome About Services Contact"
   },
   {
     "objectID": "blog/index.html",
     "href": "blog/index.html",
     "title": "Blog",
     "section": "",
-    "text": "Welcome to my website! Enjoy your stay.\n  \n\n\n\n\nWelcome to my blog! Here you will find posts that explain simple research questions and statistical concepts in accessible language.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nResearch question, hypothesis testing and sample sizes (Continuous data)\n\n\n\n\n\n\n\n\n\n\n\nFeb 19, 2025\n\n\nBrian Brummer\n\n\n\n\n\n\n\n\n\n\n\n\nDistributions\n\n\n\n\n\n\n\n\n\n\n\nFeb 19, 2025\n\n\nYour Name\n\n\n\n\n\n\nNo matching items"
+    "text": ".\n  \n\n\n\n\n\n\n\nWelcome to my blog! Here you will find posts that explain simple research questions and statistical concepts in accessible language.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nResearch question, hypothesis testing and sample sizes (Continuous data)\n\n\n\n\n\n\n\n\n\n\n\nFeb 19, 2025\n\n\nBrian Brummer\n\n\n\n\n\n\n\n\n\n\n\n\nDistributions\n\n\n\n\n\n\n\n\n\n\n\nFeb 19, 2025\n\n\nYour Name\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "blog/distributions_blog.html",
     "href": "blog/distributions_blog.html",
     "title": "Distributions",
     "section": "",
-    "text": "Welcome to my website! Enjoy your stay.\n  \n\n\n\n\n\nIntroduction\nIn biostatistics, understanding the underlying distribution of your data is essential. Data that follows a normal distribution has different characteristics compared to data that is non-normal. In many cases, transformations such as the log or square root can help meet the assumptions of statistical tests and improve data interpretation.\nIn this post, we’ll explore: - Normal distributions and their properties - Non-normal distributions and why they matter - How log and square root transformations can help\n\n\n\nNormal Distributions\nA normal distribution, often called a Gaussian distribution, is symmetric around its mean. Its bell-shaped curve is defined by the mean (μ) and standard deviation (σ). Many statistical methods assume normality because of its well-understood properties.\nKey features of a normal distribution: - Symmetry about the mean - Mean, median, and mode coincide - Defined by two parameters (mean and standard deviation)\nExample:\nMany biological measurements (like blood pressure in a healthy population) are assumed to follow a normal distribution.\n\n\n\nNon-Normal Distributions\nNot all data in biostatistics follow a normal distribution. Skewed data, for example, may be right-skewed or left-skewed. Non-normal data can occur due to natural biological variability or due to the measurement process itself.\nCommon examples include: - Right-skewed data: Enzyme levels, income data, or time-to-event data\n- Left-skewed data: Certain bounded measurements where many values cluster near an upper limit\nWhen data are non-normal, the usual statistical tests that assume normality might not be valid, which is why transformations are often applied.\n\n\n\nLog Transformation\nA log transformation is frequently used when data are right-skewed. By taking the logarithm of the data, extreme values are compressed, which often results in a distribution that is closer to normal.\nBenefits: - Stabilizes the variance - Makes the data more symmetric - Facilitates the use of parametric statistical tests\nWhen to use:\nIf your data ranges over several orders of magnitude (e.g., hormone concentrations or viral load), a log transformation can be very effective.\nExample code in R:\n\n# Original data vector \ndata &lt;- c(1, 10, 100, 1000, 10000) \n# Log-transformed data \nlog_data &lt;- log(data) \n\nprint(log_data)"
+    "text": ".\n  \n\n\n\n\n\n\n\n\nIntroduction\nIn biostatistics, understanding the underlying distribution of your data is essential. Data that follows a normal distribution has different characteristics compared to data that is non-normal. In many cases, transformations such as the log or square root can help meet the assumptions of statistical tests and improve data interpretation.\nIn this post, we’ll explore: - Normal distributions and their properties - Non-normal distributions and why they matter - How log and square root transformations can help\n\n\n\nNormal Distributions\nA normal distribution, often called a Gaussian distribution, is symmetric around its mean. Its bell-shaped curve is defined by the mean (μ) and standard deviation (σ). Many statistical methods assume normality because of its well-understood properties.\nKey features of a normal distribution: - Symmetry about the mean - Mean, median, and mode coincide - Defined by two parameters (mean and standard deviation)\nExample:\nMany biological measurements (like blood pressure in a healthy population) are assumed to follow a normal distribution.\n\n\n\nNon-Normal Distributions\nNot all data in biostatistics follow a normal distribution. Skewed data, for example, may be right-skewed or left-skewed. Non-normal data can occur due to natural biological variability or due to the measurement process itself.\nCommon examples include: - Right-skewed data: Enzyme levels, income data, or time-to-event data\n- Left-skewed data: Certain bounded measurements where many values cluster near an upper limit\nWhen data are non-normal, the usual statistical tests that assume normality might not be valid, which is why transformations are often applied.\n\n\n\nLog Transformation\nA log transformation is frequently used when data are right-skewed. By taking the logarithm of the data, extreme values are compressed, which often results in a distribution that is closer to normal.\nBenefits: - Stabilizes the variance - Makes the data more symmetric - Facilitates the use of parametric statistical tests\nWhen to use:\nIf your data ranges over several orders of magnitude (e.g., hormone concentrations or viral load), a log transformation can be very effective.\nExample code in R:\n\n# Original data vector \ndata &lt;- c(1, 10, 100, 1000, 10000) \n# Log-transformed data \nlog_data &lt;- log(data) \n\nprint(log_data)"
   }
 ]

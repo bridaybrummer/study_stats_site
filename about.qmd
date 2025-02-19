@@ -1,11 +1,39 @@
 ---
-title: ""
+title: "about STUDY<em>STATS</em>"
+format: html
 ---
 
-## Mission
+<!-- Header Banner -->
 
-Welcome to Study**Stats**. We were founded to meet the distinctive challenges of health professionals, especially Medical Doctors pursuing their Master of Medicine. Recognizing the demands on their time and resources during their specialisation journey, we strive to offer effective solutions for their statistical needs throughout the research project phase. Study**Stats** is dedicated to easing the burden during the research phase of your specialisation.
+![StudyStats Logo](logo/horizontal.jpg){.img-fluid style="width:100%;"}
 
-Our **mission** is to provide a comprehensive service, that, aswell as providing robust biostatistical services, enhances your workflow by creating publication-ready tables, figures , and writing that can seamlessly integrate into your projects. We are committed to offering support throughout the entire research journey, ensuring the accurate interpretation, discussion, and presentation of your results to the standards of peer-reviewed journals and the advancement of evidence-based practice.
+<!-- Introductory Copy -->
 
-While we operate as a for-profit entity, we consider ourselves integral contributors to the enhancement of evidence-based practice. We envision Study**Stats** as a key ally in maintaining the enthusiasm of medical professionals for their projects, the quality of the projects and ultimately the information generated to improve patient outcomes.
+Study**Stats** understands the unique challenges that health professionals face when specializing and crafting their research reports. Our mission is to provide seamless and meticulous statistical consulting services, ensuring that your research project meets the standards of peer-reviewed journals and ultimately advances evidence-based practices. Learn more about our [mission](about.html).
+
+## Services Offered {#services-offered}
+
+We offer a wide range of statistical solutions for medical professionals, including: - Clean, publication-ready tables and figures - Tailored statistical analyses designed to meet your research objectives - Comprehensive support throughout your research process
+
+Discover all our [activities](details.html).
+
+## Why Choose Study**Stats** {#why-choose-studystats}
+
+-   **Expertise in Medical Statistics:** Every analysis is purpose-built to align with your project’s aims.
+-   **Seamless Integration:** Our bespoke solutions fit perfectly into your existing workflow.
+-   **Dedicated Support:** From protocol development to final presentations, we are with you every step of the way.
+
+[Contact us](contact.html){#contact-section}
+
+## Meet the Expert
+
+:::: {.profile-card style="display: flex; align-items: center; margin-top: 2rem;"}
+<img src="images/image_1.jpg" alt="Biostatistician Profile" class="profile-img" style="border-radius: 50%; width: 150px; margin-right: 1rem;"/>
+
+::: profile-info
+```         
+<h3>Mr Brian Brummer</h3>
+<p>Brian was a physiotherapist who converted to an epidemiologist during COVID through the South African Field Epidemiology Training Programme, a scholarship with the NICD and MSc thought the university of the Witwatersrand. brian took extra courses in biostatistics and taught himself to code in R. Since then has has developed an interet and skill. </p>
+```
+:::
+::::

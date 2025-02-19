@@ -1,4 +1,67 @@
-<!-- after.html -->
-<div class="custom-after">
-    <p>Thank you for reading. Contact us for more info.</p>
-  </div>
+<!-- Existing content in after.html -->
+
+<!-- Floating Info Box -->
+<div id="floatingBox" style="position: fixed; top: 10px; right: 10px; background: rgba(255,255,255,0.9); border: 1px solid #ccc; padding: 10px; border-radius: 8px; z-index: 1000;">
+  Loading...
+</div>
+
+<script>
+// Calculate CDC epiweek details
+function getEpiWeek(date) {
+  const year = date.getFullYear();
+  const jan1 = new Date(year, 0, 1);
+  let epiWeek1Start;
+  
+  // Determine epiweek 1: the week containing at least 4 days in January.
+  if (jan1.getDay() <= 3) {
+    // If Jan 1 is Sun (0) through Wed (3), epiweek 1 starts on the preceding Sunday.
+    epiWeek1Start = new Date(jan1);
+    epiWeek1Start.setDate(jan1.getDate() - jan1.getDay());
+  } else {
+    // Otherwise, epiweek 1 starts on the following Sunday.
+    epiWeek1Start = new Date(jan1);
+    epiWeek1Start.setDate(jan1.getDate() + (7 - jan1.getDay()));
+  }
+  
+  // Get the Sunday of the current week.
+  const currentSunday = new Date(date);
+  currentSunday.setDate(date.getDate() - date.getDay());
+  
+  // Calculate epiweek number.
+  const diffDays = Math.floor((currentSunday - epiWeek1Start) / (1000 * 60 * 60 * 24));
+  const epiWeek = Math.floor(diffDays / 7) + 1;
+  
+  // Determine the end of the week (Saturday)
+  const weekEnd = new Date(currentSunday.getTime() + 6 * 24 * 60 * 60 * 1000);
+  
+  return { epiWeek, weekStart: currentSunday, weekEnd };
+}
+
+function updateFloatingBox() {
+  const now = new Date();
+  
+  // Format date and time
+  const formattedDate = now.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  const formattedTime = now.toLocaleTimeString();
+  
+  // Calculate CDC epiweek details
+  const epiInfo = getEpiWeek(now);
+  const weekStartStr = epiInfo.weekStart.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  const weekEndStr = epiInfo.weekEnd.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+  
+  // Update the floating box content
+  document.getElementById('floatingBox').innerHTML = `
+    <strong>${formattedDate}</strong><br>
+    Time: ${formattedTime}<br>
+    Year: ${now.getFullYear()}<br>
+    CDC Epiweek: ${epiInfo.epiWeek}<br>
+    (Week runs: ${weekStartStr} – ${weekEndStr})
+  `;
+}
+
+// Update the floating box after the DOM has loaded.
+document.addEventListener('DOMContentLoaded', updateFloatingBox);
+</script>
+
+</body>
+</html>
