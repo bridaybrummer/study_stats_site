@@ -11,6 +11,7 @@ system("git add .") # add all the files to the repository
 
 system("git config --global http.postBuffer 524288000")
 system("git branch -M main")
+system("git push origin main")
 system("git pull origin main --rebase")
 system("git commit -m 'first commit'") # commit the changes
 system("git push -u origin main") # create a new branch
