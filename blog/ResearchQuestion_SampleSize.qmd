@@ -10,9 +10,10 @@ format:
       - ../styles.css  # optional custom styling for posts
       - styles_blog.css          # Blog-specific overrides
 echo: false 
+messages: false
 ---
 
-# Research question to Hypothesis to Sample Size 
+# Research question to Hypothesis to Sample Size
 
 Most research needs to have a **research question**, which means you have to have a hypothesis to test and sufficient data to demonstrate whether to accept or reject your hypothesis.
 
@@ -20,34 +21,34 @@ Most research needs to have a **research question**, which means you have to hav
 
 An effective research question must include:
 
-- An **outcome measure** (e.g., weight, height, success, failure, pain score, anxiety score)
-  
-- An **exposure or intervention** (e.g., surgery, time, diagnosis, treatment)
-  
-- An idea of the **direction and magnitude** of the difference between the groups (e.g., higher, lower, different)
+-   An **outcome measure** (e.g., weight, height, success, failure, pain score, anxiety score)
+
+-   An **exposure or intervention** (e.g., surgery, time, diagnosis, treatment)
+
+-   An idea of the **direction and magnitude** of the difference between the groups (e.g., higher, lower, different)
 
 For example, a simple research question might be:
 
 > **To determine whether the height** (outcome) **between orthopaedic surgeons and ophthalmologists** (exposure: type of specialty) **differs by 10cm** (magnitude of difference).
 
-## we Should keep in mind
-* we can also keep in mind the data types. Briefly, data types can be:
-  - **Continuous** (e.g., height, weight, blood pressure)
-  - **Categorical** (e.g., HIV stage, Death, Complication) 
+## We should keep in mind
 
+-   we can also keep in mind the data types. Briefly, data types can be:
+    -   **Continuous** (e.g., height, weight, blood pressure)
+    -   **Categorical** (e.g., HIV stage, Death, Complication)
 
----
+------------------------------------------------------------------------
 
 # Hypothesis
 
 The **null hypothesis (H₀)** represents the status quo or the assumption of no difference. To show that there is a difference, you must disprove H₀.
 
-- **Null hypothesis (H₀):** The heights are **not different by more than 10cm** between the two groups.
-- **Alternative hypothesis (H₁):** The heights **are different by more than 10cm**.
+-   **Null hypothesis (H₀):** The heights are **not different by more than 10cm** between the two groups.
+-   **Alternative hypothesis (H₁):** The heights **are different by more than 10cm**.
 
 By disproving H₀, you support H₁.
 
----
+------------------------------------------------------------------------
 
 # Sample Size Calculations
 
@@ -57,14 +58,14 @@ $$
 n = \frac{\left(Z_{1-\alpha/2} + Z_{1-\beta}\right)^2 \, \sigma^2}{\Delta^2}
 $$
 
-We need to fill in some values with our best guesses, or info from exisitng literature. 
+We need to fill in some values with our best guesses, or info from exisitng literature.
 
 Where:
 
-- $( Z_{1-\alpha/2} )$ won't change and is the critical value for the desired confidence level (e.g., 1.96 for 95% confidence).
-- $( Z_{1-\beta} )$ won't change and is the critical value for the desired power (e.g., 0.84 for 80% power).
-- $( \Delta )$ is the minimum detectable difference (we set this to 10 cm).
-- $( \sigma )$ is the standard deviation of the outcome.
+-   $( Z_{1-\alpha/2} )$ won't change and is the critical value for the desired confidence level (e.g., 1.96 for 95% confidence).
+-   $( Z_{1-\beta} )$ won't change and is the critical value for the desired power (e.g., 0.84 for 80% power).
+-   $( \Delta )$ is the minimum detectable difference (we set this to 10 cm).
+-   $( \sigma )$ is the standard deviation of the outcome.
 
 In normal language: We want to show atleast the $\Delta$ between the two groups. I like to call $\Delta$ the minimum detectable difference - If the actual difference is smaller than 10cm, we will not be able to detect it.
 
@@ -72,11 +73,20 @@ You must also consider the variability in each group. In other words each person
 
 > SD is calculated by taking the square root of the differences between each value and the mean, squaring them, summing them, and dividing by the number of values.
 
-# What will this data look like? 
+# What will this data look like?
 
 ```{r}
+#| echo: false
+#| warning: false
+#| message: false
 # show a distribution for mean height of 180 cm and SD of 10 cm
-library( NMCleaner)
+
+library(gtsummary)
+library(dplyr)
+library(magrittr)
+library(glue)
+library(tidyverse)
+library(pwr)
 
 set.seed(123)
 sample_size <- 1000
@@ -87,12 +97,22 @@ mean_height <- 180
 data.frame(
   height = c(rnorm( sample_size, mean = mean_height, sd = sigma_height), rnorm( sample_size, mean = mean_height - delta_height, sd = sigma_height)) , 
   group = rep(c("Orthopaedic", "Ophthalmologist"), each = sample_size)
-)%>%
+)-> height_df
+
+height_df$height%>%max%>%round() -> max_height 
+height_df$height%>%min %>%round()-> min_height 
+ seq( min_height, max_height, 1)%>%length()-> bins_length
+height_df%>%
 ggplot()+ 
-geom_histogram(aes(x = height, fill = group), alpha = 0.5)+
-geom_vline( xintercept = mean_height, linetype = "dashed", color = "black")+
-geom_vline( xintercept = mean_height-delta_height , linetype = "dashed", color = "black")+
-theme_classic() 
+geom_histogram(aes(x = height, fill = group), alpha = 0.5, bins =bins_length)+
+#geom_vline( xintercept = mean_height, linetype = "dashed", color = "black")+
+#geom_vline( xintercept = mean_height-delta_height , linetype = "dashed", color = "black")+
+theme_classic() +
+labs( 
+  x = "Height (cm)",
+  y = "Frequency",
+  title = "Distribution of Height between Orthopaedic and Ophthalmologist"
+)
 
 # and SD of 10 means that 68% of the values will be between 170 and 190 cm in a normal distribution 
 
@@ -129,7 +149,7 @@ t.test( height ~ group, data = ttest_df)-> ttest_result
 
 ```
 
-Finding a difference that is equal to the to or more than the standard deviation is ideal but this is generally not the case in real life, often you may wish to find a smaller difference with a much larger spread of data around a mean. Remember spread (or variance) can be affect by the natural variablitly of the event you are observing or the measurement process itself. Think of how much variation you see in the measuremnts you observe each day, from patietns weight, CD4 count, blood pressure, etc. 
+Finding a difference that is equal to the to or more than the standard deviation is ideal but this is generally not the case in real life, often you may wish to find a smaller difference with a much larger spread of data around a mean. Remember spread (or variance) can be affect by the natural variablitly of the event you are observing or the measurement process itself. Think of how much variation you see in the measuremnts you observe each day, from patietns weight, CD4 count, blood pressure, etc.
 
 ```{r}
 # show a plot for the changing sample size between the ratio of the difference and the standard deviation
@@ -159,15 +179,15 @@ labs(
 
 ```
 
----
+------------------------------------------------------------------------
 
-# In Summary 
+# In Summary
 
 Research Question: **To determine whether the height between orthopaedic surgeons and ophthalmologists differs by 10cm.**
 
 Null Hypothesis: **The heights are not different by more than 10cm between the two groups.**
 
-A p-value of <0.05 means we reject the null hypothesis and accept the alternative hypothesis.
+A p-value of \<0.05 means we reject the null hypothesis and accept the alternative hypothesis.
 
 ```{r}
 
@@ -176,8 +196,8 @@ n <- ceiling((z_alpha + z_beta)^2 * sigma_height^2 / delta_height^2)
 
 sample_size = n*2
 ```
-We determined the sample size by calculating the number of participants needed to detect a difference of 10 cm with a power of 80% and a significance level of 5%. Both groups had a standard deviation of 15 cm. This results in a sample size of `r sample_size ` (or `r n` per group).
 
+We determined the sample size by calculating the number of participants needed to detect a difference of 10 cm with a power of 80% and a significance level of 5%. Both groups had a standard deviation of 15 cm. This results in a sample size of `r sample_size` (or `r n` per group).
 
 ```{r}
 # Set seed for reproducibility
@@ -191,6 +211,7 @@ set.seed(123)
 group <- rep(c("Orthopaedic", "Ophthalmologist"), each = n)
 height <- c(rnorm(n, mean = mean_height, sd = sigma_height),
             rnorm(n, mean = mean_height-delta_height , sd = sigma_height))
+
 df <- tibble(
   group = group,
   height =  height)
@@ -223,12 +244,6 @@ ggplot(summary_data, aes(x = group, y = mean)) +
 
 ```{r}
 
-library(gtsummary)
-library(dplyr)
-library(magrittr)
-library(glue)
-library(tidyverse)
-library(pwr)
 
 
 df %>% as_tibble() %>%
@@ -252,5 +267,3 @@ df %>%
 
 
 ```
-
-
