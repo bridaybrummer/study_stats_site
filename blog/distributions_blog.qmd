@@ -1,0 +1,64 @@
+---
+title: "Distributions"
+date: "2025-02-19"
+author: "Your Name"
+categories: [Blog, Statistics]
+excerpt: "An introduction to the basics of statistical thinking for medical research."
+format:
+  html:
+    css: 
+      - ../styles.css  # optional custom styling for posts
+      - styles_blog.css          # Blog-specific overrides
+source: 
+---
+
+# Introduction
+
+In biostatistics, understanding the underlying distribution of your data is essential. Data that follows a **normal distribution** has different characteristics compared to data that is **non-normal**. In many cases, transformations such as the **log** or **square root** can help meet the assumptions of statistical tests and improve data interpretation.
+
+In this post, we'll explore: - **Normal distributions** and their properties - **Non-normal distributions** and why they matter - How **log** and **square root transformations** can help
+
+------------------------------------------------------------------------
+
+# Normal Distributions
+
+A normal distribution, often called a **Gaussian distribution**, is symmetric around its mean. Its bell-shaped curve is defined by the mean (μ) and standard deviation (σ). Many statistical methods assume normality because of its well-understood properties.
+
+*Key features of a normal distribution:* - Symmetry about the mean - Mean, median, and mode coincide - Defined by two parameters (mean and standard deviation)
+
+*Example:*\
+Many biological measurements (like blood pressure in a healthy population) are assumed to follow a normal distribution.
+
+------------------------------------------------------------------------
+
+# Non-Normal Distributions
+
+Not all data in biostatistics follow a normal distribution. Skewed data, for example, may be **right-skewed** or **left-skewed**. Non-normal data can occur due to natural biological variability or due to the measurement process itself.
+
+*Common examples include:* - **Right-skewed data:** Enzyme levels, income data, or time-to-event data\
+- **Left-skewed data:** Certain bounded measurements where many values cluster near an upper limit
+
+When data are non-normal, the usual statistical tests that assume normality might not be valid, which is why transformations are often applied.
+
+------------------------------------------------------------------------
+
+# Log Transformation
+
+A **log transformation** is frequently used when data are right-skewed. By taking the logarithm of the data, extreme values are compressed, which often results in a distribution that is closer to normal.
+
+*Benefits:* - Stabilizes the variance - Makes the data more symmetric - Facilitates the use of parametric statistical tests
+
+*When to use:*\
+If your data ranges over several orders of magnitude (e.g., hormone concentrations or viral load), a log transformation can be very effective.
+
+*Example code in R:*
+
+``` r
+
+# Original data vector 
+data <- c(1, 10, 100, 1000, 10000) 
+# Log-transformed data 
+log_data <- log(data) 
+
+print(log_data)
+```

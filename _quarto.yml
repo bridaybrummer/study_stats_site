@@ -1,0 +1,31 @@
+project:
+  type: website
+
+website:
+  title: "STUDY*STATS*"
+  navbar:
+    background: light
+#    logo: logo/vertical.png
+#    logo-alt: "studystats logo"
+    title: navigate
+    left:
+      - text: "Blog"
+        href: blog/index.qmd
+      - href: index.qmd
+        text: "**back to main**"
+      - href: about.qmd
+        text: "mission"
+      - href: details.qmd
+        text: "acitvities"
+      - href: rates.qmd
+        text: "rates"
+      - href: contact.qmd
+        text: "contact us"
+format:
+  html:
+    theme: "styles.css"
+    include-before-body: before.html
+    include-after: after.html
+    output-dir: public
+editor: visual
+

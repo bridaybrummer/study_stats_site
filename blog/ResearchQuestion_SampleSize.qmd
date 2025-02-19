@@ -1,0 +1,256 @@
+---
+title: "Research question, hypothesis testing and sample sizes (Continuous data)"
+date: "2025-02-19"
+author: "Brian Brummer"
+categories: [Blog, Statistics, Sample Size]
+excerpt: "An introduction to the basics of statistical thinking for medical research."
+format:
+  html:
+    css: 
+      - ../styles.css  # optional custom styling for posts
+      - styles_blog.css          # Blog-specific overrides
+echo: false 
+---
+
+# Research question to Hypothesis to Sample Size 
+
+Most research needs to have a **research question**, which means you have to have a hypothesis to test and sufficient data to demonstrate whether to accept or reject your hypothesis.
+
+## A good research question
+
+An effective research question must include:
+
+- An **outcome measure** (e.g., weight, height, success, failure, pain score, anxiety score)
+  
+- An **exposure or intervention** (e.g., surgery, time, diagnosis, treatment)
+  
+- An idea of the **direction and magnitude** of the difference between the groups (e.g., higher, lower, different)
+
+For example, a simple research question might be:
+
+> **To determine whether the height** (outcome) **between orthopaedic surgeons and ophthalmologists** (exposure: type of specialty) **differs by 10cm** (magnitude of difference).
+
+## we Should keep in mind
+* we can also keep in mind the data types. Briefly, data types can be:
+  - **Continuous** (e.g., height, weight, blood pressure)
+  - **Categorical** (e.g., HIV stage, Death, Complication) 
+
+
+---
+
+# Hypothesis
+
+The **null hypothesis (H₀)** represents the status quo or the assumption of no difference. To show that there is a difference, you must disprove H₀.
+
+- **Null hypothesis (H₀):** The heights are **not different by more than 10cm** between the two groups.
+- **Alternative hypothesis (H₁):** The heights **are different by more than 10cm**.
+
+By disproving H₀, you support H₁.
+
+---
+
+# Sample Size Calculations
+
+A simplified formula for the sample size required for detecting a difference between two means (or continuous variables) is:
+
+$$
+n = \frac{\left(Z_{1-\alpha/2} + Z_{1-\beta}\right)^2 \, \sigma^2}{\Delta^2}
+$$
+
+We need to fill in some values with our best guesses, or info from exisitng literature. 
+
+Where:
+
+- $( Z_{1-\alpha/2} )$ won't change and is the critical value for the desired confidence level (e.g., 1.96 for 95% confidence).
+- $( Z_{1-\beta} )$ won't change and is the critical value for the desired power (e.g., 0.84 for 80% power).
+- $( \Delta )$ is the minimum detectable difference (we set this to 10 cm).
+- $( \sigma )$ is the standard deviation of the outcome.
+
+In normal language: We want to show atleast the $\Delta$ between the two groups. I like to call $\Delta$ the minimum detectable difference - If the actual difference is smaller than 10cm, we will not be able to detect it.
+
+You must also consider the variability in each group. In other words each persons height will vary, or is spread around the mean. We describe this by the **standard deviation (SD)** (σ) of the outcome. As a sample size increases, the SD becomes narrower.
+
+> SD is calculated by taking the square root of the differences between each value and the mean, squaring them, summing them, and dividing by the number of values.
+
+# What will this data look like? 
+
+```{r}
+# show a distribution for mean height of 180 cm and SD of 10 cm
+library( NMCleaner)
+
+set.seed(123)
+sample_size <- 1000
+delta_height <- 10
+sigma_height <- 15
+mean_height <- 180 
+
+data.frame(
+  height = c(rnorm( sample_size, mean = mean_height, sd = sigma_height), rnorm( sample_size, mean = mean_height - delta_height, sd = sigma_height)) , 
+  group = rep(c("Orthopaedic", "Ophthalmologist"), each = sample_size)
+)%>%
+ggplot()+ 
+geom_histogram(aes(x = height, fill = group), alpha = 0.5)+
+geom_vline( xintercept = mean_height, linetype = "dashed", color = "black")+
+geom_vline( xintercept = mean_height-delta_height , linetype = "dashed", color = "black")+
+theme_classic() 
+
+# and SD of 10 means that 68% of the values will be between 170 and 190 cm in a normal distribution 
+
+
+```
+
+```{r}
+# Calculate the sample size required to detect a difference of 10 cm with a power of 80% and a significance level of 5%
+
+alpha <- 0.05
+beta <- 0.2
+
+
+z_alpha <- qnorm(1 - alpha/2)
+z_beta <- qnorm(1 - beta)
+
+n <- ceiling((z_alpha + z_beta)^2 * sigma_height^2 / delta_height^2)
+
+cohens_d <- delta_height / sigma_height
+
+pwr::pwr.t.test(d = cohens_d, sig.level = alpha, power = 1 - beta, type = "two.sample")
+
+data.frame( 
+  group = c(rep("Orthopaedic",n) , rep("Ophthalmologist",n ) ),
+  height = c(rnorm( n, mean = mean_height , sd = sigma_height), rnorm( n, mean = mean_height - delta_height, sd = sigma_height)
+)
+)-> ttest_df
+
+
+t.test( height ~ group, data = ttest_df)-> ttest_result
+
+
+
+
+```
+
+Finding a difference that is equal to the to or more than the standard deviation is ideal but this is generally not the case in real life, often you may wish to find a smaller difference with a much larger spread of data around a mean. Remember spread (or variance) can be affect by the natural variablitly of the event you are observing or the measurement process itself. Think of how much variation you see in the measuremnts you observe each day, from patietns weight, CD4 count, blood pressure, etc. 
+
+```{r}
+# show a plot for the changing sample size between the ratio of the difference and the standard deviation
+
+library( ggplot2)
+
+
+
+sigmas <- seq( 10, 50, 5)
+
+tibble( 
+  delta = rep( delta_height, length(sigmas)),
+  sigma = sigmas, 
+  cohens_d = delta_height/sigma,
+  ratio =sigma/ delta_height ,
+  raw_ratio = as.factor(as.character(paste(sigma, delta_height, sep = "/"))),
+  n = ceiling((qnorm(1 - alpha/2) + qnorm(1 - beta))^2 * sigma^2 / delta_height^2), 
+)%>%
+ggplot(aes(x = raw_ratio, y = n))+
+geom_line(aes( group = 1))+
+geom_point()+
+theme_minimal()+
+labs( 
+  x = "Standard deviation / Difference",
+  y = "Sample size",
+)
+
+```
+
+---
+
+# In Summary 
+
+Research Question: **To determine whether the height between orthopaedic surgeons and ophthalmologists differs by 10cm.**
+
+Null Hypothesis: **The heights are not different by more than 10cm between the two groups.**
+
+A p-value of <0.05 means we reject the null hypothesis and accept the alternative hypothesis.
+
+```{r}
+
+
+n <- ceiling((z_alpha + z_beta)^2 * sigma_height^2 / delta_height^2)
+
+sample_size = n*2
+```
+We determined the sample size by calculating the number of participants needed to detect a difference of 10 cm with a power of 80% and a significance level of 5%. Both groups had a standard deviation of 15 cm. This results in a sample size of `r sample_size ` (or `r n` per group).
+
+
+```{r}
+# Set seed for reproducibility
+set.seed(123)
+
+# Load necessary libraries
+
+
+# Simulate data for two groups
+
+group <- rep(c("Orthopaedic", "Ophthalmologist"), each = n)
+height <- c(rnorm(n, mean = mean_height, sd = sigma_height),
+            rnorm(n, mean = mean_height-delta_height , sd = sigma_height))
+df <- tibble(
+  group = group,
+  height =  height)
+
+
+# Calculate summary statistics including 95% CI
+summary_data <- df %>%
+  group_by(group) %>%
+  summarise(
+    mean = mean(height),
+    sd = sd(height),
+    n = n(),
+    se = sd / sqrt(n),
+    lower = mean - qt(0.975, n-1) * se,
+    upper = mean + qt(0.975, n-1) * se
+  )
+
+
+
+# Plot mean heights with 95% confidence intervals
+ggplot(summary_data, aes(x = group, y = mean)) +
+  geom_point(size = 3) +
+  geom_errorbar(aes(ymin = lower, ymax = upper), width = 0.2) +
+  labs(title = "Mean Heights with 95% Confidence Intervals",
+       x = "Group",
+       y = "Height (cm)") +
+  theme_minimal()
+
+```
+
+```{r}
+
+library(gtsummary)
+library(dplyr)
+library(magrittr)
+library(glue)
+library(tidyverse)
+library(pwr)
+
+
+df %>% as_tibble() %>%
+mutate( height = as.integer(height) ) ->df
+
+
+df %>%
+  tbl_summary(
+    by = group, 
+   statistic = list( all_continuous() ~ "{mean} ({sd})") 
+  )%>%
+  add_p( 
+    test = list(all_continuous() ~ "t.test", all_categorical() ~ "fisher.test")
+  )%>%
+  add_ci( pattern = "{stat} ({ci})") 
+
+
+
+# uninstall package 
+# remove and uninstall package 
+
+
+```
+
+

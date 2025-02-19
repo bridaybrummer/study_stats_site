@@ -1,0 +1,10 @@
+---
+title: "Blog"
+listing:
+  sort: date desc
+format:
+  html:
+    toc: false
+---
+
+Welcome to my blog! Here you will find posts that explain simple research questions and statistical concepts in accessible language.
