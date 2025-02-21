@@ -28,25 +28,60 @@
     "text": "Meet the Expert\n\n\n\n&lt;h3&gt;Mr Brian Brummer&lt;/h3&gt;\n&lt;p&gt;Brian was a physiotherapist who converted to an epidemiologist during COVID through the South African Field Epidemiology Training Programme, a scholarship with the NICD and MSc thought the university of the Witwatersrand. brian took extra courses in biostatistics and taught himself to code in R. Since then has has developed an interet and skill. &lt;/p&gt;"
   },
   {
-    "objectID": "blog/ResearchQuestion_SampleSize.html",
-    "href": "blog/ResearchQuestion_SampleSize.html",
-    "title": "Research question, hypothesis testing and sample sizes (Continuous data)",
+    "objectID": "blog/shiny_sample_size.html",
+    "href": "blog/shiny_sample_size.html",
+    "title": "Sample Size Calculations and Interactive Shiny Simulation",
+    "section": "",
+    "text": ".\n  \n\n\n\n\n\n\n\n#| '!! shinylive warning !!': |\n#|   shinylive does not work in self-contained HTML documents.\n#|   Please set `embed-resources: false` in your metadata.\n#| standalone: true\n\nlibrary(shinythemes)\nlibrary(shiny)\n\nui &lt;- fluidPage(\n    theme = shinytheme(\"cyborg\"),\n\n  titlePanel(\"Sample Size Calculator for t-test\"),\n  sidebarLayout(\n    sidebarPanel(\n      sliderInput(\"delta\", \"Effect Size (delta):\", min = 0.1, max = 5, value = 1, step = 0.1),\n      sliderInput(\"sd\", \"Standard Deviation:\", min = 0.1, max = 10, value = 2, step = 0.1),\n      numericInput(\"alpha\", \"Significance Level (alpha):\", value = 0.05, min = 0.001, max = 0.1, step = 0.005),\n      numericInput(\"power\", \"Power:\", value = 0.8, min = 0.5, max = 0.99, step = 0.01)\n    ),\n    mainPanel(\n      h3(textOutput(\"sampleSize\")),\n      plotOutput(\"distPlot\")\n    )\n  )\n)\n\nserver &lt;- function(input, output) {\n  output$sampleSize &lt;- renderText({\n    # Calculate the critical values for a two-tailed test:\n    z_alpha &lt;- qnorm(1 - input$alpha / 2)\n    z_beta &lt;- qnorm(input$power)\n    # Sample size calculation (per group)\n    n &lt;- 2 * ((z_alpha + z_beta)^2 * input$sd^2) / (input$delta^2)\n    paste(\"Required sample size per group (approx):\", round(n))\n  })\n  \n  output$distPlot &lt;- renderPlot({\n    # Generate sample data for two groups:\n    set.seed(123)  # for reproducibility\n    x &lt;- rnorm(1000, mean = 0, sd = input$sd)\n    y &lt;- rnorm(1000, mean = input$delta, sd = input$sd)\n    \n    hist(x, breaks = 30, col = rgb(1, 0, 0, 0.5),\n         xlim = range(c(x, y)), main = \"Simulated Data Distributions\",\n         xlab = \"Value\", border = \"white\")\n    hist(y, breaks = 30, col = rgb(0, 0, 1, 0.5), add = TRUE, border = \"white\")\n    \n    legend(\"topright\", legend = c(\"Group 1\", \"Group 2\"),\n           fill = c(rgb(1, 0, 0, 0.5), rgb(0, 0, 1, 0.5)))\n  })\n}\n\nshinyApp(ui = ui, server = server)"
+  },
+  {
+    "objectID": "blog/index.html",
+    "href": "blog/index.html",
+    "title": "Blog",
+    "section": "",
+    "text": ".\n  \n\n\n\n\n\n\n\nWelcome to my blog! Here you will find posts that explain simple research questions and statistical concepts in accessible language.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nSample Size Calculations and Interactive Shiny Simulation\n\n\n\n\n\n\n\n\n\n\n\nFeb 20, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nResearch question, hypothesis testing and sample sizes (Continuous data)\n\n\n\n\n\n\n\n\n\n\n\nFeb 19, 2025\n\n\nBrian Brummer\n\n\n\n\n\n\n\n\n\n\n\n\nDistributions\n\n\n\n\n\n\n\n\n\n\n\nFeb 19, 2025\n\n\nYour Name\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "STUDY**STATS**",
+    "section": "",
+    "text": ".\n  \n\n\n\n\n\n\n\n\n\n \n\n\nExpert statistical consulting for health professionals and researchers.\n\n\n\nHome About Services Contact"
+  },
+  {
+    "objectID": "contact.html",
+    "href": "contact.html",
+    "title": "contact",
+    "section": "",
+    "text": ".\n  \n\n\n\n\n\n\n\n\n\nEmail: studystatsbb@gmail.com Copy Email\n\n\nCell: +27 71 890 4528 Copy Cell Number"
+  },
+  {
+    "objectID": "rates.html",
+    "href": "rates.html",
+    "title": "STUDY**STATS**",
     "section": "",
     "text": "."
   },
   {
-    "objectID": "blog/ResearchQuestion_SampleSize.html#a-good-research-question",
-    "href": "blog/ResearchQuestion_SampleSize.html#a-good-research-question",
-    "title": "Research question, hypothesis testing and sample sizes (Continuous data)",
-    "section": "A good research question",
-    "text": "A good research question\nAn effective research question must include:\n\nAn outcome measure (e.g., weight, height, success, failure, pain score, anxiety score)\nAn exposure or intervention (e.g., surgery, time, diagnosis, treatment)\nAn idea of the direction and magnitude of the difference between the groups (e.g., higher, lower, different)\n\nFor example, a simple research question might be:\n\nTo determine whether the height (outcome) between orthopaedic surgeons and ophthalmologists (exposure: type of specialty) differs by 10cm (magnitude of difference)."
+    "objectID": "rates.html#rates",
+    "href": "rates.html#rates",
+    "title": "STUDY**STATS**",
+    "section": "Rates",
+    "text": "Rates\nScience is flexible, complex and nuanced; all projects have intricacies and it is difficult to charge a flat rate per service. Until a tiered package service is created, an hourly rate of 600 ZAR is charged. This rate is valid until the end of February 2024. Certain services and expected time spent on each is tabulated below.\n\n\n\nService\nEstimated Timeframe (hours)\n\n\n\n\nProtocol Writing\n1-2\n\n\nSample Size Calculations\n1-4\n\n\nData Wrangling\n3-5\n\n\nStatistical Analysis\n3-5\n\n\nPublication-Ready Tables\n2-4\n\n\nFigure Creation\n1-3\n\n\nResults Interpretation\n1-3\n\n\nDiscussion Assistance\n1-3\n\n\n\n*Fees can be billed per stage of the project."
   },
   {
-    "objectID": "blog/ResearchQuestion_SampleSize.html#we-should-keep-in-mind",
-    "href": "blog/ResearchQuestion_SampleSize.html#we-should-keep-in-mind",
-    "title": "Research question, hypothesis testing and sample sizes (Continuous data)",
-    "section": "We should keep in mind",
-    "text": "We should keep in mind\n\nwe can also keep in mind the data types. Briefly, data types can be:\n\nContinuous (e.g., height, weight, blood pressure)\nCategorical (e.g., HIV stage, Death, Complication)"
+    "objectID": "mission.html",
+    "href": "mission.html",
+    "title": "STUDY**STATS**",
+    "section": "",
+    "text": "."
+  },
+  {
+    "objectID": "mission.html#mission",
+    "href": "mission.html#mission",
+    "title": "STUDY**STATS**",
+    "section": "Mission",
+    "text": "Mission\nWelcome to StudyStats. We were founded to meet the distinctive challenges of health professionals, especially Medical Doctors pursuing their Master of Medicine. Recognizing the demands on their time and resources during their specialisation journey, we strive to offer effective solutions for their statistical needs throughout the research project phase. StudyStats is dedicated to easing the burden during the research phase of your specialisation.\nOur mission is to provide a comprehensive service, that, aswell as providing robust biostatistical services, enhances your workflow by creating publication-ready tables, figures , and writing that can seamlessly integrate into your projects. We are committed to offering support throughout the entire research journey, ensuring the accurate interpretation, discussion, and presentation of your results to the standards of peer-reviewed journals and the advancement of evidence-based practice.\nWhile we operate as a for-profit entity, we consider ourselves integral contributors to the enhancement of evidence-based practice. We envision StudyStats as a key ally in maintaining the enthusiasm of medical professionals for their projects, the quality of the projects and ultimately the information generated to improve patient outcomes."
   },
   {
     "objectID": "details.html",
@@ -77,53 +112,25 @@
     "text": "Outputs\nWe can produce tables, figures and writing in pdf, html and word documents to the satisfaction of the principal investigator."
   },
   {
-    "objectID": "mission.html",
-    "href": "mission.html",
-    "title": "STUDY**STATS**",
+    "objectID": "blog/ResearchQuestion_SampleSize.html",
+    "href": "blog/ResearchQuestion_SampleSize.html",
+    "title": "Research question, hypothesis testing and sample sizes (Continuous data)",
     "section": "",
     "text": "."
   },
   {
-    "objectID": "mission.html#mission",
-    "href": "mission.html#mission",
-    "title": "STUDY**STATS**",
-    "section": "Mission",
-    "text": "Mission\nWelcome to StudyStats. We were founded to meet the distinctive challenges of health professionals, especially Medical Doctors pursuing their Master of Medicine. Recognizing the demands on their time and resources during their specialisation journey, we strive to offer effective solutions for their statistical needs throughout the research project phase. StudyStats is dedicated to easing the burden during the research phase of your specialisation.\nOur mission is to provide a comprehensive service, that, aswell as providing robust biostatistical services, enhances your workflow by creating publication-ready tables, figures , and writing that can seamlessly integrate into your projects. We are committed to offering support throughout the entire research journey, ensuring the accurate interpretation, discussion, and presentation of your results to the standards of peer-reviewed journals and the advancement of evidence-based practice.\nWhile we operate as a for-profit entity, we consider ourselves integral contributors to the enhancement of evidence-based practice. We envision StudyStats as a key ally in maintaining the enthusiasm of medical professionals for their projects, the quality of the projects and ultimately the information generated to improve patient outcomes."
+    "objectID": "blog/ResearchQuestion_SampleSize.html#a-good-research-question",
+    "href": "blog/ResearchQuestion_SampleSize.html#a-good-research-question",
+    "title": "Research question, hypothesis testing and sample sizes (Continuous data)",
+    "section": "A good research question",
+    "text": "A good research question\nAn effective research question must include:\n\nAn outcome measure (e.g., weight, height, success, failure, pain score, anxiety score)\nAn exposure or intervention (e.g., surgery, time, diagnosis, treatment)\nAn idea of the direction and magnitude of the difference between the groups (e.g., higher, lower, different)\n\nFor example, a simple research question might be:\n\nTo determine whether the height (outcome) between orthopaedic surgeons and ophthalmologists (exposure: type of specialty) differs by 10cm (magnitude of difference)."
   },
   {
-    "objectID": "rates.html",
-    "href": "rates.html",
-    "title": "STUDY**STATS**",
-    "section": "",
-    "text": "."
-  },
-  {
-    "objectID": "rates.html#rates",
-    "href": "rates.html#rates",
-    "title": "STUDY**STATS**",
-    "section": "Rates",
-    "text": "Rates\nScience is flexible, complex and nuanced; all projects have intricacies and it is difficult to charge a flat rate per service. Until a tiered package service is created, an hourly rate of 600 ZAR is charged. This rate is valid until the end of February 2024. Certain services and expected time spent on each is tabulated below.\n\n\n\nService\nEstimated Timeframe (hours)\n\n\n\n\nProtocol Writing\n1-2\n\n\nSample Size Calculations\n1-4\n\n\nData Wrangling\n3-5\n\n\nStatistical Analysis\n3-5\n\n\nPublication-Ready Tables\n2-4\n\n\nFigure Creation\n1-3\n\n\nResults Interpretation\n1-3\n\n\nDiscussion Assistance\n1-3\n\n\n\n*Fees can be billed per stage of the project."
-  },
-  {
-    "objectID": "contact.html",
-    "href": "contact.html",
-    "title": "contact",
-    "section": "",
-    "text": ".\n  \n\n\n\n\n\n\n\n\n\nEmail: studystatsbb@gmail.com Copy Email\n\n\nCell: +27 71 890 4528 Copy Cell Number"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "StudyStats",
-    "section": "",
-    "text": ".\n  \n\n\n\n\n\n\n\n\n\n \n\n\nExpert statistical consulting for health professionals and researchers.\n\n\n\nHome About Services Contact"
-  },
-  {
-    "objectID": "blog/index.html",
-    "href": "blog/index.html",
-    "title": "Blog",
-    "section": "",
-    "text": ".\n  \n\n\n\n\n\n\n\nWelcome to my blog! Here you will find posts that explain simple research questions and statistical concepts in accessible language.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nResearch question, hypothesis testing and sample sizes (Continuous data)\n\n\n\n\n\n\n\n\n\n\n\nFeb 19, 2025\n\n\nBrian Brummer\n\n\n\n\n\n\n\n\n\n\n\n\nDistributions\n\n\n\n\n\n\n\n\n\n\n\nFeb 19, 2025\n\n\nYour Name\n\n\n\n\n\n\nNo matching items"
+    "objectID": "blog/ResearchQuestion_SampleSize.html#we-should-keep-in-mind",
+    "href": "blog/ResearchQuestion_SampleSize.html#we-should-keep-in-mind",
+    "title": "Research question, hypothesis testing and sample sizes (Continuous data)",
+    "section": "We should keep in mind",
+    "text": "We should keep in mind\n\nwe can also keep in mind the data types. Briefly, data types can be:\n\nContinuous (e.g., height, weight, blood pressure)\nCategorical (e.g., HIV stage, Death, Complication)"
   },
   {
     "objectID": "blog/distributions_blog.html",

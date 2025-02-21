@@ -91,8 +91,16 @@ library(pwr)
 set.seed(123)
 sample_size <- 1000
 delta_height <- 10
-sigma_height <- 15
+sigma_height <- 30
 mean_height <- 180 
+
+range_to_sd <- function( range ){
+    
+    (range/4) -> sd 
+    return(sd)
+}
+
+range_to_sd( 50)
 
 data.frame(
   height = c(rnorm( sample_size, mean = mean_height, sd = sigma_height), rnorm( sample_size, mean = mean_height - delta_height, sd = sigma_height)) , 
@@ -145,8 +153,6 @@ data.frame(
 t.test( height ~ group, data = ttest_df)-> ttest_result
 
 
-
-
 ```
 
 Finding a difference that is equal to the to or more than the standard deviation is ideal but this is generally not the case in real life, often you may wish to find a smaller difference with a much larger spread of data around a mean. Remember spread (or variance) can be affect by the natural variablitly of the event you are observing or the measurement process itself. Think of how much variation you see in the measuremnts you observe each day, from patietns weight, CD4 count, blood pressure, etc.
@@ -155,7 +161,6 @@ Finding a difference that is equal to the to or more than the standard deviation
 # show a plot for the changing sample size between the ratio of the difference and the standard deviation
 
 library( ggplot2)
-
 
 
 sigmas <- seq( 10, 50, 5)

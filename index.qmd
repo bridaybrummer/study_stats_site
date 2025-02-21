@@ -1,5 +1,5 @@
 ---
-title: "Study<em>Stats</em>"
+title: ""
 format: html
 css: styles.css
 ---
@@ -89,10 +89,10 @@ document.addEventListener('DOMContentLoaded', function(){
   
   // Update the display with the current date and epiweek details.
   document.getElementById('current-date').innerHTML = 
-    dayName + " - " + fullDate + 
+    dayName + ", " + fullDate + 
     '<br><span style="font-size:0.9rem;">Epiweek ' + epiWeek + 
-    ' (Starts on ' + weekStartDay + ', ' + weekStartStr + 
-    ', Ends on ' + weekEndDay + ', ' + weekEndStr + ')</span>';
+    ' (starts ' + weekStartDay + ', ' + weekStartStr + 
+    ' and Ends ' + weekEndDay + ', ' + weekEndStr + ')</span>';
   
   // Utility: normalize a date by zeroing out time components.
   function normalizeDate(date) {

@@ -5,7 +5,7 @@ website:
   title: "STUDY**STATS**"
   navbar:
     background: dark
-    logo: "logo/horizontal.jpg"
+    logo: "logo/StudyStats_Logo Files/CMYK/second_logo_portrait/White/white_big_C.png"
     logo-alt: "StudyStats Logo"
     left:
       - text: "Landing"

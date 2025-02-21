@@ -1,0 +1,62 @@
+---
+title: "Sample Size Calculations and Interactive Shiny Simulation"
+date: "2025-02-20"
+categories: ["statistics", "shiny", "blog"]
+format: html
+filters:
+  - shinylive
+---
+
+```{shinylive-r}
+#| standalone: true
+
+library(shinythemes)
+library(shiny)
+
+ui <- fluidPage(
+    theme = shinytheme("cyborg"),
+
+  titlePanel("Sample Size Calculator for t-test"),
+  sidebarLayout(
+    sidebarPanel(
+      sliderInput("delta", "Effect Size (delta):", min = 0.1, max = 5, value = 1, step = 0.1),
+      sliderInput("sd", "Standard Deviation:", min = 0.1, max = 10, value = 2, step = 0.1),
+      numericInput("alpha", "Significance Level (alpha):", value = 0.05, min = 0.001, max = 0.1, step = 0.005),
+      numericInput("power", "Power:", value = 0.8, min = 0.5, max = 0.99, step = 0.01)
+    ),
+    mainPanel(
+      h3(textOutput("sampleSize")),
+      plotOutput("distPlot")
+    )
+  )
+)
+
+server <- function(input, output) {
+  output$sampleSize <- renderText({
+    # Calculate the critical values for a two-tailed test:
+    z_alpha <- qnorm(1 - input$alpha / 2)
+    z_beta <- qnorm(input$power)
+    # Sample size calculation (per group)
+    n <- 2 * ((z_alpha + z_beta)^2 * input$sd^2) / (input$delta^2)
+    paste("Required sample size per group (approx):", round(n))
+  })
+  
+  output$distPlot <- renderPlot({
+    # Generate sample data for two groups:
+    set.seed(123)  # for reproducibility
+    x <- rnorm(1000, mean = 0, sd = input$sd)
+    y <- rnorm(1000, mean = input$delta, sd = input$sd)
+    
+    hist(x, breaks = 30, col = rgb(1, 0, 0, 0.5),
+         xlim = range(c(x, y)), main = "Simulated Data Distributions",
+         xlab = "Value", border = "white")
+    hist(y, breaks = 30, col = rgb(0, 0, 1, 0.5), add = TRUE, border = "white")
+    
+    legend("topright", legend = c("Group 1", "Group 2"),
+           fill = c(rgb(1, 0, 0, 0.5), rgb(0, 0, 1, 0.5)))
+  })
+}
+
+shinyApp(ui = ui, server = server)
+
+```
