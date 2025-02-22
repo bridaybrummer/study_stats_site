@@ -122,13 +122,20 @@ server <- function(input, output, session) {
     
     tags$pre(explanation, id = "explanationText")
   })
+
+    # create a descriptive table of the plotted data 
+
+ #   tibble( 
+ #       value = c(x, y), 
+ #       group = rep(c("Group 1", "Group 2"), each = length( x))
+ #   )
   
   output$distPlot <- renderPlot({
     set.seed(123)  # For reproducibility
     
     # Generate simulated data for both groups using the specified parameters
-    x <- rnorm(1000, mean = input$mean1, sd = input$sd)
-    y <- rnorm(1000, mean = input$mean2, sd = input$sd)
+    x <- rnorm(n, mean = input$mean1, sd = input$sd)
+    y <- rnorm(n, mean = input$mean2, sd = input$sd)
     
     hist(x, breaks = 30, col = rgb(1, 0, 0, 0.5),
          xlim = range(c(x, y)), main = "Simulated Data Distributions",

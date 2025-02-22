@@ -1,6 +1,7 @@
 project:
   type: website
 website:
+  cookie-consent: true
   google-analytics: "G-MKT52KHL7C"
   title: "STUDY**STATS**"
   navbar:
