@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2025-02-20">
 
-<title>about STUDYSTATS – STUDY**STATS**</title>
+<title>Sample Size Calculations and Interactive Shiny Simulation – STUDYSTATS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +24,29 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/cookie-consent/cookie-consent.js"></script>
-<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-528af00bb7f0be3314e85d29feea0627.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-528af00bb7f0be3314e85d29feea0627.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<meta name="shinylive:serviceworker_dir" content="..">
+<script src="../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/load-shinylive-sw.js" type="module"></script>
+<script src="../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/run-python-blocks.js" type="module"></script>
+<link href="../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/shinylive.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -106,10 +112,10 @@ cookieconsent.run({
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./logo/StudyStats_Logo Files/CMYK/second_logo_portrait/White/white_big_C.png" alt="StudyStats Logo" class="navbar-logo">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../logo/StudyStats_Logo Files/CMYK/second_logo_portrait/White/white_big_C.png" alt="StudyStats Logo" class="navbar-logo">
     </a>
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">STUDY<strong>STATS</strong></span>
     </a>
   </div>
@@ -120,35 +126,35 @@ cookieconsent.run({
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Landing</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./how_it_works.html"> 
+    <a class="nav-link" href="../how_it_works.html"> 
 <span class="menu-text">How it works</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./blog/index.html"> 
+    <a class="nav-link" href="../blog/index.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./about.html" aria-current="page"> 
+    <a class="nav-link" href="../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./mission.html"> 
+    <a class="nav-link" href="../mission.html"> 
 <span class="menu-text">Mission</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./details.html"> 
+    <a class="nav-link" href="../details.html"> 
 <span class="menu-text">Activities</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./rates.html"> 
+    <a class="nav-link" href="../rates.html"> 
 <span class="menu-text">Rates</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./contact.html"> 
+    <a class="nav-link" href="../contact.html"> 
 <span class="menu-text">Contact</span></a>
   </li>  
 </ul>
@@ -175,14 +181,25 @@ cookieconsent.run({
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">about STUDY<em>STATS</em></h1>
-</div>
+<h1 class="title">Sample Size Calculations and Interactive Shiny Simulation</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">statistics</div>
+    <div class="quarto-category">shiny</div>
+    <div class="quarto-category">blog</div>
+  </div>
+  </div>
 
 
 
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 20, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -192,41 +209,148 @@ cookieconsent.run({
 </header>
 
 
-<!-- Header Banner -->
-<div class="quarto-figure quarto-figure-center" style="width:100%;">
-<figure class="figure">
-<p><img src="logo/horizontal.jpg" class="img-fluid figure-img"></p>
-<figcaption>StudyStats Logo</figcaption>
-</figure>
-</div>
-<!-- Introductory Copy -->
-<p>Study<strong>Stats</strong> understands the unique challenges that health professionals face when specializing and crafting their research reports. Our mission is to provide seamless and meticulous statistical consulting services, ensuring that your research project meets the standards of peer-reviewed journals and ultimately advances evidence-based practices. Learn more about our <a href="about.html">mission</a>.</p>
-<section id="services-offered" class="level2">
-<h2 class="anchored" data-anchor-id="services-offered">Services Offered</h2>
-<p>We offer a wide range of statistical solutions for medical professionals, including: - Clean, publication-ready tables and figures - Tailored statistical analyses designed to meet your research objectives - Comprehensive support throughout your research process</p>
-<p>Discover all our <a href="details.html">activities</a>.</p>
-</section>
-<section id="why-choose-studystats" class="level2">
-<h2 class="anchored" data-anchor-id="why-choose-studystats">Why Choose Study<strong>Stats</strong></h2>
-<ul>
-<li><strong>Expertise in Medical Statistics:</strong> Every analysis is purpose-built to align with your project’s aims.</li>
-<li><strong>Seamless Integration:</strong> Our bespoke solutions fit perfectly into your existing workflow.</li>
-<li><strong>Dedicated Support:</strong> From protocol development to final presentations, we are with you every step of the way.</li>
-</ul>
-<p><a href="contact.html" id="contact-section">Contact us</a></p>
-</section>
-<section id="meet-the-expert" class="level2">
-<h2 class="anchored" data-anchor-id="meet-the-expert">Meet the Expert</h2>
-<div class="profile-card" style="display: flex; align-items: center; margin-top: 2rem;">
-<p><img src="images/image_1.jpg" alt="Biostatistician Profile" class="profile-img" style="border-radius: 50%; width: 150px; margin-right: 1rem;"></p>
-<div class="profile-info">
-<pre><code>&lt;h3&gt;Mr Brian Brummer&lt;/h3&gt;
-&lt;p&gt;Brian was a physiotherapist who converted to an epidemiologist during COVID through the South African Field Epidemiology Training Programme, a scholarship with the NICD and MSc thought the university of the Witwatersrand. brian took extra courses in biostatistics and taught himself to code in R. Since then has has developed an interet and skill. &lt;/p&gt;</code></pre>
-</div>
-</div>
+<pre class="shinylive-r" data-engine="r"><code>#| '!! shinylive warning !!': |
+#|   shinylive does not work in self-contained HTML documents.
+#|   Please set `embed-resources: false` in your metadata.
+#| standalone: true
+#| echo: false 
+#| messages: false
+#| viewerHeight: 800
+
+library(shiny)
+library(shinythemes)
+library(shinyjs)
+
+ui &lt;- fluidPage(
+  theme = shinytheme("cyborg"),
+  useShinyjs(),
+  # CSS to style the explanation text in Times New Roman
+  tags$style(HTML("
+    #explanationText {
+      font-family: 'Times New Roman', Times, serif;
+      white-space: pre-wrap;
+    }
+    .copy-button {
+      margin-bottom: 10px;
+    }
+  ")),
+  # JavaScript function for copying explanation text to clipboard
+  tags$script(HTML("
+    function copyExplanation() {
+      var explanation = document.getElementById('explanationText').innerText;
+      var tempInput = document.createElement('textarea');
+      tempInput.value = explanation;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      alert('Explanation copied to clipboard!');
+    }
+  ")),
+  
+  titlePanel("Sample Size Calculator for t-test"),
+  sidebarLayout(
+    sidebarPanel(
+      numericInput("mean1", "Mean of Group 1:", value = 0),
+      numericInput("mean2", "Mean of Group 2:", value = 1),
+      sliderInput("sd", "Standard Deviation (σ):", min = 0.1, max = 10, value = 2, step = 0.1),
+      numericInput("alpha", "Significance Level (α):", 
+                   value = 0.05, min = 0.001, max = 0.1, step = 0.005),
+      numericInput("power", "Power (1-β):", 
+                   value = 0.8, min = 0.5, max = 0.99, step = 0.01)
+    ),
+    mainPanel(
+      h3(textOutput("sampleSize")),
+      tags$button("Copy Explanation", class = "copy-button", onclick = "copyExplanation()"),
+      uiOutput("explanationUI"),
+      plotOutput("distPlot")
+    )
+  )
+)
+
+server &lt;- function(input, output, session) {
+  
+  # Observer to update the min value for the SD slider based on the difference between means
+  observe({
+    # New minimum: maximum of the difference or 0.1 (to avoid zero)
+    newMin &lt;- max(abs(input$mean2 - input$mean1), 0.1)
+    # If the current SD value is below the new minimum, adjust it.
+    newVal &lt;- if (input$sd &lt; newMin) newMin else input$sd
+    updateSliderInput(session, "sd", min = newMin, value = newVal)
+  })
+  
+  output$sampleSize &lt;- renderText({
+    # Calculate effect size (δ) as the absolute difference between the two means
+    delta &lt;- abs(input$mean2 - input$mean1)
+    if(delta == 0){
+      return("Difference between means is zero. Please adjust the means.")
+    }
+    # Critical values for a two-tailed test:
+    z_alpha &lt;- qnorm(1 - input$alpha / 2)
+    z_beta &lt;- qnorm(input$power)
+    
+    # Sample size per group:
+    n &lt;- 2 * ((z_alpha + z_beta)^2 * input$sd^2) / (delta^2)
+    paste("Required sample size per group (approx):", round(n))
+  })
+  
+  output$explanationUI &lt;- renderUI({
+    delta &lt;- abs(input$mean2 - input$mean1)
+    if(delta == 0){
+      return(tags$pre("Difference between means is zero. Please adjust the means to see the explanation.", id = "explanationText"))
+    }
+    
+    z_alpha &lt;- qnorm(1 - input$alpha / 2)
+    z_beta &lt;- qnorm(input$power)
+    n &lt;- 2 * ((z_alpha + z_beta)^2 * input$sd^2) / (delta^2)
+    
+    # Explanation using traditional math symbols and Greek letters
+    explanation &lt;- paste0(
+      "Sample Size Calculation:\n\n",
+      "    n = 2 · ((z₁₋(α/2) + z₁₋β) · σ / δ)²\n\n",
+      "Where:\n",
+      "  z₁₋(α/2) = Critical value for 1 - (α/2) = ", round(z_alpha, 3), "\n",
+      "  z₁₋β    = Critical value for power (1 - β) = ", round(z_beta, 3), "\n",
+      "  σ       = Standard deviation = ", input$sd, "\n",
+      "  δ       = |Mean₂ − Mean₁| = |", input$mean2, " − ", input$mean1, "| = ", round(delta, 3), "\n\n",
+      "To detect a mean difference of ", round(delta, 3), " (with Group 1 mean = ", input$mean1, 
+      " and Group 2 mean = ", input$mean2, "),\nusing a significance level of α = ", input$alpha, 
+      " and power (1 - β) = ", input$power, ",\na minimum sample size of approximately ", round(n),
+      " per group is required."
+    )
+    
+    tags$pre(explanation, id = "explanationText")
+  })
+
+    # create a descriptive table of the plotted data 
+
+ #   tibble( 
+ #       value = c(x, y), 
+ #       group = rep(c("Group 1", "Group 2"), each = length( x))
+ #   )
+  
+  output$distPlot &lt;- renderPlot({
+    set.seed(123)  # For reproducibility
+    
+    # Generate simulated data for both groups using the specified parameters
+    x &lt;- rnorm(n, mean = input$mean1, sd = input$sd)
+    y &lt;- rnorm(n, mean = input$mean2, sd = input$sd)
+    
+    hist(x, breaks = 30, col = rgb(1, 0, 0, 0.5),
+         xlim = range(c(x, y)), main = "Simulated Data Distributions",
+         xlab = "Value", border = "white")
+    hist(y, breaks = 30, col = rgb(0, 0, 1, 0.5), add = TRUE, border = "white")
+    
+    legend("topright", legend = c("Group 1", "Group 2"),
+           fill = c(rgb(1, 0, 0, 0.5), rgb(0, 0, 1, 0.5)))
+  })
+}
+
+shinyApp(ui = ui, server = server)
+
+</code></pre>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
@@ -660,7 +784,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-after.html
+../after.html
 
 
 

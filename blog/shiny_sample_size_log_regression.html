@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2025-02-20">
 
-<title>about STUDYSTATS – STUDY**STATS**</title>
+<title>Sample Size Calculator for Logistic Regression – STUDYSTATS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,24 +24,29 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/cookie-consent/cookie-consent.js"></script>
-<link href="site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-528af00bb7f0be3314e85d29feea0627.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-549806ee2085284f45b00abea8c6df48.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-528af00bb7f0be3314e85d29feea0627.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<meta name="shinylive:serviceworker_dir" content="..">
+<script src="../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/load-shinylive-sw.js" type="module"></script>
+<script src="../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/run-python-blocks.js" type="module"></script>
+<link href="../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/shinylive.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -96,6 +102,35 @@ cookieconsent.run({
 </script> 
   
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN") {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
@@ -106,10 +141,10 @@ cookieconsent.run({
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a href="./index.html" class="navbar-brand navbar-brand-logo">
-    <img src="./logo/StudyStats_Logo Files/CMYK/second_logo_portrait/White/white_big_C.png" alt="StudyStats Logo" class="navbar-logo">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../logo/StudyStats_Logo Files/CMYK/second_logo_portrait/White/white_big_C.png" alt="StudyStats Logo" class="navbar-logo">
     </a>
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">STUDY<strong>STATS</strong></span>
     </a>
   </div>
@@ -120,35 +155,35 @@ cookieconsent.run({
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./index.html"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Landing</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./how_it_works.html"> 
+    <a class="nav-link" href="../how_it_works.html"> 
 <span class="menu-text">How it works</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./blog/index.html"> 
+    <a class="nav-link" href="../blog/index.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="./about.html" aria-current="page"> 
+    <a class="nav-link" href="../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./mission.html"> 
+    <a class="nav-link" href="../mission.html"> 
 <span class="menu-text">Mission</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./details.html"> 
+    <a class="nav-link" href="../details.html"> 
 <span class="menu-text">Activities</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./rates.html"> 
+    <a class="nav-link" href="../rates.html"> 
 <span class="menu-text">Rates</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./contact.html"> 
+    <a class="nav-link" href="../contact.html"> 
 <span class="menu-text">Contact</span></a>
   </li>  
 </ul>
@@ -175,14 +210,25 @@ cookieconsent.run({
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">about STUDY<em>STATS</em></h1>
-</div>
+<h1 class="title">Sample Size Calculator for Logistic Regression</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">statistics</div>
+    <div class="quarto-category">shiny</div>
+    <div class="quarto-category">blog</div>
+  </div>
+  </div>
 
 
 
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 20, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -192,38 +238,152 @@ cookieconsent.run({
 </header>
 
 
-<!-- Header Banner -->
-<div class="quarto-figure quarto-figure-center" style="width:100%;">
-<figure class="figure">
-<p><img src="logo/horizontal.jpg" class="img-fluid figure-img"></p>
-<figcaption>StudyStats Logo</figcaption>
-</figure>
-</div>
-<!-- Introductory Copy -->
-<p>Study<strong>Stats</strong> understands the unique challenges that health professionals face when specializing and crafting their research reports. Our mission is to provide seamless and meticulous statistical consulting services, ensuring that your research project meets the standards of peer-reviewed journals and ultimately advances evidence-based practices. Learn more about our <a href="about.html">mission</a>.</p>
-<section id="services-offered" class="level2">
-<h2 class="anchored" data-anchor-id="services-offered">Services Offered</h2>
-<p>We offer a wide range of statistical solutions for medical professionals, including: - Clean, publication-ready tables and figures - Tailored statistical analyses designed to meet your research objectives - Comprehensive support throughout your research process</p>
-<p>Discover all our <a href="details.html">activities</a>.</p>
-</section>
-<section id="why-choose-studystats" class="level2">
-<h2 class="anchored" data-anchor-id="why-choose-studystats">Why Choose Study<strong>Stats</strong></h2>
+<section id="a-word-on-logistic-regression-sample-size" class="level1">
+<h1>A Word on Logistic Regression Sample Size</h1>
+<p>To inform your sample size for logistic regression, you need some guesswork ideally guided by relevant literature. In this context, you first need an estimate of the outcome’s prevalence in your study population.</p>
+<p>For example, imagine you plan to study factors associated with HIV acquisition among substance abusers. Suppose that based on prior studies you estimate the prevalence of HIV infection in this group to be about <strong>10%</strong>—that is, 10% of substance abusers are HIV positive.</p>
+<p>Now, assume you want to examine <strong>five predictors</strong>:</p>
 <ul>
-<li><strong>Expertise in Medical Statistics:</strong> Every analysis is purpose-built to align with your project’s aims.</li>
-<li><strong>Seamless Integration:</strong> Our bespoke solutions fit perfectly into your existing workflow.</li>
-<li><strong>Dedicated Support:</strong> From protocol development to final presentations, we are with you every step of the way.</li>
+<li><p>Number of sexual partners</p></li>
+<li><p>Intravenous drug use</p></li>
+<li><p>Age</p></li>
+<li><p>Sex</p></li>
+<li><p>Educational status (e.g., whether the individual has completed matriculation)</p></li>
 </ul>
-<p><a href="contact.html" id="contact-section">Contact us</a></p>
-</section>
-<section id="meet-the-expert" class="level2">
-<h2 class="anchored" data-anchor-id="meet-the-expert">Meet the Expert</h2>
-<div class="profile-card" style="display: flex; align-items: center; margin-top: 2rem;">
-<p><img src="images/image_1.jpg" alt="Biostatistician Profile" class="profile-img" style="border-radius: 50%; width: 150px; margin-right: 1rem;"></p>
-<div class="profile-info">
-<pre><code>&lt;h3&gt;Mr Brian Brummer&lt;/h3&gt;
-&lt;p&gt;Brian was a physiotherapist who converted to an epidemiologist during COVID through the South African Field Epidemiology Training Programme, a scholarship with the NICD and MSc thought the university of the Witwatersrand. brian took extra courses in biostatistics and taught himself to code in R. Since then has has developed an interet and skill. &lt;/p&gt;</code></pre>
-</div>
-</div>
+<p>A common rule-of-thumb (Peduzzi et al., 1996) is that there should be at least <strong>10 outcomes (events) per predictor</strong>. This “10 Events Per Predictor (EPV)” guideline is used to help ensure that your logistic regression model is stable, less than 10 events per predictor may result in biased estimates in alternating directions.</p>
+<p>The sample size calculation is based on the formula:</p>
+<p><span class="math display">\[
+n=EPV×kp
+\]</span> <span class="math display">\[
+n = \frac{\text{EPV} \times k}{p}
+\]</span> <span class="math display">\[
+n=pEPV×k​
+\]</span> Where:</p>
+<ul>
+<li><p><span class="math inline">\(n\)</span> = Total required sample size</p></li>
+<li><p><span class="math inline">\(EPV\)</span>= 10 (the recommended minimum number of events per predictor)</p></li>
+<li><p><span class="math inline">\(k\)</span> = Number of predictors (here, 5)</p></li>
+<li><p><span class="math inline">\(p\)</span> = Outcome prevalence (here, 0.10 which is a prevalnece of 10% ie. if 10 people in your sample of 100 people have HIV, the prevalence of HIV in your sample is 10%)</p></li>
+</ul>
+<p>Plugging in these values:</p>
+<p><span class="math display">\[
+n=10×50.10=50
+\]</span> <span class="math display">\[
+n = \frac{10 \times 5}{0.10} = 500
+\]</span> <span class="math display">\[
+n=0.1010×5​=500
+\]</span></p>
+<p>This calculation suggests you would need approximately <strong>500 participants</strong> to expect around 50 HIV-positive cases—meeting the 10 events per predictor guideline.</p>
+<blockquote class="blockquote">
+<p><strong>Reference:</strong><br>
+Peduzzi, P., Concato, J., Kemper, E., Holford, T.R., &amp; Feinstein, A.R. (1996). A simulation study of the number of events per variable in logistic regression analysis. <em>Journal of Clinical Epidemiology, 49</em>(12), 1373–1379.</p>
+</blockquote>
+<pre class="shinylive-r" data-engine="r"><code>#| '!! shinylive warning !!': |
+#|   shinylive does not work in self-contained HTML documents.
+#|   Please set `embed-resources: false` in your metadata.
+#| standalone: true
+#| echo: false 
+#| messages: false
+#| viewerHeight: 800
+
+library(shiny)
+library(shinythemes)
+library(shinyjs)
+
+ui &lt;- fluidPage(
+  theme = shinytheme("cyborg"),
+  useShinyjs(),
+  tags$style(HTML("
+    #explanationText {
+      font-family: 'Times New Roman', Times, serif;
+      white-space: pre-wrap;
+    }
+    .copy-button {
+      margin-bottom: 10px;
+    }
+  ")),
+  tags$script(HTML("
+    function copyExplanation() {
+      var explanation = document.getElementById('explanationText').innerText;
+      var tempInput = document.createElement('textarea');
+      tempInput.value = explanation;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      alert('Explanation copied to clipboard!');
+    }
+  ")),
+  
+  titlePanel("Sample Size Calculator for Logistic Regression"),
+  sidebarLayout(
+    sidebarPanel(
+      numericInput("predictors", "Number of Predictors (k):", value = 5, min = 1, step = 1),
+      numericInput("p", "Anticipated Outcome Prevalence (p):", value = 0.1, min = 0.001, max = 1, step = 0.01),
+      helpText("Note: Enter the prevalence as a decimal (e.g., 0.1 = 10%, 0.25 = 25%, 0.5 = 50%)."),
+      numericInput("epv", "Events per Predictor (EPV):", value = 10, min = 1, step = 1)
+    ),
+    mainPanel(
+      h3(textOutput("sampleSize")),
+      tags$button("Copy Explanation", class = "copy-button", onclick = "copyExplanation()"),
+      uiOutput("explanationUI"),
+      plotOutput("distPlot")
+    )
+  )
+)
+
+server &lt;- function(input, output, session) {
+  
+  output$sampleSize &lt;- renderText({
+    k &lt;- input$predictors
+    p &lt;- input$p
+    epv &lt;- input$epv
+    
+    # Required number of events = EPV * k, so total sample size n = (EPV * k) / p
+    n &lt;- (epv * k) / p
+    
+    paste("Required total sample size (approx):", round(n))
+  })
+  
+  output$explanationUI &lt;- renderUI({
+    k &lt;- input$predictors
+    p &lt;- input$p
+    epv &lt;- input$epv
+    n &lt;- (epv * k) / p
+    
+    explanation &lt;- paste0(
+      "Sample Size Calculation for Logistic Regression:\n\n",
+      "    n = (EPV × k) / p\n\n",
+      "Where:\n",
+      "  EPV = Events per Predictor = ", epv, "\n",
+      "  k   = Number of Predictors = ", k, "\n",
+      "  p   = Anticipated outcome prevalence = ", p, "\n\n",
+      "Thus, to ensure at least ", epv, " events per predictor,\n",
+      "a total sample size of approximately ", round(n), " is required."
+    )
+    
+    tags$pre(explanation, id = "explanationText")
+  })
+  
+  output$distPlot &lt;- renderPlot({
+    p &lt;- input$p
+    k &lt;- input$predictors
+    epv &lt;- input$epv
+    n &lt;- round((epv * k) / p)
+    
+    # Simulate the number of events in a study with sample size n
+    set.seed(123)
+    events &lt;- rbinom(1000, size = n, prob = p)
+    
+    hist(events, breaks = 30, col = "lightgreen",
+         main = "Simulated Distribution of Events",
+         xlab = "Number of Events", border = "white")
+  })
+}
+
+shinyApp(ui = ui, server = server)
+
+</code></pre>
 
 
 </section>
@@ -660,7 +820,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-after.html
+../after.html
 
 
 
