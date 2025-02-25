@@ -27,13 +27,11 @@ Discover all our [activities](details.html).
 
 ## Meet the Expert
 
-:::: {.profile-card style="display: flex; align-items: center; margin-top: 2rem;"}
-<img src="images/image_1.jpg" alt="Biostatistician Profile" class="profile-img" style="border-radius: 50%; width: 150px; margin-right: 1rem;"/>
+:::: {.profile-card style="display: flex; align-items: center; margin-top: 2rem; background-color: #343a40; padding: 1rem; border-radius: 0.5rem;"}
+<img src="images/image_1.jpg" alt="Biostatistician Profile" class="rounded-circle" style="width: 150px; margin-right: 1rem; border: 3px solid #495057;"/>
 
 ::: profile-info
-```         
-<h3>Mr Brian Brummer</h3>
-<p>Brian was a physiotherapist who converted to an epidemiologist during COVID through the South African Field Epidemiology Training Programme, a scholarship with the NICD and MSc thought the university of the Witwatersrand. brian took extra courses in biostatistics and taught himself to code in R. Since then has has developed an interet and skill. </p>
-```
+<h3 style="color: #fff;">Mr Brian Brummer</h3>
+<p style="color: #ced4da;">Brian was a physiotherapist who converted to an epidemiologist during COVID through the South African Field Epidemiology Training Programme, a scholarship with the NICD and MSc through the University of the Witwatersrand. Brian took extra courses in biostatistics and taught himself to code in R. Since then, he has developed a strong interest and skill in his field.</p>
 :::
 ::::
