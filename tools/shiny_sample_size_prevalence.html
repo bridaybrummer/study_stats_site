@@ -8,7 +8,7 @@
 
 <meta name="dcterms.date" content="2025-02-20">
 
-<title>Sample Size Calculator for Logistic Regression – STUDYSTATS</title>
+<title>Sample Size Calculator for Prevalence Study – STUDYSTATS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -102,35 +102,6 @@ cookieconsent.run({
 </script> 
   
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 </head>
 
@@ -182,6 +153,10 @@ window.Quarto = {
     <a class="nav-link" href="../contact.html"> 
 <span class="menu-text">Contact</span></a>
   </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../tools/index.html"> 
+<span class="menu-text">Tools</span></a>
+  </li>  
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
@@ -198,7 +173,7 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 <!-- before.html -->
 <div class="custom-before">
-    <p>.</p>
+    <p></p>
   </div>
 
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -206,7 +181,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Sample Size Calculator for Logistic Regression</h1>
+<h1 class="title">Sample Size Calculator for Prevalence Study</h1>
   <div class="quarto-categories">
     <div class="quarto-category">statistics</div>
     <div class="quarto-category">shiny</div>
@@ -234,46 +209,6 @@ window.Quarto = {
 </header>
 
 
-<section id="a-word-on-logistic-regression-sample-size" class="level1">
-<h1>A Word on Logistic Regression Sample Size</h1>
-<p>To inform your sample size for logistic regression, you need some guesswork ideally guided by relevant literature. In this context, you first need an estimate of the outcome’s prevalence in your study population.</p>
-<p>For example, imagine you plan to study factors associated with HIV acquisition among substance abusers. Suppose that based on prior studies you estimate the prevalence of HIV infection in this group to be about <strong>10%</strong>—that is, 10% of substance abusers are HIV positive.</p>
-<p>Now, assume you want to examine <strong>five predictors</strong>:</p>
-<ul>
-<li><p>Number of sexual partners</p></li>
-<li><p>Intravenous drug use</p></li>
-<li><p>Age</p></li>
-<li><p>Sex</p></li>
-<li><p>Educational status (e.g., whether the individual has completed matriculation)</p></li>
-</ul>
-<p>A common rule-of-thumb (Peduzzi et al., 1996) is that there should be at least <strong>10 outcomes (events) per predictor</strong>. This “10 Events Per Predictor (EPV)” guideline is used to help ensure that your logistic regression model is stable, less than 10 events per predictor may result in biased estimates in alternating directions.</p>
-<p>The sample size calculation is based on the formula:</p>
-<p><span class="math display">\[
-n=EPV×kp
-\]</span> <span class="math display">\[
-n = \frac{\text{EPV} \times k}{p}
-\]</span> <span class="math display">\[
-n=pEPV×k​
-\]</span> Where:</p>
-<ul>
-<li><p><span class="math inline">\(n\)</span> = Total required sample size</p></li>
-<li><p><span class="math inline">\(EPV\)</span>= 10 (the recommended minimum number of events per predictor)</p></li>
-<li><p><span class="math inline">\(k\)</span> = Number of predictors (here, 5)</p></li>
-<li><p><span class="math inline">\(p\)</span> = Outcome prevalence (here, 0.10 which is a prevalnece of 10% ie. if 10 people in your sample of 100 people have HIV, the prevalence of HIV in your sample is 10%)</p></li>
-</ul>
-<p>Plugging in these values:</p>
-<p><span class="math display">\[
-n=10×50.10=50
-\]</span> <span class="math display">\[
-n = \frac{10 \times 5}{0.10} = 500
-\]</span> <span class="math display">\[
-n=0.1010×5​=500
-\]</span></p>
-<p>This calculation suggests you would need approximately <strong>500 participants</strong> to expect around 50 HIV-positive cases—meeting the 10 events per predictor guideline.</p>
-<blockquote class="blockquote">
-<p><strong>Reference:</strong><br>
-Peduzzi, P., Concato, J., Kemper, E., Holford, T.R., &amp; Feinstein, A.R. (1996). A simulation study of the number of events per variable in logistic regression analysis. <em>Journal of Clinical Epidemiology, 49</em>(12), 1373–1379.</p>
-</blockquote>
 <pre class="shinylive-r" data-engine="r"><code>#| '!! shinylive warning !!': |
 #|   shinylive does not work in self-contained HTML documents.
 #|   Please set `embed-resources: false` in your metadata.
@@ -285,6 +220,22 @@ Peduzzi, P., Concato, J., Kemper, E., Holford, T.R., &amp; Feinstein, A.R. (1996
 library(shiny)
 library(shinythemes)
 library(shinyjs)
+
+# Function for power-based sample size calculation (hypothesis testing)
+binomial_prevalence &lt;- function(prevalence, alpha = 0.05, power = 0.8, prevalence_null = 0.5) {
+  n &lt;- (qnorm(1 - alpha / 2) * sqrt(2 * prevalence_null * (1 - prevalence_null)) +
+          qnorm(1 - power) * sqrt(prevalence_null * (1 - prevalence_null) + prevalence * (1 - prevalence)))^2 / prevalence^2
+  n &lt;- ceiling(n)
+  return(n)
+}
+
+# Function for precision-based sample size calculation (estimation)
+precision_prevalence &lt;- function(prevalence, alpha = 0.05, d = 0.05) {
+  z &lt;- qnorm(1 - alpha/2)
+  n &lt;- (z^2 * prevalence * (1 - prevalence)) / (d^2)
+  n &lt;- ceiling(n)
+  return(n)
+}
 
 ui &lt;- fluidPage(
   theme = shinytheme("cyborg"),
@@ -311,69 +262,77 @@ ui &lt;- fluidPage(
     }
   ")),
   
-  titlePanel("Sample Size Calculator for Logistic Regression"),
+  titlePanel("Prevalence Study Sample Size &amp; Confidence Interval Calculator"),
   sidebarLayout(
     sidebarPanel(
-      numericInput("predictors", "Number of Predictors (k):", value = 5, min = 1, step = 1),
-      numericInput("p", "Anticipated Outcome Prevalence (p):", value = 0.1, min = 0.001, max = 1, step = 0.01),
-      helpText("Note: Enter the prevalence as a decimal (e.g., 0.1 = 10%, 0.25 = 25%, 0.5 = 50%)."),
-      numericInput("epv", "Events per Predictor (EPV):", value = 10, min = 1, step = 1)
+      numericInput("prev", "Anticipated Prevalence (p):", value = 0.01, min = 0.001, max = 1, step = 0.001),
+      helpText("Enter prevalence as a decimal (e.g., 0.01 = 1%, 0.10 = 10%)."),
+      numericInput("alpha", "Significance Level (α):", value = 0.05, min = 0.001, max = 0.1, step = 0.005),
+      numericInput("power", "Desired Power (1-β):", value = 0.8, min = 0.5, max = 0.99, step = 0.01),
+      numericInput("p_null", "Null Prevalence (p₀):", value = 0.5, min = 0.001, max = 1, step = 0.01),
+      numericInput("d", "Desired Margin of Error (d):", value = 0.005, min = 0.001, max = 0.1, step = 0.001)
     ),
     mainPanel(
-      h3(textOutput("sampleSize")),
+      h3(textOutput("resultTitle")),
+      uiOutput("resultsUI"),
       tags$button("Copy Explanation", class = "copy-button", onclick = "copyExplanation()"),
-      uiOutput("explanationUI"),
-      plotOutput("distPlot")
+      uiOutput("explanationUI")
     )
   )
 )
 
 server &lt;- function(input, output, session) {
   
-  output$sampleSize &lt;- renderText({
-    k &lt;- input$predictors
-    p &lt;- input$p
-    epv &lt;- input$epv
+  # Calculate sample sizes using both methods
+  calc_sizes &lt;- reactive({
+    n_power &lt;- binomial_prevalence(input$prev, alpha = input$alpha, power = input$power, prevalence_null = input$p_null)
+    n_precision &lt;- precision_prevalence(input$prev, alpha = input$alpha, d = input$d)
+    list(n_power = n_power, n_precision = n_precision)
+  })
+  
+  # Calculate estimated 95% confidence interval for prevalence based on the power-based sample size
+  calc_CI &lt;- reactive({
+    n &lt;- calc_sizes()$n_power
+    z &lt;- qnorm(1 - input$alpha/2)
+    se &lt;- sqrt(input$prev * (1 - input$prev) / n)
+    lower &lt;- input$prev - z * se
+    upper &lt;- input$prev + z * se
+    c(lower = lower, upper = upper)
+  })
+  
+  output$resultTitle &lt;- renderText({
+    "Your Estimated Sample Sizes &amp; Prevalence Confidence Interval"
+  })
+  
+  output$resultsUI &lt;- renderUI({
+    sizes &lt;- calc_sizes()
+    CI &lt;- calc_CI()
     
-    # Required number of events = EPV * k, so total sample size n = (EPV * k) / p
-    n &lt;- (epv * k) / p
-    
-    paste("Required total sample size (approx):", round(n))
+    tagList(
+      tags$p(paste("Based on your input, the required sample size (using the power-based approach) is:", sizes$n_power)),
+      tags$p(paste("This sample size is expected to yield an estimated 95% confidence interval for the prevalence of:",
+                   paste0(round(CI["lower"] * 100, 2), "% to ", round(CI["upper"] * 100, 2), "%"))),
+      tags$p(paste("Alternatively, to estimate the prevalence with a margin of error of ±", input$d * 100, "% (precision-based approach),",
+                   "the required sample size is:", sizes$n_precision))
+    )
   })
   
   output$explanationUI &lt;- renderUI({
-    k &lt;- input$predictors
-    p &lt;- input$p
-    epv &lt;- input$epv
-    n &lt;- (epv * k) / p
-    
     explanation &lt;- paste0(
-      "Sample Size Calculation for Logistic Regression:\n\n",
-      "    n = (EPV × k) / p\n\n",
-      "Where:\n",
-      "  EPV = Events per Predictor = ", epv, "\n",
-      "  k   = Number of Predictors = ", k, "\n",
-      "  p   = Anticipated outcome prevalence = ", p, "\n\n",
-      "Thus, to ensure at least ", epv, " events per predictor,\n",
-      "a total sample size of approximately ", round(n), " is required."
+      "How This Calculator Works:\n\n",
+      "1. Power-Based Approach (Hypothesis Testing):\n",
+      "   - Tests whether the observed prevalence differs from a null prevalence (p₀).\n",
+      "   - Uses your inputs for significance level (α), power (1-β), and null prevalence to compute the sample size.\n\n",
+      "2. Precision-Based Approach (Estimation):\n",
+      "   - Determines the sample size needed to estimate the prevalence with a desired margin of error (d).\n",
+      "   - This is useful when your primary goal is to achieve a certain level of precision in your prevalence estimate.\n\n",
+      "Once the sample size is determined, the tool calculates the 95% confidence interval for your prevalence estimate using:\n",
+      "   CI = p ± z × √[p(1-p)/n]\n\n",
+      "Enter values that reflect your planned study. For example, if you expect the prevalence of a condition (e.g., diabetes) to be 1%,\n",
+      "set p = 0.01. Adjust the other parameters as needed to see how your required sample size and precision change."
     )
     
     tags$pre(explanation, id = "explanationText")
-  })
-  
-  output$distPlot &lt;- renderPlot({
-    p &lt;- input$p
-    k &lt;- input$predictors
-    epv &lt;- input$epv
-    n &lt;- round((epv * k) / p)
-    
-    # Simulate the number of events in a study with sample size n
-    set.seed(123)
-    events &lt;- rbinom(1000, size = n, prob = p)
-    
-    hist(events, breaks = 30, col = "lightgreen",
-         main = "Simulated Distribution of Events",
-         xlab = "Number of Events", border = "white")
   })
 }
 
@@ -382,7 +341,6 @@ shinyApp(ui = ui, server = server)
 </code></pre>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
