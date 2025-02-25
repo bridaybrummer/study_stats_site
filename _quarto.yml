@@ -21,8 +21,8 @@ website:
         href: mission.qmd
       - text: "Activities"
         href: details.qmd
-      - text: "Rates"
-        href: rates.qmd
+#      - text: "Rates"
+#        href: rates.qmd
       - text: "Contact"
         href: contact.qmd
 format:
