@@ -11,6 +11,8 @@ website:
     left:
       - text: "Landing"
         href: index.qmd
+      - text: "How it works"
+        href: how_it_works.qmd
       - text: "Blog"
         href: blog/index.qmd
       - text: "About"

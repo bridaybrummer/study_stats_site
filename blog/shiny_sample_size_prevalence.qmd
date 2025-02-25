@@ -1,0 +1,124 @@
+---
+title: "Sample Size Calculator for Prevalence Study"
+date: "2025-02-20"
+categories: ["statistics", "shiny", "blog"]
+format: 
+  html:
+    resources: 
+      - shinylive-sw.js
+filters:
+  - shinylive
+height: 10000
+---
+
+```{shinylive-r}
+#| standalone: true
+#| echo: false 
+#| messages: false
+#| viewerHeight: 800
+
+library(shiny)
+library(shinythemes)
+library(shinyjs)
+
+ui <- fluidPage(
+  theme = shinytheme("cyborg"),
+  useShinyjs(),
+  tags$style(HTML("
+    #explanationText {
+      font-family: 'Times New Roman', Times, serif;
+      white-space: pre-wrap;
+    }
+    .copy-button {
+      margin-bottom: 10px;
+    }
+  ")),
+  tags$script(HTML("
+    function copyExplanation() {
+      var explanation = document.getElementById('explanationText').innerText;
+      var tempInput = document.createElement('textarea');
+      tempInput.value = explanation;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      alert('Explanation copied to clipboard!');
+    }
+  ")),
+  
+  titlePanel("Sample Size Calculator for Prevalence Study"),
+  sidebarLayout(
+    sidebarPanel(
+      numericInput("p", "Anticipated Prevalence (P):", value = 0.1, min = 0.001, max = 1, step = 0.01),
+      numericInput("d", "Margin of Error (d):", value = 0.05, min = 0.001, max = 0.5, step = 0.005),
+      numericInput("alpha", "Significance Level (α):", value = 0.05, min = 0.001, max = 0.1, step = 0.005)
+    ),
+    mainPanel(
+      h3(textOutput("sampleSize")),
+      tags$button("Copy Explanation", class = "copy-button", onclick = "copyExplanation()"),
+      uiOutput("explanationUI"),
+      plotOutput("distPlot")
+    )
+  )
+)
+
+server <- function(input, output, session) {
+  
+  output$sampleSize <- renderText({
+    p <- input$p
+    d <- input$d
+    alpha <- input$alpha
+    
+    # Calculate the critical z-value for the given confidence level
+    z <- qnorm(1 - alpha/2)
+    
+    # Sample size formula: n = (z² * P*(1-P)) / d²
+    n <- (z^2 * p * (1 - p)) / (d^2)
+    
+    paste("Required sample size (approx):", round(n))
+  })
+  
+  output$explanationUI <- renderUI({
+    p <- input$p
+    d <- input$d
+    alpha <- input$alpha
+    z <- qnorm(1 - alpha/2)
+    n <- (z^2 * p * (1 - p)) / (d^2)
+    
+    explanation <- paste0(
+      "Sample Size Calculation for Prevalence Study:\n\n",
+      "    n = (z² × P × (1 - P)) / d²\n\n",
+      "Where:\n",
+      "  z = Critical value for confidence level = ", round(z, 3), "\n",
+      "  P = Anticipated prevalence = ", p, "\n",
+      "  d = Margin of error = ", d, "\n\n",
+      "Thus, to estimate a prevalence of ", p, 
+      " with a margin of error of ", d, 
+      " (at α = ", alpha, "),\n",
+      "a sample size of approximately ", round(n), " is required."
+    )
+    
+    tags$pre(explanation, id = "explanationText")
+  })
+  
+  output$distPlot <- renderPlot({
+    p <- input$p
+    alpha <- input$alpha
+    d <- input$d
+    z <- qnorm(1 - alpha/2)
+    n <- round((z^2 * p * (1 - p)) / (d^2))
+    
+    # Simulate binomial outcomes to show distribution of estimated prevalence
+    set.seed(123)
+    sim <- rbinom(1000, size = n, prob = p)
+    prop_estimates <- sim / n
+    
+    hist(prop_estimates, breaks = 30, col = "skyblue",
+         main = "Simulated Prevalence Estimates",
+         xlab = "Estimated Prevalence", border = "white")
+  })
+}
+
+shinyApp(ui = ui, server = server)
+
+```

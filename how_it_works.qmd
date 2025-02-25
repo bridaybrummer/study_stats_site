@@ -1,0 +1,20 @@
+---
+title: "How it works"
+format: html
+---
+
+# How it works
+
+We can step into a project at any time, it is usally ideal to touch base with us when you are developing your research question. See our blog article on [how to develop a research question](https://www.quarto.org/blog/developing-a-research-question.html) for more information.
+
+Your research question and objectives are closely aligned to your analysis plan and data you have availbale, and so it is a good idea to keep all those components in mind, We have some tools to assist you with calculating basic sample sizes and this can help you see whether your research question is feasible with the data you have available or the data you may have to collect.
+
+Once you have a protocol finalised, which includes a sample size calcualtion and ethical approval we can provide you with a quote for completing the project. We begin work with a 50% deposit and the remainder can be paid wonce the project has been reasonabl finished, this can be when you submit it for marking or submit it to a journal.
+
+It is best to send us a copy of your rough protocol and let us know how far along you are with, ethics and or data collection.
+
+Once we receive data we try provide a rough preliminary analysis within 1-2 weeks. This gets sent as an .html file as some tables can be large and poorly formatted. We usually receiev some first impressions and simple feedback on the overall analysis and then revise it to a second draft. There may be some smaller updates here and then we publis it to a word document. We may get more revisions here, such as labelling, captions etc.
+
+The ifnal product can be a table that you can copy paste into your manuscript.
+
+We are not experts in copy editing and we reocmend a service like [Proof Reading Pal](https://proofreadingpal.com/) for this. We can however, assist you in some interpretation of your tables and certain writing idiosyncracies. We have written a blog on some do's and don'ts. IN addition, this journal article is a great summary on academic wriitng and statistics interpretation in the health sciences.

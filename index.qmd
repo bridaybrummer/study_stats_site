@@ -5,7 +5,8 @@ css: styles.css
 ---
 
 <!-- Hero Section -->
-<div class="hero" style="
+
+::::: {.hero style="
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,30 +16,37 @@ css: styles.css
     color: #fff;
     text-align: center;
     padding: 2rem;
-">
-  <!-- Logo -->
-  <img src="logo/StudyStats_Logo Files/CMYK/second_logo_portrait/White/white.png" alt="StudyStats Logo" style="max-width: 300px; margin-bottom: 1.5rem;">
+"}
+<!-- Logo --> <img src="logo/StudyStats_Logo Files/CMYK/second_logo_portrait/White/white.png" alt="StudyStats Logo" style="max-width: 300px; margin-bottom: 1.5rem;"/>
 
-  <!-- Title and Tagline -->
-  <p style="font-size: 1.5rem; margin-bottom: 2rem;">
-    Expert statistical consulting for health professionals and researchers.
-  </p>
+<!-- Title and Tagline -->
 
-  <!-- Navigation Links -->
-  <nav style="font-size: 1.2rem;">
-    <a href="index.qmd" style="margin: 0 1rem; color: #fff; text-decoration: none;">Home</a>
-    <a href="about.qmd" style="margin: 0 1rem; color: #fff; text-decoration: none;">About</a>
-    <a href="services.qmd" style="margin: 0 1rem; color: #fff; text-decoration: none;">Services</a>
-    <a href="contact.qmd" style="margin: 0 1rem; color: #fff; text-decoration: none;">Contact</a>
-  </nav>
+<p style="font-size: 1.5rem; margin-bottom: 2rem;">
 
-  <!-- Date and Epiweek Display -->
-  <div id="current-date" style="font-size: 1.5rem; margin-top: 2rem;"></div>
+Expert statistical consulting for health professionals and researchers.
 
-  <!-- Calendar Visualization -->
-  <div id="calendar" style="margin-top: 2rem;"></div>
-</div>
+</p>
 
+<!-- Navigation Links -->
+
+<nav style="font-size: 1.2rem;">
+
+<a href="index.qmd" style="margin: 0 1rem; color: #fff; text-decoration: none;">Home</a> <a href="about.qmd" style="margin: 0 1rem; color: #fff; text-decoration: none;">About</a> <a href="services.qmd" style="margin: 0 1rem; color: #fff; text-decoration: none;">Services</a> <a href="contact.qmd" style="margin: 0 1rem; color: #fff; text-decoration: none;">Contact</a>
+
+</nav>
+
+<!-- Date and Epiweek Display -->
+
+::: {#current-date style="font-size: 1.5rem; margin-top: 2rem;"}
+:::
+
+<!-- Calendar Visualization -->
+
+::: {#calendar style="margin-top: 2rem;"}
+:::
+:::::
+
+```{=html}
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   var now = new Date();
@@ -159,4 +167,4 @@ document.addEventListener('DOMContentLoaded', function(){
   generateCalendar();
 });
 </script>
-
+```

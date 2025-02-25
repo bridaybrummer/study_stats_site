@@ -8,7 +8,7 @@
 
 <meta name="dcterms.date" content="2025-02-20">
 
-<title>Sample Size Calculations and Interactive Shiny Simulation – STUDYSTATS</title>
+<title>Sample Size Calculator for Prevalence Study – STUDYSTATS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -130,6 +130,10 @@ cookieconsent.run({
 <span class="menu-text">Landing</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../how_it_works.html"> 
+<span class="menu-text">How it works</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../blog/index.html"> 
 <span class="menu-text">Blog</span></a>
   </li>  
@@ -177,7 +181,7 @@ cookieconsent.run({
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Sample Size Calculations and Interactive Shiny Simulation</h1>
+<h1 class="title">Sample Size Calculator for Prevalence Study</h1>
   <div class="quarto-categories">
     <div class="quarto-category">statistics</div>
     <div class="quarto-category">shiny</div>
@@ -220,7 +224,6 @@ library(shinyjs)
 ui &lt;- fluidPage(
   theme = shinytheme("cyborg"),
   useShinyjs(),
-  # CSS to style the explanation text in Times New Roman
   tags$style(HTML("
     #explanationText {
       font-family: 'Times New Roman', Times, serif;
@@ -230,7 +233,6 @@ ui &lt;- fluidPage(
       margin-bottom: 10px;
     }
   ")),
-  # JavaScript function for copying explanation text to clipboard
   tags$script(HTML("
     function copyExplanation() {
       var explanation = document.getElementById('explanationText').innerText;
@@ -244,16 +246,12 @@ ui &lt;- fluidPage(
     }
   ")),
   
-  titlePanel("Sample Size Calculator for t-test"),
+  titlePanel("Sample Size Calculator for Prevalence Study"),
   sidebarLayout(
     sidebarPanel(
-      numericInput("mean1", "Mean of Group 1:", value = 0),
-      numericInput("mean2", "Mean of Group 2:", value = 1),
-      sliderInput("sd", "Standard Deviation (σ):", min = 0.1, max = 10, value = 2, step = 0.1),
-      numericInput("alpha", "Significance Level (α):", 
-                   value = 0.05, min = 0.001, max = 0.1, step = 0.005),
-      numericInput("power", "Power (1-β):", 
-                   value = 0.8, min = 0.5, max = 0.99, step = 0.01)
+      numericInput("p", "Anticipated Prevalence (P):", value = 0.1, min = 0.001, max = 1, step = 0.01),
+      numericInput("d", "Margin of Error (d):", value = 0.05, min = 0.001, max = 0.5, step = 0.005),
+      numericInput("alpha", "Significance Level (α):", value = 0.05, min = 0.001, max = 0.1, step = 0.005)
     ),
     mainPanel(
       h3(textOutput("sampleSize")),
@@ -266,84 +264,62 @@ ui &lt;- fluidPage(
 
 server &lt;- function(input, output, session) {
   
-  # Observer to update the min value for the SD slider based on the difference between means
-  observe({
-    # New minimum: maximum of the difference or 0.1 (to avoid zero)
-    newMin &lt;- max(abs(input$mean2 - input$mean1), 0.1)
-    # If the current SD value is below the new minimum, adjust it.
-    newVal &lt;- if (input$sd &lt; newMin) newMin else input$sd
-    updateSliderInput(session, "sd", min = newMin, value = newVal)
-  })
-  
   output$sampleSize &lt;- renderText({
-    # Calculate effect size (δ) as the absolute difference between the two means
-    delta &lt;- abs(input$mean2 - input$mean1)
-    if(delta == 0){
-      return("Difference between means is zero. Please adjust the means.")
-    }
-    # Critical values for a two-tailed test:
-    z_alpha &lt;- qnorm(1 - input$alpha / 2)
-    z_beta &lt;- qnorm(input$power)
+    p &lt;- input$p
+    d &lt;- input$d
+    alpha &lt;- input$alpha
     
-    # Sample size per group:
-    n &lt;- 2 * ((z_alpha + z_beta)^2 * input$sd^2) / (delta^2)
-    paste("Required sample size per group (approx):", round(n))
+    # Calculate the critical z-value for the given confidence level
+    z &lt;- qnorm(1 - alpha/2)
+    
+    # Sample size formula: n = (z² * P*(1-P)) / d²
+    n &lt;- (z^2 * p * (1 - p)) / (d^2)
+    
+    paste("Required sample size (approx):", round(n))
   })
   
   output$explanationUI &lt;- renderUI({
-    delta &lt;- abs(input$mean2 - input$mean1)
-    if(delta == 0){
-      return(tags$pre("Difference between means is zero. Please adjust the means to see the explanation.", id = "explanationText"))
-    }
+    p &lt;- input$p
+    d &lt;- input$d
+    alpha &lt;- input$alpha
+    z &lt;- qnorm(1 - alpha/2)
+    n &lt;- (z^2 * p * (1 - p)) / (d^2)
     
-    z_alpha &lt;- qnorm(1 - input$alpha / 2)
-    z_beta &lt;- qnorm(input$power)
-    n &lt;- 2 * ((z_alpha + z_beta)^2 * input$sd^2) / (delta^2)
-    
-    # Explanation using traditional math symbols and Greek letters
     explanation &lt;- paste0(
-      "Sample Size Calculation:\n\n",
-      "    n = 2 · ((z₁₋(α/2) + z₁₋β) · σ / δ)²\n\n",
+      "Sample Size Calculation for Prevalence Study:\n\n",
+      "    n = (z² × P × (1 - P)) / d²\n\n",
       "Where:\n",
-      "  z₁₋(α/2) = Critical value for 1 - (α/2) = ", round(z_alpha, 3), "\n",
-      "  z₁₋β    = Critical value for power (1 - β) = ", round(z_beta, 3), "\n",
-      "  σ       = Standard deviation = ", input$sd, "\n",
-      "  δ       = |Mean₂ − Mean₁| = |", input$mean2, " − ", input$mean1, "| = ", round(delta, 3), "\n\n",
-      "To detect a mean difference of ", round(delta, 3), " (with Group 1 mean = ", input$mean1, 
-      " and Group 2 mean = ", input$mean2, "),\nusing a significance level of α = ", input$alpha, 
-      " and power (1 - β) = ", input$power, ",\na minimum sample size of approximately ", round(n),
-      " per group is required."
+      "  z = Critical value for confidence level = ", round(z, 3), "\n",
+      "  P = Anticipated prevalence = ", p, "\n",
+      "  d = Margin of error = ", d, "\n\n",
+      "Thus, to estimate a prevalence of ", p, 
+      " with a margin of error of ", d, 
+      " (at α = ", alpha, "),\n",
+      "a sample size of approximately ", round(n), " is required."
     )
     
     tags$pre(explanation, id = "explanationText")
   })
-
-    # create a descriptive table of the plotted data 
-
- #   tibble( 
- #       value = c(x, y), 
- #       group = rep(c("Group 1", "Group 2"), each = length( x))
- #   )
   
   output$distPlot &lt;- renderPlot({
-    set.seed(123)  # For reproducibility
+    p &lt;- input$p
+    alpha &lt;- input$alpha
+    d &lt;- input$d
+    z &lt;- qnorm(1 - alpha/2)
+    n &lt;- round((z^2 * p * (1 - p)) / (d^2))
     
-    # Generate simulated data for both groups using the specified parameters
-    x &lt;- rnorm(n, mean = input$mean1, sd = input$sd)
-    y &lt;- rnorm(n, mean = input$mean2, sd = input$sd)
+    # Simulate binomial outcomes to show distribution of estimated prevalence
+    set.seed(123)
+    sim &lt;- rbinom(1000, size = n, prob = p)
+    prop_estimates &lt;- sim / n
     
-    hist(x, breaks = 30, col = rgb(1, 0, 0, 0.5),
-         xlim = range(c(x, y)), main = "Simulated Data Distributions",
-         xlab = "Value", border = "white")
-    hist(y, breaks = 30, col = rgb(0, 0, 1, 0.5), add = TRUE, border = "white")
-    
-    legend("topright", legend = c("Group 1", "Group 2"),
-           fill = c(rgb(1, 0, 0, 0.5), rgb(0, 0, 1, 0.5)))
+    hist(prop_estimates, breaks = 30, col = "skyblue",
+         main = "Simulated Prevalence Estimates",
+         xlab = "Estimated Prevalence", border = "white")
   })
 }
 
 shinyApp(ui = ui, server = server)
-
 </code></pre>
 
 
