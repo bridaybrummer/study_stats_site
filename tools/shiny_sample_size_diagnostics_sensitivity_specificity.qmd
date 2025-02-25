@@ -44,11 +44,9 @@ Suppose you expect your diagnostic test to have a sensitivity of 90% (0.90) and 
 
 $$
 n_{\text{disease}} =(1.96)^2×0.90(1−0.90)(0.05)^2≈139 
-$$
-$$
+$$ $$
 n_{\text{disease}} = \frac{(1.96)^2 \times 0.90(1-0.90)}{(0.05)^2} \approx 139
-$$
-$$
+$$ $$
 n_{\text{disease}} =(0.05)^2(1.96)^2×0.90(1−0.90)​≈139
 $$
 

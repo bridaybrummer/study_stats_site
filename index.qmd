@@ -1,12 +1,9 @@
 ---
-title: ""
 format: html
 css: styles.css
 ---
-
 <!-- Hero Section -->
-
-::::: {.hero style="
+<div class="hero" style="
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -16,8 +13,9 @@ css: styles.css
     color: #fff;
     text-align: center;
     padding: 2rem;
-"}
-<!-- Logo --> <img src="logo/StudyStats_Logo Files/CMYK/second_logo_portrait/White/white.png" alt="StudyStats Logo" style="max-width: 300px; margin-bottom: 1.5rem;"/>
+">
+  <!-- Logo -->
+  <img src="logo/StudyStats_Logo Files/CMYK/second_logo_portrait/White/white.png" alt="StudyStats Logo" style="max-width: 300px; margin-bottom: 1.5rem;">
 
 <!-- Title and Tagline -->
 
@@ -44,7 +42,8 @@ Expert statistical consulting for health professionals and researchers.
 
 ::: {#calendar style="margin-top: 2rem;"}
 :::
-:::::
+
+
 
 ```{=html}
 <script>

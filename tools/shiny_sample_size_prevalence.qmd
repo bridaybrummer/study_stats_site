@@ -1,0 +1,142 @@
+---
+title: "Sample Size Calculator for Prevalence Study"
+date: "2025-02-20"
+categories: ["statistics", "shiny", "blog"]
+format: 
+  html:
+    resources: 
+      - shinylive-sw.js
+filters:
+  - shinylive
+height: 10000
+---
+
+```{shinylive-r}
+#| standalone: true
+#| echo: false 
+#| messages: false
+#| viewerHeight: 800
+
+library(shiny)
+library(shinythemes)
+library(shinyjs)
+
+# Function for power-based sample size calculation (hypothesis testing)
+binomial_prevalence <- function(prevalence, alpha = 0.05, power = 0.8, prevalence_null = 0.5) {
+  n <- (qnorm(1 - alpha / 2) * sqrt(2 * prevalence_null * (1 - prevalence_null)) +
+          qnorm(1 - power) * sqrt(prevalence_null * (1 - prevalence_null) + prevalence * (1 - prevalence)))^2 / prevalence^2
+  n <- ceiling(n)
+  return(n)
+}
+
+# Function for precision-based sample size calculation (estimation)
+precision_prevalence <- function(prevalence, alpha = 0.05, d = 0.05) {
+  z <- qnorm(1 - alpha/2)
+  n <- (z^2 * prevalence * (1 - prevalence)) / (d^2)
+  n <- ceiling(n)
+  return(n)
+}
+
+ui <- fluidPage(
+  theme = shinytheme("cyborg"),
+  useShinyjs(),
+  tags$style(HTML("
+    #explanationText {
+      font-family: 'Times New Roman', Times, serif;
+      white-space: pre-wrap;
+    }
+    .copy-button {
+      margin-bottom: 10px;
+    }
+  ")),
+  tags$script(HTML("
+    function copyExplanation() {
+      var explanation = document.getElementById('explanationText').innerText;
+      var tempInput = document.createElement('textarea');
+      tempInput.value = explanation;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      alert('Explanation copied to clipboard!');
+    }
+  ")),
+  
+  titlePanel("Prevalence Study Sample Size & Confidence Interval Calculator"),
+  sidebarLayout(
+    sidebarPanel(
+      numericInput("prev", "Anticipated Prevalence (p):", value = 0.01, min = 0.001, max = 1, step = 0.001),
+      helpText("Enter prevalence as a decimal (e.g., 0.01 = 1%, 0.10 = 10%)."),
+      numericInput("alpha", "Significance Level (α):", value = 0.05, min = 0.001, max = 0.1, step = 0.005),
+      numericInput("power", "Desired Power (1-β):", value = 0.8, min = 0.5, max = 0.99, step = 0.01),
+      numericInput("p_null", "Null Prevalence (p₀):", value = 0.5, min = 0.001, max = 1, step = 0.01),
+      numericInput("d", "Desired Margin of Error (d):", value = 0.005, min = 0.001, max = 0.1, step = 0.001)
+    ),
+    mainPanel(
+      h3(textOutput("resultTitle")),
+      uiOutput("resultsUI"),
+      tags$button("Copy Explanation", class = "copy-button", onclick = "copyExplanation()"),
+      uiOutput("explanationUI")
+    )
+  )
+)
+
+server <- function(input, output, session) {
+  
+  # Calculate sample sizes using both methods
+  calc_sizes <- reactive({
+    n_power <- binomial_prevalence(input$prev, alpha = input$alpha, power = input$power, prevalence_null = input$p_null)
+    n_precision <- precision_prevalence(input$prev, alpha = input$alpha, d = input$d)
+    list(n_power = n_power, n_precision = n_precision)
+  })
+  
+  # Calculate estimated 95% confidence interval for prevalence based on the power-based sample size
+  calc_CI <- reactive({
+    n <- calc_sizes()$n_power
+    z <- qnorm(1 - input$alpha/2)
+    se <- sqrt(input$prev * (1 - input$prev) / n)
+    lower <- input$prev - z * se
+    upper <- input$prev + z * se
+    c(lower = lower, upper = upper)
+  })
+  
+  output$resultTitle <- renderText({
+    "Your Estimated Sample Sizes & Prevalence Confidence Interval"
+  })
+  
+  output$resultsUI <- renderUI({
+    sizes <- calc_sizes()
+    CI <- calc_CI()
+    
+    tagList(
+      tags$p(paste("Based on your input, the required sample size (using the power-based approach) is:", sizes$n_power)),
+      tags$p(paste("This sample size is expected to yield an estimated 95% confidence interval for the prevalence of:",
+                   paste0(round(CI["lower"] * 100, 2), "% to ", round(CI["upper"] * 100, 2), "%"))),
+      tags$p(paste("Alternatively, to estimate the prevalence with a margin of error of ±", input$d * 100, "% (precision-based approach),",
+                   "the required sample size is:", sizes$n_precision))
+    )
+  })
+  
+  output$explanationUI <- renderUI({
+    explanation <- paste0(
+      "How This Calculator Works:\n\n",
+      "1. Power-Based Approach (Hypothesis Testing):\n",
+      "   - Tests whether the observed prevalence differs from a null prevalence (p₀).\n",
+      "   - Uses your inputs for significance level (α), power (1-β), and null prevalence to compute the sample size.\n\n",
+      "2. Precision-Based Approach (Estimation):\n",
+      "   - Determines the sample size needed to estimate the prevalence with a desired margin of error (d).\n",
+      "   - This is useful when your primary goal is to achieve a certain level of precision in your prevalence estimate.\n\n",
+      "Once the sample size is determined, the tool calculates the 95% confidence interval for your prevalence estimate using:\n",
+      "   CI = p ± z × √[p(1-p)/n]\n\n",
+      "Enter values that reflect your planned study. For example, if you expect the prevalence of a condition (e.g., diabetes) to be 1%,\n",
+      "set p = 0.01. Adjust the other parameters as needed to see how your required sample size and precision change."
+    )
+    
+    tags$pre(explanation, id = "explanationText")
+  })
+}
+
+shinyApp(ui = ui, server = server)
+
+
+```

@@ -29,20 +29,17 @@ Now, assume you want to examine **five predictors**:
 
 -   Educational status (e.g., whether the individual has completed matriculation)
 
-A common rule-of-thumb (Peduzzi et al., 1996) is that there should be at least **10 outcomes (events) per predictor**. This “10 Events Per Predictor (EPV)” guideline is used to help ensure that your logistic regression model is stable, less than 10 events per predictor may result in biased estimates in alternating directions. 
+A common rule-of-thumb (Peduzzi et al., 1996) is that there should be at least **10 outcomes (events) per predictor**. This “10 Events Per Predictor (EPV)” guideline is used to help ensure that your logistic regression model is stable, less than 10 events per predictor may result in biased estimates in alternating directions.
 
 The sample size calculation is based on the formula:
 
 $$
 n=EPV×kp
-$$
-$$
+$$ $$
 n = \frac{\text{EPV} \times k}{p}
-$$
-$$
+$$ $$
 n=pEPV×k​
-$$
-Where:
+$$ Where:
 
 -   $n$ = Total required sample size
 
@@ -56,11 +53,9 @@ Plugging in these values:
 
 $$
 n=10×50.10=50
-$$
-$$
+$$ $$
 n = \frac{10 \times 5}{0.10} = 500
-$$
-$$
+$$ $$
 n=0.1010×5​=500
 $$
 

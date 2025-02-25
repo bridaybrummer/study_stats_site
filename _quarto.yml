@@ -25,6 +25,8 @@ website:
 #        href: rates.qmd
       - text: "Contact"
         href: contact.qmd
+      - text: "Tools"
+        href: tools/index.qmd
 format:
   html:
     theme: "styles.css"
