@@ -8,7 +8,7 @@
 
 <meta name="dcterms.date" content="2025-02-20">
 
-<title>Sample Size Calculator for Logistic Regression – STUDYSTATS</title>
+<title>Logistic Regression Sample Size Calculator – STUDY**STATS**</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -159,6 +159,10 @@ window.Quarto = {
 <span class="menu-text">Landing</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../how_it_works.html"> 
 <span class="menu-text">How it works</span></a>
   </li>  
@@ -167,24 +171,16 @@ window.Quarto = {
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../about.html"> 
-<span class="menu-text">About</span></a>
+    <a class="nav-link" href="../tools/index.html"> 
+<span class="menu-text">Tools</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../mission.html"> 
-<span class="menu-text">Mission</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../details.html"> 
-<span class="menu-text">Activities</span></a>
+    <a class="nav-link" href="../friends.html"> 
+<span class="menu-text">Friends of StudyStats</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../contact.html"> 
 <span class="menu-text">Contact</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../tools/index.html"> 
-<span class="menu-text">Tools</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -210,7 +206,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Sample Size Calculator for Logistic Regression</h1>
+<h1 class="title"><strong>Logistic Regression</strong> Sample Size Calculator</h1>
   <div class="quarto-categories">
     <div class="quarto-category">statistics</div>
     <div class="quarto-category">shiny</div>
@@ -238,8 +234,7 @@ window.Quarto = {
 </header>
 
 
-<section id="a-word-on-logistic-regression-sample-size" class="level1">
-<h1>A Word on Logistic Regression Sample Size</h1>
+<p>A <strong>logistic regression</strong> has the output of Odds Ratios (OR) and is usually used when the outcome is binary (e.g.&nbsp;yes/no, success/failure). We usually use a logistic regression model to look at the associations between a binary outcome and a set of explanatory variables ( ie. predictors, covariates, independent variables).</p>
 <p>To inform your sample size for logistic regression, you need some guesswork ideally guided by relevant literature. In this context, you first need an estimate of the outcome’s prevalence in your study population.</p>
 <p>For example, imagine you plan to study factors associated with HIV acquisition among substance abusers. Suppose that based on prior studies you estimate the prevalence of HIV infection in this group to be about <strong>10%</strong>—that is, 10% of substance abusers are HIV positive.</p>
 <p>Now, assume you want to examine <strong>five predictors</strong>:</p>
@@ -263,7 +258,7 @@ n=pEPV×k​
 <li><p><span class="math inline">\(n\)</span> = Total required sample size</p></li>
 <li><p><span class="math inline">\(EPV\)</span>= 10 (the recommended minimum number of events per predictor)</p></li>
 <li><p><span class="math inline">\(k\)</span> = Number of predictors (here, 5)</p></li>
-<li><p><span class="math inline">\(p\)</span> = Outcome prevalence (here, 0.10 which is a prevalnece of 10% ie. if 10 people in your sample of 100 people have HIV, the prevalence of HIV in your sample is 10%)</p></li>
+<li><p><span class="math inline">\(p\)</span> = Outcome prevalence (here, 0.10 which is a prevalence of 10% ie. if 10 people in your sample of 100 people have HIV, the prevalence of HIV in your sample is 10%)</p></li>
 </ul>
 <p>Plugging in these values:</p>
 <p><span class="math display">\[
@@ -386,7 +381,6 @@ shinyApp(ui = ui, server = server)
 </code></pre>
 
 
-</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -8,7 +8,7 @@
 
 <meta name="dcterms.date" content="2025-02-20">
 
-<title>Diagnostic Accuracy Sample Size Calculator – STUDYSTATS</title>
+<title>Diagnostic Accuracy (sensitivity/specificity) Sample Size Calculator – STUDY**STATS**</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -159,6 +159,10 @@ window.Quarto = {
 <span class="menu-text">Landing</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../how_it_works.html"> 
 <span class="menu-text">How it works</span></a>
   </li>  
@@ -167,24 +171,16 @@ window.Quarto = {
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../about.html"> 
-<span class="menu-text">About</span></a>
+    <a class="nav-link" href="../tools/index.html"> 
+<span class="menu-text">Tools</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../mission.html"> 
-<span class="menu-text">Mission</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../details.html"> 
-<span class="menu-text">Activities</span></a>
+    <a class="nav-link" href="../friends.html"> 
+<span class="menu-text">Friends of StudyStats</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../contact.html"> 
 <span class="menu-text">Contact</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../tools/index.html"> 
-<span class="menu-text">Tools</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -210,7 +206,7 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Diagnostic Accuracy Sample Size Calculator</h1>
+<h1 class="title"><strong>Diagnostic Accuracy</strong> (sensitivity/specificity) Sample Size Calculator</h1>
   <div class="quarto-categories">
     <div class="quarto-category">statistics</div>
     <div class="quarto-category">shiny</div>
@@ -238,9 +234,8 @@ window.Quarto = {
 </header>
 
 
-<section id="a-word-on-sample-size-for-sensitivity-and-specificity-studies" class="level1">
-<h1>A Word on Sample Size for Sensitivity and Specificity Studies</h1>
-<p>When planning a study to evaluate the accuracy of a diagnostic test, it is crucial to include enough subjects in both the diseased and non-diseased groups. Two key performance measures are <strong>sensitivity</strong> (the test’s ability to correctly identify those with the disease) and <strong>specificity</strong> (the test’s ability to correctly identify those without the disease).</p>
+<p>Diagnostics studies are relatively simple to conduct but require careful planning and data collection. It is important to identify gold standard test and diagnostic criteria you are going to use (usually some sort of standard of care) and an experimental test you are going to study. You must have an idea of the prevalence of the disease you are studying and the estimated sensitivity and specificity of the experimental diagnostics. Sometimes, we want to correlate two diagnostic measures that are not binary, like Cd4 and Viral load. This is a different type of analysis and we will cover this in a future post. There is also finding a threshold of a continuous diagnostic, perhaps a viral load, that is most predictive of a binary outcome, like death. This is also a different type of analysis and we will cover this in a future post.</p>
+<p>It is crucial to include enough subjects in both the diseased and non-diseased groups. Two key performance measures are <strong>sensitivity</strong> (the test’s ability to correctly identify those with the disease) and <strong>specificity</strong> (the test’s ability to correctly identify those without the disease).</p>
 <p>To estimate either sensitivity or specificity with a desired level of precision, you can use the standard formula for proportions:</p>
 <p><span class="math display">\[
 n=z^2×p(1−p)d^2
@@ -275,7 +270,6 @@ n_{\text{disease}} =(0.05)^2(1.96)^2×0.90(1−0.90)​≈139
 <p><strong>Reference:</strong><br>
 Buderer, N. M. F. (1996). Statistical methodology: I. Incorporating the prevalence of disease into the sample size calculation for sensitivity and specificity. <em>Academic Emergency Medicine, 3</em>(9), 895-900.</p>
 </blockquote>
-</section>
 <section id="interactive-example" class="level1">
 <h1>Interactive Example</h1>
 <p>Below is an interactive Shiny tool pre‐set to the example above. The default inputs assume:</p>

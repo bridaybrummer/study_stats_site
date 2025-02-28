@@ -8,7 +8,7 @@
 
 <meta name="dcterms.date" content="2025-02-20">
 
-<title>Sample Size Calculations and Interactive Shiny Simulation – STUDYSTATS</title>
+<title>Comparing two averages (means) – STUDYSTATS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -130,6 +130,10 @@ cookieconsent.run({
 <span class="menu-text">Landing</span></a>
   </li>  
   <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
     <a class="nav-link" href="../how_it_works.html"> 
 <span class="menu-text">How it works</span></a>
   </li>  
@@ -138,24 +142,16 @@ cookieconsent.run({
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../about.html"> 
-<span class="menu-text">About</span></a>
+    <a class="nav-link" href="../tools/index.html"> 
+<span class="menu-text">Tools</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../mission.html"> 
-<span class="menu-text">Mission</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../details.html"> 
-<span class="menu-text">Activities</span></a>
+    <a class="nav-link" href="../friends.html"> 
+<span class="menu-text">Friends of StudyStats</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="../contact.html"> 
 <span class="menu-text">Contact</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="../tools/index.html"> 
-<span class="menu-text">Tools</span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -181,11 +177,11 @@ cookieconsent.run({
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Sample Size Calculations and Interactive Shiny Simulation</h1>
+<h1 class="title">Comparing two averages (means)</h1>
   <div class="quarto-categories">
     <div class="quarto-category">statistics</div>
-    <div class="quarto-category">shiny</div>
-    <div class="quarto-category">blog</div>
+    <div class="quarto-category">ttest</div>
+    <div class="quarto-category">samplesize</div>
   </div>
   </div>
 
@@ -213,7 +209,7 @@ cookieconsent.run({
 #|   shinylive does not work in self-contained HTML documents.
 #|   Please set `embed-resources: false` in your metadata.
 #| standalone: true
-#| echo: false 
+#| echo: false
 #| messages: false
 #| viewerHeight: 800
 
@@ -222,10 +218,10 @@ library(shinythemes)
 library(shinyjs)
 
 ui &lt;- fluidPage(
-  theme = shinytheme("cyborg"),
-  useShinyjs(),
-  # CSS to style the explanation text in Times New Roman
-  tags$style(HTML("
+    theme = shinytheme("cyborg"),
+    useShinyjs(),
+    # CSS to style the explanation text in Times New Roman
+    tags$style(HTML("
     #explanationText {
       font-family: 'Times New Roman', Times, serif;
       white-space: pre-wrap;
@@ -234,8 +230,8 @@ ui &lt;- fluidPage(
       margin-bottom: 10px;
     }
   ")),
-  # JavaScript function for copying explanation text to clipboard
-  tags$script(HTML("
+    # JavaScript function for copying explanation text to clipboard
+    tags$script(HTML("
     function copyExplanation() {
       var explanation = document.getElementById('explanationText').innerText;
       var tempInput = document.createElement('textarea');
@@ -247,106 +243,112 @@ ui &lt;- fluidPage(
       alert('Explanation copied to clipboard!');
     }
   ")),
-  
-  titlePanel("Sample Size Calculator for t-test"),
-  sidebarLayout(
-    sidebarPanel(
-      numericInput("mean1", "Mean of Group 1:", value = 0),
-      numericInput("mean2", "Mean of Group 2:", value = 1),
-      sliderInput("sd", "Standard Deviation (σ):", min = 0.1, max = 10, value = 2, step = 0.1),
-      numericInput("alpha", "Significance Level (α):", 
-                   value = 0.05, min = 0.001, max = 0.1, step = 0.005),
-      numericInput("power", "Power (1-β):", 
-                   value = 0.8, min = 0.5, max = 0.99, step = 0.01)
-    ),
-    mainPanel(
-      h3(textOutput("sampleSize")),
-      tags$button("Copy Explanation", class = "copy-button", onclick = "copyExplanation()"),
-      uiOutput("explanationUI"),
-      plotOutput("distPlot")
+    titlePanel("Sample Size Calculator for t-test"),
+    sidebarLayout(
+        sidebarPanel(
+            numericInput("mean1", "Mean of Group 1:", value = 0),
+            numericInput("mean2", "Mean of Group 2:", value = 1),
+            sliderInput("sd", "Standard Deviation (σ):", min = 0.1, max = 10, value = 2, step = 0.1),
+            numericInput("alpha", "Significance Level (α):",
+                value = 0.05, min = 0.001, max = 0.1, step = 0.005
+            ),
+            numericInput("power", "Power (1-β):",
+                value = 0.8, min = 0.5, max = 0.99, step = 0.01
+            )
+        ),
+        mainPanel(
+            h3(textOutput("sampleSize")),
+            tags$button("Copy Explanation", class = "copy-button", onclick = "copyExplanation()"),
+            uiOutput("explanationUI"),
+            plotOutput("distPlot")
+        )
     )
-  )
 )
 
 server &lt;- function(input, output, session) {
-  
-  # Observer to update the min value for the SD slider based on the difference between means
-  observe({
-    # New minimum: maximum of the difference or 0.1 (to avoid zero)
-    newMin &lt;- max(abs(input$mean2 - input$mean1), 0.1)
-    # If the current SD value is below the new minimum, adjust it.
-    newVal &lt;- if (input$sd &lt; newMin) newMin else input$sd
-    updateSliderInput(session, "sd", min = newMin, value = newVal)
-  })
-  
-  output$sampleSize &lt;- renderText({
-    # Calculate effect size (δ) as the absolute difference between the two means
-    delta &lt;- abs(input$mean2 - input$mean1)
-    if(delta == 0){
-      return("Difference between means is zero. Please adjust the means.")
-    }
-    # Critical values for a two-tailed test:
-    z_alpha &lt;- qnorm(1 - input$alpha / 2)
-    z_beta &lt;- qnorm(input$power)
-    
-    # Sample size per group:
-    n &lt;- 2 * ((z_alpha + z_beta)^2 * input$sd^2) / (delta^2)
-    paste("Required sample size per group (approx):", round(n))
-  })
-  
-  output$explanationUI &lt;- renderUI({
-    delta &lt;- abs(input$mean2 - input$mean1)
-    if(delta == 0){
-      return(tags$pre("Difference between means is zero. Please adjust the means to see the explanation.", id = "explanationText"))
-    }
-    
-    z_alpha &lt;- qnorm(1 - input$alpha / 2)
-    z_beta &lt;- qnorm(input$power)
-    n &lt;- 2 * ((z_alpha + z_beta)^2 * input$sd^2) / (delta^2)
-    
-    # Explanation using traditional math symbols and Greek letters
-    explanation &lt;- paste0(
-      "Sample Size Calculation:\n\n",
-      "    n = 2 · ((z₁₋(α/2) + z₁₋β) · σ / δ)²\n\n",
-      "Where:\n",
-      "  z₁₋(α/2) = Critical value for 1 - (α/2) = ", round(z_alpha, 3), "\n",
-      "  z₁₋β    = Critical value for power (1 - β) = ", round(z_beta, 3), "\n",
-      "  σ       = Standard deviation = ", input$sd, "\n",
-      "  δ       = |Mean₂ − Mean₁| = |", input$mean2, " − ", input$mean1, "| = ", round(delta, 3), "\n\n",
-      "To detect a mean difference of ", round(delta, 3), " (with Group 1 mean = ", input$mean1, 
-      " and Group 2 mean = ", input$mean2, "),\nusing a significance level of α = ", input$alpha, 
-      " and power (1 - β) = ", input$power, ",\na minimum sample size of approximately ", round(n),
-      " per group is required."
-    )
-    
-    tags$pre(explanation, id = "explanationText")
-  })
+    # Observer to update the min value for the SD slider based on the difference between means
+    observe({
+        # New minimum: maximum of the difference or 0.1 (to avoid zero)
+        newMin &lt;- max(abs(input$mean2 - input$mean1), 0.1)
+        # If the current SD value is below the new minimum, adjust it.
+        newVal &lt;- if (input$sd &lt; newMin) newMin else input$sd
+        updateSliderInput(session, "sd", min = newMin, value = newVal)
+    })
 
-    # create a descriptive table of the plotted data 
+    output$sampleSize &lt;- renderText({
+        # Calculate effect size (δ) as the absolute difference between the two means
+        delta &lt;- abs(input$mean2 - input$mean1)
+        if (delta == 0) {
+            return("Difference between means is zero. Please adjust the means.")
+        }
+        # Critical values for a two-tailed test:
+        z_alpha &lt;- qnorm(1 - input$alpha / 2)
+        z_beta &lt;- qnorm(input$power)
 
- #   tibble( 
- #       value = c(x, y), 
- #       group = rep(c("Group 1", "Group 2"), each = length( x))
- #   )
-  
-  output$distPlot &lt;- renderPlot({
-    set.seed(123)  # For reproducibility
-    
-    # Generate simulated data for both groups using the specified parameters
-    x &lt;- rnorm(n, mean = input$mean1, sd = input$sd)
-    y &lt;- rnorm(n, mean = input$mean2, sd = input$sd)
-    
-    hist(x, breaks = 30, col = rgb(1, 0, 0, 0.5),
-         xlim = range(c(x, y)), main = "Simulated Data Distributions",
-         xlab = "Value", border = "white")
-    hist(y, breaks = 30, col = rgb(0, 0, 1, 0.5), add = TRUE, border = "white")
-    
-    legend("topright", legend = c("Group 1", "Group 2"),
-           fill = c(rgb(1, 0, 0, 0.5), rgb(0, 0, 1, 0.5)))
-  })
+        # Sample size per group:
+        n &lt;- 2 * ((z_alpha + z_beta)^2 * input$sd^2) / (delta^2)
+        paste("Required sample size per group (approx):", round(n))
+    })
+
+    output$explanationUI &lt;- renderUI({
+        delta &lt;- abs(input$mean2 - input$mean1)
+        if (delta == 0) {
+            return(tags$pre("Difference between means is zero. Please adjust the means to see the explanation.", id = "explanationText"))
+        }
+
+        z_alpha &lt;- qnorm(1 - input$alpha / 2)
+        z_beta &lt;- qnorm(input$power)
+        n &lt;- 2 * ((z_alpha + z_beta)^2 * input$sd^2) / (delta^2)
+
+        # Explanation using traditional math symbols and Greek letters
+        explanation &lt;- paste0(
+            "Sample Size Calculation:\n\n",
+            "    n = 2 · ((z₁₋(α/2) + z₁₋β) · σ / δ)²\n\n",
+            "Where:\n",
+            "  z₁₋(α/2) = Critical value for 1 - (α/2) = ", round(z_alpha, 3), "\n",
+            "  z₁₋β    = Critical value for power (1 - β) = ", round(z_beta, 3), "\n",
+            "  σ       = Standard deviation = ", input$sd, "\n",
+            "  δ       = |Mean₂ − Mean₁| = |", input$mean2, " − ", input$mean1, "| = ", round(delta, 3), "\n\n",
+            "To detect a mean difference of ", round(delta, 3), " (with Group 1 mean = ", input$mean1,
+            " and Group 2 mean = ", input$mean2, "),\nusing a significance level of α = ", input$alpha,
+            " and power (1 - β) = ", input$power, ",\na minimum sample size of approximately ", round(n),
+            " per group is required."
+        )
+
+        tags$pre(explanation, id = "explanationText")
+    })
+
+    # create a descriptive table of the plotted data
+
+    #   tibble(
+    #       value = c(x, y),
+    #       group = rep(c("Group 1", "Group 2"), each = length( x))
+    #   )
+
+    output$distPlot &lt;- renderPlot({
+        set.seed(123) # For reproducibility
+
+        # Generate simulated data for both groups using the specified parameters
+        x &lt;- rnorm(n, mean = input$mean1, sd = input$sd)
+        y &lt;- rnorm(n, mean = input$mean2, sd = input$sd)
+
+        hist(x,
+            breaks = 30, col = rgb(1, 0, 0, 0.5),
+            xlim = range(c(x, y)), main = "Simulated Data Distributions",
+            xlab = "Value", border = "white"
+        )
+        hist(y, breaks = 30, col = rgb(0, 0, 1, 0.5), add = TRUE, border = "white")
+
+        legend("topright",
+            legend = c("Group 1", "Group 2"),
+            fill = c(rgb(1, 0, 0, 0.5), rgb(0, 0, 1, 0.5))
+        )
+    })
 }
 
 shinyApp(ui = ui, server = server)
+
+
 
 </code></pre>
 
