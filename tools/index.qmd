@@ -6,3 +6,5 @@ format:
   html:
     toc: true
 ---
+
+We have a set of tools for estimating sample sizes.

@@ -4,14 +4,11 @@ format:
   html:
     theme: cyborg
 ---
-::: {.contact-info style="font-size:1.2em; margin:1em 0;"}
-<p><strong>Email:</strong> <span id="email">studystatsbb@gmail.com</span>
-  <button class="btn btn-secondary btn-sm" onclick="copyText('email')" style="margin-left:0.5em;">Copy Email</button>
-</p>
 
-<p><strong>Cell:</strong> <span id="cell">+27 71 890 4528</span>
-  <button class="btn btn-secondary btn-sm" onclick="copyText('cell')" style="margin-left:0.5em;">Copy Cell Number</button>
-</p>
+::: {.contact-info style="font-size:1.2em; margin:1em 0;"}
+<p><strong>Email:</strong> [studystatsbb\@gmail.com]{#email} <button class="btn btn-secondary btn-sm" onclick="copyText('email')" style="margin-left:0.5em;">Copy Email</button></p>
+
+<p><strong>Cell:</strong> [+27 71 890 4528]{#cell} <button class="btn btn-secondary btn-sm" onclick="copyText('cell')" style="margin-left:0.5em;">Copy Cell Number</button></p>
 :::
 
 ```{=html}

@@ -2,5 +2,15 @@
     "workbench.colorCustomizations": {
         "minimap.background": "#00000000",
         "scrollbar.shadow": "#00000000"
-    }
+    },
+    "spellright.language": [
+        "en"
+    ],
+    "spellright.documentTypes": [
+        "markdown",
+        "latex",
+        "plaintext",
+        "quarto"
+    ],
+    "terminal.integrated.defaultProfile.osx": "R Terminal"
 }

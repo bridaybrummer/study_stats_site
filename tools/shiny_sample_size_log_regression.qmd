@@ -1,5 +1,5 @@
 ---
-title: "Sample Size Calculator for Logistic Regression"
+title: "**Logistic Regression** Sample Size Calculator"
 date: "2025-02-20"
 categories: ["statistics", "shiny", "blog"]
 format:
@@ -11,7 +11,7 @@ filters:
 height: 10000
 ---
 
-# A Word on Logistic Regression Sample Size
+A **logistic regression** has the output of Odds Ratios (OR) and is usually used when the outcome is binary (e.g. yes/no, success/failure). We usually use a logistic regression model to look at the associations between a binary outcome and a set of explanatory variables ( ie. predictors, covariates, independent variables).
 
 To inform your sample size for logistic regression, you need some guesswork ideally guided by relevant literature. In this context, you first need an estimate of the outcome’s prevalence in your study population.
 
@@ -47,7 +47,7 @@ $$ Where:
 
 -   $k$ = Number of predictors (here, 5)
 
--   $p$ = Outcome prevalence (here, 0.10 which is a prevalnece of 10% ie. if 10 people in your sample of 100 people have HIV, the prevalence of HIV in your sample is 10%)
+-   $p$ = Outcome prevalence (here, 0.10 which is a prevalence of 10% ie. if 10 people in your sample of 100 people have HIV, the prevalence of HIV in your sample is 10%)
 
 Plugging in these values:
 

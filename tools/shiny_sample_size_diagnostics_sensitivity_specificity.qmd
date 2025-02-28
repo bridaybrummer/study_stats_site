@@ -1,5 +1,5 @@
 ---
-title: "Diagnostic Accuracy Sample Size Calculator"
+title: "**Diagnostic Accuracy** (sensitivity/specificity) Sample Size Calculator"
 date: "2025-02-20"
 categories: ["statistics", "shiny", "blog"]
 format:
@@ -11,9 +11,9 @@ filters:
 height: 10000
 ---
 
-# A Word on Sample Size for Sensitivity and Specificity Studies
+Diagnostics studies are relatively simple to conduct but require careful planning and data collection. It is important to identify gold standard test and diagnostic criteria you are going to use (usually some sort of standard of care) and an experimental test you are going to study. You must have an idea of the prevalence of the disease you are studying and the estimated sensitivity and specificity of the experimental diagnostics. Sometimes, we want to correlate two diagnostic measures that are not binary, like Cd4 and Viral load. This is a different type of analysis and we will cover this in a future post. There is also finding a threshold of a continuous diagnostic, perhaps a viral load, that is most predictive of a binary outcome, like death. This is also a different type of analysis and we will cover this in a future post.
 
-When planning a study to evaluate the accuracy of a diagnostic test, it is crucial to include enough subjects in both the diseased and non-diseased groups. Two key performance measures are **sensitivity** (the test’s ability to correctly identify those with the disease) and **specificity** (the test’s ability to correctly identify those without the disease).
+It is crucial to include enough subjects in both the diseased and non-diseased groups. Two key performance measures are **sensitivity** (the test’s ability to correctly identify those with the disease) and **specificity** (the test’s ability to correctly identify those without the disease).
 
 To estimate either sensitivity or specificity with a desired level of precision, you can use the standard formula for proportions:
 

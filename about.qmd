@@ -1,5 +1,5 @@
 ---
-title: "about STUDY<em>STATS</em>"
+title: ""
 format: html
 ---
 
@@ -31,7 +31,16 @@ Discover all our [activities](details.html).
 <img src="images/image_1.jpg" alt="Biostatistician Profile" class="rounded-circle" style="width: 150px; margin-right: 1rem; border: 3px solid #495057;"/>
 
 ::: profile-info
-<h3 style="color: #fff;">Mr Brian Brummer</h3>
-<p style="color: #ced4da;">Brian was a physiotherapist who converted to an epidemiologist during COVID through the South African Field Epidemiology Training Programme, a scholarship with the NICD and MSc through the University of the Witwatersrand. Brian took extra courses in biostatistics and taught himself to code in R. Since then, he has developed a strong interest and skill in his field.</p>
+<h3 style="color: #fff;">
+
+Mr Brian Brummer
+
+</h3>
+
+<p style="color: #ced4da;">
+
+Brian was a physiotherapist who converted to an epidemiologist during COVID through the South African Field Epidemiology Training Programme, a scholarship with the NICD and MSc through the University of the Witwatersrand. Brian took extra courses in biostatistics and taught himself to code in R. Since then, he has developed a strong interest and skill in his field.
+
+</p>
 :::
 ::::

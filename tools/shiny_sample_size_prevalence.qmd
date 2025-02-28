@@ -1,5 +1,5 @@
 ---
-title: "Sample Size Calculator for Prevalence Study"
+title: "**Prevalence Study** sample size calculator"
 date: "2025-02-20"
 categories: ["statistics", "shiny", "blog"]
 format: 
@@ -11,9 +11,63 @@ filters:
 height: 10000
 ---
 
+We often want to estimate the **prevalence** in a population (i.e., the proportion of individuals with a certain condition). For example, if we want to estimate the prevalence of a rare disease in a population, we need to determine how many individuals we need to sample to obtain a reliable estimate.
+
+The required sample size is largely influenced by how precise we want our estimate. The more accurate we want our estimate to be, the more individuals we need to sample. We report precision as how wide the 95% confidence interval will be from our prevalence estimate. If the precision is 0.05, (5%), the confidence interval will be 5% above and below the prevalence estimate. For instance, for a disease with 50% prevalence, and a precision of 5%, we need a sample size of ~ 385. Our estimated prevalence will be 50% (95% CI 45% to 55%).
+
+The required sample size for estimating a proportion (prevalence) is given by:
+
+$$
+n = \frac{z^2 \; p \; (1-p)}{d^2}
+$$
+
+where:
+
+- $p$ is the anticipated prevalence,
+  
+- $d$ is the desired margin of error,
+  
+- $z$ is the z-score corresponding to a confidence level of $(1-\alpha/2)$ for a significance level $\alpha$.
+
+The estimated 95% confidence interval for evenly distributed (CI) is given by:
+
+$$
+\text{CI} = p \pm z \times \sqrt{\frac{p(1-p)}{n}}
+$$
+
+
+**When a disease is rare**, this formula does not work well as the sample size recommende becomes to small. For instance, collecting info on n=50 patients with an expected prevalence of 1% means we may not find any patients with this rare disease. The calculator therefore uses an iterative approach to find the sample size required to achieve the desired margin of error when a prevalence is less than 10%. 
+
+The Copper-Pearson approximation for a confidence interval is used for rare diseases:
+
+$$
+\text{CI} = \left( \frac{x}{n} - \frac{z^2}{2n^2}, \frac{x}{n} + \frac{z^2}{2n^2} \right)
+$$
+
+where $x$ is the number of observed events.
+
+This formula is repeated for differnt smaple sizes until the desired precision is achieved.
+
+**Desirable Prevalence and Precision Estimates:**  
+A good starting point for a new researcher is to use prevalence estimates based on previous studies or pilot data. For instance, if studying a rare condition, a prevalence of around 1% (i.e., $p = 0.01$) might be expected, while more common conditions may have prevalences closer to 10% or even 50%.
+
+The margin of error, $d$, reflects how precise you want your prevalence estimate to be. A margin of error of ±5% (i.e., $d = 0.05$) is common when a high degree of precision is needed. However, if resources are limited, a wider margin (e.g., ±10% or $d = 0.10$) may be acceptable.
+
+
+Keep in mind:
+- **Effect of Prevalence on Sample Size:** The required sample size is largest when $p = 0.5$ (i.e., 50%), because $p(1-p)$ is maximized at this value. If the anticipated prevalence is lower or higher than 50%, the sample size required for the same margin of error decreases.
+- **Effect of Precision on Sample Size:** A smaller margin of error (i.e., a more precise estimate) increases the required sample size. Conversely, if you are willing to accept a larger margin of error, the sample size can be reduced.
+
+> **Practical Tip:**\
+> When searching through literature, pay particular attention to the methods of data collection int he study. A study that reports a low prevalence may used very broad measures, if you are sampling from a population that has been screened or referred, your prevalence may be higher than the general population. Sometimes, prevalence estimates may be in subgroup analyses in a study. If there is absolutely no data available , consider a small pilot study or some educated guesses. 
+
+
+Use this calculator and play with the parameters to help you find a realistic sample size. 
+
+
 ```{shinylive-r}
 #| standalone: true
-#| echo: false 
+#| echo: false
 #| messages: false
 #| viewerHeight: 800
 
@@ -21,27 +75,39 @@ library(shiny)
 library(shinythemes)
 library(shinyjs)
 
-# Function for power-based sample size calculation (hypothesis testing)
-binomial_prevalence <- function(prevalence, alpha = 0.05, power = 0.8, prevalence_null = 0.5) {
-  n <- (qnorm(1 - alpha / 2) * sqrt(2 * prevalence_null * (1 - prevalence_null)) +
-          qnorm(1 - power) * sqrt(prevalence_null * (1 - prevalence_null) + prevalence * (1 - prevalence)))^2 / prevalence^2
-  n <- ceiling(n)
-  return(n)
-}
-
-# Function for precision-based sample size calculation (estimation)
-precision_prevalence <- function(prevalence, alpha = 0.05, d = 0.05) {
-  z <- qnorm(1 - alpha/2)
-  n <- (z^2 * prevalence * (1 - prevalence)) / (d^2)
-  n <- ceiling(n)
-  return(n)
+# Precision-based sample size calculation (for estimation)
+precision_prevalence <- function(prevalence, alpha = 0.05, d = 0.05, threshold = 0.09) {
+    # For larger prevalences, use the normal approximation
+    if (prevalence >= threshold) {
+        z <- qnorm(1 - alpha / 2)
+        n <- (z^2 * prevalence * (1 - prevalence)) / (d^2)
+        return(ceiling(n))
+    } else {
+        # For very small prevalences, use an iterative approach based on exact binomial CI (Clopper-Pearson)
+        # Start with n at least large enough so that we expect at least one event.
+        n <- ceiling(1 / prevalence)
+        found <- FALSE
+        while (!found) {
+            # Ensure at least one observed event
+            x <- max(1, round(n * prevalence))
+            ci <- binom.test(x, n, conf.level = 1 - alpha)$conf.int
+            # Compute the half-width of the confidence interval (we use the larger deviation from p)
+            half_width <- max(ci[2] - prevalence, prevalence - ci[1])
+            if (half_width <= d) {
+                found <- TRUE
+            } else {
+                n <- n + 1
+            }
+        }
+        return(n)
+    }
 }
 
 ui <- fluidPage(
-  theme = shinytheme("cyborg"),
-  useShinyjs(),
-  tags$style(HTML("
-    #explanationText {
+    theme = shinytheme("cyborg"),
+    useShinyjs(),
+    tags$style(HTML("
+    #protocolText {
       font-family: 'Times New Roman', Times, serif;
       white-space: pre-wrap;
     }
@@ -49,94 +115,144 @@ ui <- fluidPage(
       margin-bottom: 10px;
     }
   ")),
-  tags$script(HTML("
-    function copyExplanation() {
-      var explanation = document.getElementById('explanationText').innerText;
+    tags$script(HTML("
+    function copyProtocol() {
+      var protocol = document.getElementById('protocolText').innerText;
       var tempInput = document.createElement('textarea');
-      tempInput.value = explanation;
+      tempInput.value = protocol;
       document.body.appendChild(tempInput);
       tempInput.select();
       document.execCommand('copy');
       document.body.removeChild(tempInput);
-      alert('Explanation copied to clipboard!');
+      alert('Protocol text copied to clipboard!');
     }
   ")),
-  
-  titlePanel("Prevalence Study Sample Size & Confidence Interval Calculator"),
-  sidebarLayout(
-    sidebarPanel(
-      numericInput("prev", "Anticipated Prevalence (p):", value = 0.01, min = 0.001, max = 1, step = 0.001),
-      helpText("Enter prevalence as a decimal (e.g., 0.01 = 1%, 0.10 = 10%)."),
-      numericInput("alpha", "Significance Level (α):", value = 0.05, min = 0.001, max = 0.1, step = 0.005),
-      numericInput("power", "Desired Power (1-β):", value = 0.8, min = 0.5, max = 0.99, step = 0.01),
-      numericInput("p_null", "Null Prevalence (p₀):", value = 0.5, min = 0.001, max = 1, step = 0.01),
-      numericInput("d", "Desired Margin of Error (d):", value = 0.005, min = 0.001, max = 0.1, step = 0.001)
-    ),
-    mainPanel(
-      h3(textOutput("resultTitle")),
-      uiOutput("resultsUI"),
-      tags$button("Copy Explanation", class = "copy-button", onclick = "copyExplanation()"),
-      uiOutput("explanationUI")
+    titlePanel("Prevalence Study Sample Size & Confidence Interval Calculator"),
+    sidebarLayout(
+        sidebarPanel(
+            numericInput("prev", "Anticipated Prevalence (p):", value = 0.01, min = 0.001, max = 1, step = 0.001),
+            helpText("Enter prevalence as a decimal (e.g., 0.01 = 1%, 0.10 = 10%)."),
+            numericInput("alpha", "Significance Level (α):", value = 0.05, min = 0.001, max = 0.1, step = 0.005),
+            numericInput("d", "Desired Margin of Error (d):", value = 0.05, min = 0.001, max = 0.1, step = 0.001),
+            hr(),
+            helpText("The precisions is how wide the confidence interval should be around the prevalence estimate. (e.g. 0.05 is ±5%)"),
+            hr(),
+            numericInput("sims", "Number of Simulations:", value = 100, min = 10, max = 10000, step = 10),
+            actionButton("runSim", "Run Simulations")
+        ),
+        mainPanel(
+            h3(textOutput("resultTitle")),
+            uiOutput("resultsUI"),
+            h4("Simulation Results:"),
+            plotOutput("simPlot"),
+            hr(),
+            tags$button("Copy Protocol Text", class = "copy-button", onclick = "copyProtocol()"),
+            h4("Protocol Text (Simplified)"),
+            uiOutput("protocolUI")
+        )
     )
-  )
 )
 
 server <- function(input, output, session) {
-  
-  # Calculate sample sizes using both methods
-  calc_sizes <- reactive({
-    n_power <- binomial_prevalence(input$prev, alpha = input$alpha, power = input$power, prevalence_null = input$p_null)
-    n_precision <- precision_prevalence(input$prev, alpha = input$alpha, d = input$d)
-    list(n_power = n_power, n_precision = n_precision)
-  })
-  
-  # Calculate estimated 95% confidence interval for prevalence based on the power-based sample size
-  calc_CI <- reactive({
-    n <- calc_sizes()$n_power
-    z <- qnorm(1 - input$alpha/2)
-    se <- sqrt(input$prev * (1 - input$prev) / n)
-    lower <- input$prev - z * se
-    upper <- input$prev + z * se
-    c(lower = lower, upper = upper)
-  })
-  
-  output$resultTitle <- renderText({
-    "Your Estimated Sample Sizes & Prevalence Confidence Interval"
-  })
-  
-  output$resultsUI <- renderUI({
-    sizes <- calc_sizes()
-    CI <- calc_CI()
-    
-    tagList(
-      tags$p(paste("Based on your input, the required sample size (using the power-based approach) is:", sizes$n_power)),
-      tags$p(paste("This sample size is expected to yield an estimated 95% confidence interval for the prevalence of:",
-                   paste0(round(CI["lower"] * 100, 2), "% to ", round(CI["upper"] * 100, 2), "%"))),
-      tags$p(paste("Alternatively, to estimate the prevalence with a margin of error of ±", input$d * 100, "% (precision-based approach),",
-                   "the required sample size is:", sizes$n_precision))
-    )
-  })
-  
-  output$explanationUI <- renderUI({
-    explanation <- paste0(
-      "How This Calculator Works:\n\n",
-      "1. Power-Based Approach (Hypothesis Testing):\n",
-      "   - Tests whether the observed prevalence differs from a null prevalence (p₀).\n",
-      "   - Uses your inputs for significance level (α), power (1-β), and null prevalence to compute the sample size.\n\n",
-      "2. Precision-Based Approach (Estimation):\n",
-      "   - Determines the sample size needed to estimate the prevalence with a desired margin of error (d).\n",
-      "   - This is useful when your primary goal is to achieve a certain level of precision in your prevalence estimate.\n\n",
-      "Once the sample size is determined, the tool calculates the 95% confidence interval for your prevalence estimate using:\n",
-      "   CI = p ± z × √[p(1-p)/n]\n\n",
-      "Enter values that reflect your planned study. For example, if you expect the prevalence of a condition (e.g., diabetes) to be 1%,\n",
-      "set p = 0.01. Adjust the other parameters as needed to see how your required sample size and precision change."
-    )
-    
-    tags$pre(explanation, id = "explanationText")
-  })
+    # Calculate sample size using the precision-based formula
+    calc_size <- reactive({
+        precision_prevalence(input$prev, alpha = input$alpha, d = input$d)
+    })
+
+    # Calculate the estimated 95% confidence interval for the prevalence (using copper-pearson approximation)
+    calc_CI <- reactive({
+        n <- calc_size()
+        # Calculate the expected number of events; ensure at least one event is considered.
+        x <- max(1, round(n * input$prev))
+        # Compute the exact Clopper-Pearson confidence interval for the binomial proportion.
+        ci <- binom.test(x, n, conf.level = 1 - input$alpha)$conf.int
+        ci
+    })
+
+    output$resultTitle <- renderText({
+        "Your Estimated Sample Size & 95% Confidence Interval"
+    })
+
+    output$resultsUI <- renderUI({
+        n_precision <- calc_size()
+        CI <- calc_CI()
+        tagList(
+            tags$p(paste(
+                "For an anticipated prevalence of", input$prev,
+                "with a desired margin of error of ±", input$d * 100, "% at a significance level of", input$alpha,
+                "the required sample size is:", n_precision
+            )),
+            tags$p(paste(
+                "This sample size is expected to yield an estimated 95% confidence interval of approximately:",
+                paste0(round(CI["lower"] * 100, 2), "% to ", round(CI["upper"] * 100, 2), "%")
+            ))
+        )
+    })
+
+    # Simulation: simulate binomial samples using the computed sample size and record the half-width of the CI
+    simData <- eventReactive(input$runSim, {
+        n <- calc_size()
+        p <- input$prev
+        alpha <- input$alpha
+        sims <- input$sims
+        z <- qnorm(1 - alpha / 2)
+        # Storage for half-widths of CIs
+        half_widths <- numeric(sims)
+
+        withProgress(message = "Running simulations...", value = 0, {
+            for (i in 1:sims) {
+                # Simulate observed events using a binomial draw
+                x <- rbinom(1, n, p)
+                # Compute the exact Clopper-Pearson confidence interval
+                ci <- binom.test(x, n, conf.level = 1 - alpha)$conf.int
+                # Compute the half-width (take the max difference)
+                half_widths[i] <- max(p - ci[1], ci[2] - p)
+                incProgress(1 / sims)
+            }
+        })
+
+        return(half_widths)
+    })
+
+    output$simPlot <- renderPlot({
+        req(simData())
+        hist(simData(),
+            main = "Distribution of CI Half-Widths",
+            xlab = "Half-Width of 95% CI", col = "skyblue", border = "white"
+        )
+    })
+
+    # Simple protocol text (for copying) in plain text with simple math notation
+    output$protocolUI <- renderUI({
+        n_val <- calc_size()
+        CI <- calc_CI()
+        simple_text <- paste(
+            "Protocol Text for Prevalence Study Sample Size Calculation:",
+            "",
+            "Based on an anticipated prevalence (p) of ", input$prev,
+            " and a desired margin of error (d) of ±", input$d * 100, "%,",
+            "with a significance level (α) of ", input$alpha, ",",
+            "the required sample size (n) is calculated using the formula:",
+            "",
+            "  n = (z^2 * p * (1-p)) / d^2",
+            "",
+            "where z is the z-score corresponding to a confidence level of (1 - α/2).",
+            "",
+            "For these parameters, the calculated sample size is ", n_val, ".",
+            "This sample size will yield an approximate 95% confidence interval for the prevalence given by:",
+            "",
+            "  CI = p ± z * sqrt[ p*(1-p) / n ]",
+            "",
+            "In this example, the estimated 95% confidence interval is from ",
+            paste0(round(CI["lower"] * 100, 2), "% to ", round(CI["upper"] * 100, 2), "%."),
+            "",
+            "Researchers can copy and paste this text into their study protocol.",
+            sep = "\n"
+        )
+        tags$pre(simple_text, id = "protocolText")
+    })
 }
 
 shinyApp(ui = ui, server = server)
-
 
 ```

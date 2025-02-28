@@ -11,26 +11,29 @@ website:
     left:
       - text: "Landing"
         href: index.qmd
+      - text: "About"
+        href: about.qmd
       - text: "How it works"
         href: how_it_works.qmd
       - text: "Blog"
         href: blog/index.qmd
-      - text: "About"
-        href: about.qmd
-      - text: "Mission"
-        href: mission.qmd
-      - text: "Activities"
-        href: details.qmd
+#      - text: "Mission"
+#        href: mission.qmd
+#      - text: "Activities"
+#        href: details.qmd
 #      - text: "Rates"
 #        href: rates.qmd
-      - text: "Contact"
-        href: contact.qmd
       - text: "Tools"
         href: tools/index.qmd
+      - text: "Friends of StudyStats"
+        href: friends.qmd
+      - text: "Contact"
+        href: contact.qmd
+
 format:
   html:
     theme: "styles.css"
     include-before-body: before.html
     include-after: after.html
     output-dir: public
-editor: visual
+editor: source
