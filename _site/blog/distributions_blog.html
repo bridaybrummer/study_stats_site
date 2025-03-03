@@ -6,9 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-02-20">
+<meta name="author" content="Your Name">
+<meta name="dcterms.date" content="2025-02-19">
 
-<title>Prevalence Study sample size calculator – STUDYSTATS</title>
+<title>Distributions – STUDYSTATS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,6 +21,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -42,11 +77,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-528af00bb7f0be3314e85d29feea0627.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<meta name="shinylive:serviceworker_dir" content="..">
-<script src="../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/load-shinylive-sw.js" type="module"></script>
-<script src="../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/run-python-blocks.js" type="module"></script>
-<link href="../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/shinylive.css" rel="stylesheet">
-<link href="../site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -102,36 +132,9 @@ cookieconsent.run({
 </script> 
   
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="styles_blog.css">
 </head>
 
 <body class="nav-fixed fullcontent">
@@ -206,11 +209,10 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><strong>Prevalence Study</strong> sample size calculator</h1>
+<h1 class="title">Distributions</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">statistics</div>
-    <div class="quarto-category">shiny</div>
-    <div class="quarto-category">blog</div>
+    <div class="quarto-category">Blog</div>
+    <div class="quarto-category">Statistics</div>
   </div>
   </div>
 
@@ -218,11 +220,17 @@ window.Quarto = {
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Your Name </p>
+          </div>
+  </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 20, 2025</p>
+      <p class="date">February 19, 2025</p>
     </div>
   </div>
   
@@ -234,232 +242,45 @@ window.Quarto = {
 </header>
 
 
-<p>We often want to estimate the <strong>prevalence</strong> in a population (i.e., the proportion of individuals with a certain condition). For example, if we want to estimate the prevalence of a rare disease in a population, we need to determine how many individuals we need to sample to obtain a reliable estimate.</p>
-<p>The required sample size is largely influenced by how precise we want our estimate. The more accurate we want our estimate to be, the more individuals we need to sample. We report precision as how wide the 95% confidence interval will be from our prevalence estimate. If the precision is 0.05, (5%), the confidence interval will be 5% above and below the prevalence estimate. For instance, for a disease with 50% prevalence, and a precision of 5%, we need a sample size of ~ 385. Our estimated prevalence will be 50% (95% CI 45% to 55%).</p>
-<p>The required sample size for estimating a proportion (prevalence) is given by:</p>
-<p><span class="math display">\[
-n = \frac{z^2 \; p \; (1-p)}{d^2}
-\]</span></p>
-<p>where:</p>
-<ul>
-<li><p><span class="math inline">\(p\)</span> is the anticipated prevalence,</p></li>
-<li><p><span class="math inline">\(d\)</span> is the desired margin of error,</p></li>
-<li><p><span class="math inline">\(z\)</span> is the z-score corresponding to a confidence level of <span class="math inline">\((1-\alpha/2)\)</span> for a significance level <span class="math inline">\(\alpha\)</span>.</p></li>
-</ul>
-<p>The estimated 95% confidence interval for evenly distributed (CI) is given by:</p>
-<p><span class="math display">\[
-\text{CI} = p \pm z \times \sqrt{\frac{p(1-p)}{n}}
-\]</span></p>
-<p><strong>When a disease is rare</strong>, this formula does not work well as the sample size recommende becomes to small. For instance, collecting info on n=50 patients with an expected prevalence of 1% means we may not find any patients with this rare disease. The calculator therefore uses an iterative approach to find the sample size required to achieve the desired margin of error when a prevalence is less than 10%.</p>
-<p>The Copper-Pearson approximation for a confidence interval is used for rare diseases:</p>
-<p><span class="math display">\[
-\text{CI} = \left( \frac{x}{n} - \frac{z^2}{2n^2}, \frac{x}{n} + \frac{z^2}{2n^2} \right)
-\]</span></p>
-<p>where <span class="math inline">\(x\)</span> is the number of observed events.</p>
-<p>This formula is repeated for differnt smaple sizes until the desired precision is achieved.</p>
-<p><strong>Desirable Prevalence and Precision Estimates:</strong><br>
-A good starting point for a new researcher is to use prevalence estimates based on previous studies or pilot data. For instance, if studying a rare condition, a prevalence of around 1% (i.e., <span class="math inline">\(p = 0.01\)</span>) might be expected, while more common conditions may have prevalences closer to 10% or even 50%.</p>
-<p>The margin of error, <span class="math inline">\(d\)</span>, reflects how precise you want your prevalence estimate to be. A margin of error of ±5% (i.e., <span class="math inline">\(d = 0.05\)</span>) is common when a high degree of precision is needed. However, if resources are limited, a wider margin (e.g., ±10% or <span class="math inline">\(d = 0.10\)</span>) may be acceptable.</p>
-<p>Keep in mind: - <strong>Effect of Prevalence on Sample Size:</strong> The required sample size is largest when <span class="math inline">\(p = 0.5\)</span> (i.e., 50%), because <span class="math inline">\(p(1-p)\)</span> is maximized at this value. If the anticipated prevalence is lower or higher than 50%, the sample size required for the same margin of error decreases. - <strong>Effect of Precision on Sample Size:</strong> A smaller margin of error (i.e., a more precise estimate) increases the required sample size. Conversely, if you are willing to accept a larger margin of error, the sample size can be reduced.</p>
-<blockquote class="blockquote">
-<p><strong>Practical Tip:</strong><br>
-When searching through literature, pay particular attention to the methods of data collection int he study. A study that reports a low prevalence may used very broad measures, if you are sampling from a population that has been screened or referred, your prevalence may be higher than the general population. Sometimes, prevalence estimates may be in subgroup analyses in a study. If there is absolutely no data available , consider a small pilot study or some educated guesses.</p>
-</blockquote>
-<p>Use this calculator and play with the parameters to help you find a realistic sample size.</p>
-<pre class="shinylive-r" data-engine="r"><code>#| '!! shinylive warning !!': |
-#|   shinylive does not work in self-contained HTML documents.
-#|   Please set `embed-resources: false` in your metadata.
-#| standalone: true
-#| echo: false
-#| messages: false
-#| viewerHeight: 800
-
-library(shiny)
-library(shinythemes)
-library(shinyjs)
-
-# Precision-based sample size calculation (for estimation)
-precision_prevalence &lt;- function(prevalence, alpha = 0.05, d = 0.05, threshold = 0.09) {
-    # For larger prevalences, use the normal approximation
-    if (prevalence &gt;= threshold) {
-        z &lt;- qnorm(1 - alpha / 2)
-        n &lt;- (z^2 * prevalence * (1 - prevalence)) / (d^2)
-        return(ceiling(n))
-    } else {
-        # For very small prevalences, use an iterative approach based on exact binomial CI (Clopper-Pearson)
-        # Start with n at least large enough so that we expect at least one event.
-        n &lt;- ceiling(1 / prevalence)
-        found &lt;- FALSE
-        while (!found) {
-            # Ensure at least one observed event
-            x &lt;- max(1, round(n * prevalence))
-            ci &lt;- binom.test(x, n, conf.level = 1 - alpha)$conf.int
-            # Compute the half-width of the confidence interval (we use the larger deviation from p)
-            half_width &lt;- max(ci[2] - prevalence, prevalence - ci[1])
-            if (half_width &lt;= d) {
-                found &lt;- TRUE
-            } else {
-                n &lt;- n + 1
-            }
-        }
-        return(n)
-    }
-}
-
-ui &lt;- fluidPage(
-    theme = shinytheme("cyborg"),
-    useShinyjs(),
-    tags$style(HTML("
-    #protocolText {
-      font-family: 'Times New Roman', Times, serif;
-      white-space: pre-wrap;
-    }
-    .copy-button {
-      margin-bottom: 10px;
-    }
-  ")),
-    tags$script(HTML("
-    function copyProtocol() {
-      var protocol = document.getElementById('protocolText').innerText;
-      var tempInput = document.createElement('textarea');
-      tempInput.value = protocol;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      document.execCommand('copy');
-      document.body.removeChild(tempInput);
-      alert('Protocol text copied to clipboard!');
-    }
-  ")),
-    titlePanel("Prevalence Study Sample Size &amp; Confidence Interval Calculator"),
-    sidebarLayout(
-        sidebarPanel(
-            numericInput("prev", "Anticipated Prevalence (p):", value = 0.01, min = 0.001, max = 1, step = 0.001),
-            helpText("Enter prevalence as a decimal (e.g., 0.01 = 1%, 0.10 = 10%)."),
-            numericInput("alpha", "Significance Level (α):", value = 0.05, min = 0.001, max = 0.1, step = 0.005),
-            numericInput("d", "Desired Margin of Error (d):", value = 0.05, min = 0.001, max = 0.1, step = 0.001),
-            hr(),
-            helpText("The precisions is how wide the confidence interval should be around the prevalence estimate. (e.g. 0.05 is ±5%)"),
-            hr(),
-            numericInput("sims", "Number of Simulations:", value = 100, min = 10, max = 10000, step = 10),
-            actionButton("runSim", "Run Simulations")
-        ),
-        mainPanel(
-            h3(textOutput("resultTitle")),
-            uiOutput("resultsUI"),
-            h4("Simulation Results:"),
-            plotOutput("simPlot"),
-            hr(),
-            tags$button("Copy Protocol Text", class = "copy-button", onclick = "copyProtocol()"),
-            h4("Protocol Text (Simplified)"),
-            uiOutput("protocolUI")
-        )
-    )
-)
-
-server &lt;- function(input, output, session) {
-    # Calculate sample size using the precision-based formula
-    calc_size &lt;- reactive({
-        precision_prevalence(input$prev, alpha = input$alpha, d = input$d)
-    })
-
-    # Calculate the estimated 95% confidence interval for the prevalence (using copper-pearson approximation)
-    calc_CI &lt;- reactive({
-        n &lt;- calc_size()
-        # Calculate the expected number of events; ensure at least one event is considered.
-        x &lt;- max(1, round(n * input$prev))
-        # Compute the exact Clopper-Pearson confidence interval for the binomial proportion.
-        ci &lt;- binom.test(x, n, conf.level = 1 - input$alpha)$conf.int
-        ci
-    })
-
-    output$resultTitle &lt;- renderText({
-        "Your Estimated Sample Size &amp; 95% Confidence Interval"
-    })
-
-    output$resultsUI &lt;- renderUI({
-        n_precision &lt;- calc_size()
-        CI &lt;- calc_CI()
-        tagList(
-            tags$p(paste(
-                "For an anticipated prevalence of", input$prev,
-                "with a desired margin of error of ±", input$d * 100, "% at a significance level of", input$alpha,
-                "the required sample size is:", n_precision
-            )),
-            tags$p(paste(
-                "This sample size is expected to yield an estimated 95% confidence interval of approximately:",
-                paste0(round(CI["lower"] * 100, 2), "% to ", round(CI["upper"] * 100, 2), "%")
-            ))
-        )
-    })
-
-    # Simulation: simulate binomial samples using the computed sample size and record the half-width of the CI
-    simData &lt;- eventReactive(input$runSim, {
-        n &lt;- calc_size()
-        p &lt;- input$prev
-        alpha &lt;- input$alpha
-        sims &lt;- input$sims
-        z &lt;- qnorm(1 - alpha / 2)
-        # Storage for half-widths of CIs
-        half_widths &lt;- numeric(sims)
-
-        withProgress(message = "Running simulations...", value = 0, {
-            for (i in 1:sims) {
-                # Simulate observed events using a binomial draw
-                x &lt;- rbinom(1, n, p)
-                # Compute the exact Clopper-Pearson confidence interval
-                ci &lt;- binom.test(x, n, conf.level = 1 - alpha)$conf.int
-                # Compute the half-width (take the max difference)
-                half_widths[i] &lt;- max(p - ci[1], ci[2] - p)
-                incProgress(1 / sims)
-            }
-        })
-
-        return(half_widths)
-    })
-
-    output$simPlot &lt;- renderPlot({
-        req(simData())
-        hist(simData(),
-            main = "Distribution of CI Half-Widths",
-            xlab = "Half-Width of 95% CI", col = "skyblue", border = "white"
-        )
-    })
-
-    # Simple protocol text (for copying) in plain text with simple math notation
-    output$protocolUI &lt;- renderUI({
-        n_val &lt;- calc_size()
-        CI &lt;- calc_CI()
-        simple_text &lt;- paste(
-            "Protocol Text for Prevalence Study Sample Size Calculation:",
-            "",
-            "Based on an anticipated prevalence (p) of ", input$prev,
-            " and a desired margin of error (d) of ±", input$d * 100, "%,",
-            "with a significance level (α) of ", input$alpha, ",",
-            "the required sample size (n) is calculated using the formula:",
-            "",
-            "  n = (z^2 * p * (1-p)) / d^2",
-            "",
-            "where z is the z-score corresponding to a confidence level of (1 - α/2).",
-            "",
-            "For these parameters, the calculated sample size is ", n_val, ".",
-            "This sample size will yield an approximate 95% confidence interval for the prevalence given by:",
-            "",
-            "  CI = p ± z * sqrt[ p*(1-p) / n ]",
-            "",
-            "In this example, the estimated 95% confidence interval is from ",
-            paste0(round(CI["lower"] * 100, 2), "% to ", round(CI["upper"] * 100, 2), "%."),
-            "",
-            "Researchers can copy and paste this text into their study protocol.",
-            sep = "\n"
-        )
-        tags$pre(simple_text, id = "protocolText")
-    })
-}
-
-shinyApp(ui = ui, server = server)
-</code></pre>
+<section id="introduction" class="level1">
+<h1>Introduction</h1>
+<p>In biostatistics, understanding the underlying distribution of your data is essential. Data that follows a <strong>normal distribution</strong> has different characteristics compared to data that is <strong>non-normal</strong>. In many cases, transformations such as the <strong>log</strong> or <strong>square root</strong> can help meet the assumptions of statistical tests and improve data interpretation.</p>
+<p>In this post, we’ll explore: - <strong>Normal distributions</strong> and their properties - <strong>Non-normal distributions</strong> and why they matter - How <strong>log</strong> and <strong>square root transformations</strong> can help</p>
+<hr>
+</section>
+<section id="normal-distributions" class="level1">
+<h1>Normal Distributions</h1>
+<p>A normal distribution, often called a <strong>Gaussian distribution</strong>, is symmetric around its mean. Its bell-shaped curve is defined by the mean (μ) and standard deviation (σ). Many statistical methods assume normality because of its well-understood properties.</p>
+<p><em>Key features of a normal distribution:</em> - Symmetry about the mean - Mean, median, and mode coincide - Defined by two parameters (mean and standard deviation)</p>
+<p><em>Example:</em><br>
+Many biological measurements (like blood pressure in a healthy population) are assumed to follow a normal distribution.</p>
+<hr>
+</section>
+<section id="non-normal-distributions" class="level1">
+<h1>Non-Normal Distributions</h1>
+<p>Not all data in biostatistics follow a normal distribution. Skewed data, for example, may be <strong>right-skewed</strong> or <strong>left-skewed</strong>. Non-normal data can occur due to natural biological variability or due to the measurement process itself.</p>
+<p><em>Common examples include:</em> - <strong>Right-skewed data:</strong> Enzyme levels, income data, or time-to-event data<br>
+- <strong>Left-skewed data:</strong> Certain bounded measurements where many values cluster near an upper limit</p>
+<p>When data are non-normal, the usual statistical tests that assume normality might not be valid, which is why transformations are often applied.</p>
+<hr>
+</section>
+<section id="log-transformation" class="level1">
+<h1>Log Transformation</h1>
+<p>A <strong>log transformation</strong> is frequently used when data are right-skewed. By taking the logarithm of the data, extreme values are compressed, which often results in a distribution that is closer to normal.</p>
+<p><em>Benefits:</em> - Stabilizes the variance - Makes the data more symmetric - Facilitates the use of parametric statistical tests</p>
+<p><em>When to use:</em><br>
+If your data ranges over several orders of magnitude (e.g., hormone concentrations or viral load), a log transformation can be very effective.</p>
+<p><em>Example code in R:</em></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Original data vector </span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">1000</span>, <span class="dv">10000</span>) </span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Log-transformed data </span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>log_data <span class="ot">&lt;-</span> <span class="fu">log</span>(data) </span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(log_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

@@ -1,11 +1,9 @@
-
 project:
   type: website
   title: "StudyStats: Expert Statistical Consulting"
- # description: "StudyStats offers statistical consulting services, tools, and insights. Learn about our methods, explore our blog, and discover how we can support your research."
-
 website:
-  title: "StudyStats"
+  # Optionally repeat (or override) title and description here
+  title: "STUDYSTATS"
   description: "StudyStats: Expert statistical consulting, blog, and tools."
   cookie-consent: true
   google-analytics: "G-MKT52KHL7C"
@@ -34,9 +32,6 @@ website:
         href: friends.qmd
       - text: "Contact"
         href: contact.qmd
-    right:
-      - icon: github
-        href: "https://github.com/bridaybrummer/study_stats_site"
 
 format:
   html:
@@ -45,7 +40,3 @@ format:
     include-after: after.html
     output-dir: public
 editor: source
-
-
-# (Optional) Provide a canonical site URL so search engines know the main domain
-# site-url: "https://YOUR_USERNAME.github.io/YOUR_REPO"

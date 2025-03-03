@@ -6,9 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-02-20">
+<meta name="author" content="Brian Brummer">
+<meta name="dcterms.date" content="2025-02-19">
 
-<title>Prevalence Study sample size calculator – STUDYSTATS</title>
+<title>Research question, hypothesis testing and sample sizes (Continuous data) – STUDYSTATS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -42,11 +43,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-528af00bb7f0be3314e85d29feea0627.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<meta name="shinylive:serviceworker_dir" content="..">
-<script src="../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/load-shinylive-sw.js" type="module"></script>
-<script src="../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/run-python-blocks.js" type="module"></script>
-<link href="../site_libs/quarto-contrib/shinylive-0.9.1/shinylive/shinylive.css" rel="stylesheet">
-<link href="../site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -132,6 +128,8 @@ window.Quarto = {
 };
 </script>
 
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="styles_blog.css">
 </head>
 
 <body class="nav-fixed fullcontent">
@@ -206,11 +204,11 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><strong>Prevalence Study</strong> sample size calculator</h1>
+<h1 class="title">Research question, hypothesis testing and sample sizes (Continuous data)</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">statistics</div>
-    <div class="quarto-category">shiny</div>
-    <div class="quarto-category">blog</div>
+    <div class="quarto-category">Blog</div>
+    <div class="quarto-category">Statistics</div>
+    <div class="quarto-category">Sample Size</div>
   </div>
   </div>
 
@@ -218,11 +216,17 @@ window.Quarto = {
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Brian Brummer </p>
+          </div>
+  </div>
     
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 20, 2025</p>
+      <p class="date">February 19, 2025</p>
     </div>
   </div>
   
@@ -234,232 +238,607 @@ window.Quarto = {
 </header>
 
 
-<p>We often want to estimate the <strong>prevalence</strong> in a population (i.e., the proportion of individuals with a certain condition). For example, if we want to estimate the prevalence of a rare disease in a population, we need to determine how many individuals we need to sample to obtain a reliable estimate.</p>
-<p>The required sample size is largely influenced by how precise we want our estimate. The more accurate we want our estimate to be, the more individuals we need to sample. We report precision as how wide the 95% confidence interval will be from our prevalence estimate. If the precision is 0.05, (5%), the confidence interval will be 5% above and below the prevalence estimate. For instance, for a disease with 50% prevalence, and a precision of 5%, we need a sample size of ~ 385. Our estimated prevalence will be 50% (95% CI 45% to 55%).</p>
-<p>The required sample size for estimating a proportion (prevalence) is given by:</p>
-<p><span class="math display">\[
-n = \frac{z^2 \; p \; (1-p)}{d^2}
-\]</span></p>
-<p>where:</p>
+<section id="research-question-to-hypothesis-to-sample-size" class="level1">
+<h1>Research question to Hypothesis to Sample Size</h1>
+<p>Most research needs to have a <strong>research question</strong>, which means you have to have a hypothesis to test and sufficient data to demonstrate whether to accept or reject your hypothesis.</p>
+<section id="a-good-research-question" class="level2">
+<h2 class="anchored" data-anchor-id="a-good-research-question">A good research question</h2>
+<p>An effective research question must include:</p>
 <ul>
-<li><p><span class="math inline">\(p\)</span> is the anticipated prevalence,</p></li>
-<li><p><span class="math inline">\(d\)</span> is the desired margin of error,</p></li>
-<li><p><span class="math inline">\(z\)</span> is the z-score corresponding to a confidence level of <span class="math inline">\((1-\alpha/2)\)</span> for a significance level <span class="math inline">\(\alpha\)</span>.</p></li>
+<li><p>An <strong>outcome measure</strong> (e.g., weight, height, success, failure, pain score, anxiety score)</p></li>
+<li><p>An <strong>exposure or intervention</strong> (e.g., surgery, time, diagnosis, treatment)</p></li>
+<li><p>An idea of the <strong>direction and magnitude</strong> of the difference between the groups (e.g., higher, lower, different)</p></li>
 </ul>
-<p>The estimated 95% confidence interval for evenly distributed (CI) is given by:</p>
-<p><span class="math display">\[
-\text{CI} = p \pm z \times \sqrt{\frac{p(1-p)}{n}}
-\]</span></p>
-<p><strong>When a disease is rare</strong>, this formula does not work well as the sample size recommende becomes to small. For instance, collecting info on n=50 patients with an expected prevalence of 1% means we may not find any patients with this rare disease. The calculator therefore uses an iterative approach to find the sample size required to achieve the desired margin of error when a prevalence is less than 10%.</p>
-<p>The Copper-Pearson approximation for a confidence interval is used for rare diseases:</p>
-<p><span class="math display">\[
-\text{CI} = \left( \frac{x}{n} - \frac{z^2}{2n^2}, \frac{x}{n} + \frac{z^2}{2n^2} \right)
-\]</span></p>
-<p>where <span class="math inline">\(x\)</span> is the number of observed events.</p>
-<p>This formula is repeated for differnt smaple sizes until the desired precision is achieved.</p>
-<p><strong>Desirable Prevalence and Precision Estimates:</strong><br>
-A good starting point for a new researcher is to use prevalence estimates based on previous studies or pilot data. For instance, if studying a rare condition, a prevalence of around 1% (i.e., <span class="math inline">\(p = 0.01\)</span>) might be expected, while more common conditions may have prevalences closer to 10% or even 50%.</p>
-<p>The margin of error, <span class="math inline">\(d\)</span>, reflects how precise you want your prevalence estimate to be. A margin of error of ±5% (i.e., <span class="math inline">\(d = 0.05\)</span>) is common when a high degree of precision is needed. However, if resources are limited, a wider margin (e.g., ±10% or <span class="math inline">\(d = 0.10\)</span>) may be acceptable.</p>
-<p>Keep in mind: - <strong>Effect of Prevalence on Sample Size:</strong> The required sample size is largest when <span class="math inline">\(p = 0.5\)</span> (i.e., 50%), because <span class="math inline">\(p(1-p)\)</span> is maximized at this value. If the anticipated prevalence is lower or higher than 50%, the sample size required for the same margin of error decreases. - <strong>Effect of Precision on Sample Size:</strong> A smaller margin of error (i.e., a more precise estimate) increases the required sample size. Conversely, if you are willing to accept a larger margin of error, the sample size can be reduced.</p>
+<p>For example, a simple research question might be:</p>
 <blockquote class="blockquote">
-<p><strong>Practical Tip:</strong><br>
-When searching through literature, pay particular attention to the methods of data collection int he study. A study that reports a low prevalence may used very broad measures, if you are sampling from a population that has been screened or referred, your prevalence may be higher than the general population. Sometimes, prevalence estimates may be in subgroup analyses in a study. If there is absolutely no data available , consider a small pilot study or some educated guesses.</p>
+<p><strong>To determine whether the height</strong> (outcome) <strong>between orthopaedic surgeons and ophthalmologists</strong> (exposure: type of specialty) <strong>differs by 10cm</strong> (magnitude of difference).</p>
 </blockquote>
-<p>Use this calculator and play with the parameters to help you find a realistic sample size.</p>
-<pre class="shinylive-r" data-engine="r"><code>#| '!! shinylive warning !!': |
-#|   shinylive does not work in self-contained HTML documents.
-#|   Please set `embed-resources: false` in your metadata.
-#| standalone: true
-#| echo: false
-#| messages: false
-#| viewerHeight: 800
+</section>
+<section id="we-should-keep-in-mind" class="level2">
+<h2 class="anchored" data-anchor-id="we-should-keep-in-mind">We should keep in mind</h2>
+<ul>
+<li>we can also keep in mind the data types. Briefly, data types can be:
+<ul>
+<li><strong>Continuous</strong> (e.g., height, weight, blood pressure)</li>
+<li><strong>Categorical</strong> (e.g., HIV stage, Death, Complication)</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="hypothesis" class="level1">
+<h1>Hypothesis</h1>
+<p>The <strong>null hypothesis (H₀)</strong> represents the status quo or the assumption of no difference. To show that there is a difference, you must disprove H₀.</p>
+<ul>
+<li><strong>Null hypothesis (H₀):</strong> The heights are <strong>not different by more than 10cm</strong> between the two groups.</li>
+<li><strong>Alternative hypothesis (H₁):</strong> The heights <strong>are different by more than 10cm</strong>.</li>
+</ul>
+<p>By disproving H₀, you support H₁.</p>
+<hr>
+</section>
+<section id="sample-size-calculations" class="level1">
+<h1>Sample Size Calculations</h1>
+<p>A simplified formula for the sample size required for detecting a difference between two means (or continuous variables) is:</p>
+<p><span class="math display">\[
+n = \frac{\left(Z_{1-\alpha/2} + Z_{1-\beta}\right)^2 \, \sigma^2}{\Delta^2}
+\]</span></p>
+<p>We need to fill in some values with our best guesses, or info from exisitng literature.</p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(( Z_{1-\alpha/2} )\)</span> won’t change and is the critical value for the desired confidence level (e.g., 1.96 for 95% confidence).</li>
+<li><span class="math inline">\(( Z_{1-\beta} )\)</span> won’t change and is the critical value for the desired power (e.g., 0.84 for 80% power).</li>
+<li><span class="math inline">\(( \Delta )\)</span> is the minimum detectable difference (we set this to 10 cm).</li>
+<li><span class="math inline">\(( \sigma )\)</span> is the standard deviation of the outcome.</li>
+</ul>
+<p>In normal language: We want to show atleast the <span class="math inline">\(\Delta\)</span> between the two groups. I like to call <span class="math inline">\(\Delta\)</span> the minimum detectable difference - If the actual difference is smaller than 10cm, we will not be able to detect it.</p>
+<p>You must also consider the variability in each group. In other words each persons height will vary, or is spread around the mean. We describe this by the <strong>standard deviation (SD)</strong> (σ) of the outcome. As a sample size increases, the SD becomes narrower.</p>
+<blockquote class="blockquote">
+<p>SD is calculated by taking the square root of the differences between each value and the mean, squaring them, summing them, and dividing by the number of values.</p>
+</blockquote>
+</section>
+<section id="what-will-this-data-look-like" class="level1">
+<h1>What will this data look like?</h1>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 12.5</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ResearchQuestion_SampleSize_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Two-sample t test power calculation 
 
-library(shiny)
-library(shinythemes)
-library(shinyjs)
+              n = 142.2462
+              d = 0.3333333
+      sig.level = 0.05
+          power = 0.8
+    alternative = two.sided
 
-# Precision-based sample size calculation (for estimation)
-precision_prevalence &lt;- function(prevalence, alpha = 0.05, d = 0.05, threshold = 0.09) {
-    # For larger prevalences, use the normal approximation
-    if (prevalence &gt;= threshold) {
-        z &lt;- qnorm(1 - alpha / 2)
-        n &lt;- (z^2 * prevalence * (1 - prevalence)) / (d^2)
-        return(ceiling(n))
-    } else {
-        # For very small prevalences, use an iterative approach based on exact binomial CI (Clopper-Pearson)
-        # Start with n at least large enough so that we expect at least one event.
-        n &lt;- ceiling(1 / prevalence)
-        found &lt;- FALSE
-        while (!found) {
-            # Ensure at least one observed event
-            x &lt;- max(1, round(n * prevalence))
-            ci &lt;- binom.test(x, n, conf.level = 1 - alpha)$conf.int
-            # Compute the half-width of the confidence interval (we use the larger deviation from p)
-            half_width &lt;- max(ci[2] - prevalence, prevalence - ci[1])
-            if (half_width &lt;= d) {
-                found &lt;- TRUE
-            } else {
-                n &lt;- n + 1
-            }
-        }
-        return(n)
-    }
+NOTE: n is number in *each* group</code></pre>
+</div>
+</div>
+<p>Finding a difference that is equal to the to or more than the standard deviation is ideal but this is generally not the case in real life, often you may wish to find a smaller difference with a much larger spread of data around a mean. Remember spread (or variance) can be affect by the natural variablitly of the event you are observing or the measurement process itself. Think of how much variation you see in the measuremnts you observe each day, from patietns weight, CD4 count, blood pressure, etc.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ResearchQuestion_SampleSize_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="in-summary" class="level1">
+<h1>In Summary</h1>
+<p>Research Question: <strong>To determine whether the height between orthopaedic surgeons and ophthalmologists differs by 10cm.</strong></p>
+<p>Null Hypothesis: <strong>The heights are not different by more than 10cm between the two groups.</strong></p>
+<p>A p-value of &lt;0.05 means we reject the null hypothesis and accept the alternative hypothesis.</p>
+<p>We determined the sample size by calculating the number of participants needed to detect a difference of 10 cm with a power of 80% and a significance level of 5%. Both groups had a standard deviation of 15 cm. This results in a sample size of 142 (or 71 per group).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ResearchQuestion_SampleSize_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="wztxyiiewn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wztxyiiewn table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-ui &lt;- fluidPage(
-    theme = shinytheme("cyborg"),
-    useShinyjs(),
-    tags$style(HTML("
-    #protocolText {
-      font-family: 'Times New Roman', Times, serif;
-      white-space: pre-wrap;
-    }
-    .copy-button {
-      margin-bottom: 10px;
-    }
-  ")),
-    tags$script(HTML("
-    function copyProtocol() {
-      var protocol = document.getElementById('protocolText').innerText;
-      var tempInput = document.createElement('textarea');
-      tempInput.value = protocol;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      document.execCommand('copy');
-      document.body.removeChild(tempInput);
-      alert('Protocol text copied to clipboard!');
-    }
-  ")),
-    titlePanel("Prevalence Study Sample Size &amp; Confidence Interval Calculator"),
-    sidebarLayout(
-        sidebarPanel(
-            numericInput("prev", "Anticipated Prevalence (p):", value = 0.01, min = 0.001, max = 1, step = 0.001),
-            helpText("Enter prevalence as a decimal (e.g., 0.01 = 1%, 0.10 = 10%)."),
-            numericInput("alpha", "Significance Level (α):", value = 0.05, min = 0.001, max = 0.1, step = 0.005),
-            numericInput("d", "Desired Margin of Error (d):", value = 0.05, min = 0.001, max = 0.1, step = 0.001),
-            hr(),
-            helpText("The precisions is how wide the confidence interval should be around the prevalence estimate. (e.g. 0.05 is ±5%)"),
-            hr(),
-            numericInput("sims", "Number of Simulations:", value = 100, min = 10, max = 10000, step = 10),
-            actionButton("runSim", "Run Simulations")
-        ),
-        mainPanel(
-            h3(textOutput("resultTitle")),
-            uiOutput("resultsUI"),
-            h4("Simulation Results:"),
-            plotOutput("simPlot"),
-            hr(),
-            tags$button("Copy Protocol Text", class = "copy-button", onclick = "copyProtocol()"),
-            h4("Protocol Text (Simplified)"),
-            uiOutput("protocolUI")
-        )
-    )
-)
-
-server &lt;- function(input, output, session) {
-    # Calculate sample size using the precision-based formula
-    calc_size &lt;- reactive({
-        precision_prevalence(input$prev, alpha = input$alpha, d = input$d)
-    })
-
-    # Calculate the estimated 95% confidence interval for the prevalence (using copper-pearson approximation)
-    calc_CI &lt;- reactive({
-        n &lt;- calc_size()
-        # Calculate the expected number of events; ensure at least one event is considered.
-        x &lt;- max(1, round(n * input$prev))
-        # Compute the exact Clopper-Pearson confidence interval for the binomial proportion.
-        ci &lt;- binom.test(x, n, conf.level = 1 - input$alpha)$conf.int
-        ci
-    })
-
-    output$resultTitle &lt;- renderText({
-        "Your Estimated Sample Size &amp; 95% Confidence Interval"
-    })
-
-    output$resultsUI &lt;- renderUI({
-        n_precision &lt;- calc_size()
-        CI &lt;- calc_CI()
-        tagList(
-            tags$p(paste(
-                "For an anticipated prevalence of", input$prev,
-                "with a desired margin of error of ±", input$d * 100, "% at a significance level of", input$alpha,
-                "the required sample size is:", n_precision
-            )),
-            tags$p(paste(
-                "This sample size is expected to yield an estimated 95% confidence interval of approximately:",
-                paste0(round(CI["lower"] * 100, 2), "% to ", round(CI["upper"] * 100, 2), "%")
-            ))
-        )
-    })
-
-    # Simulation: simulate binomial samples using the computed sample size and record the half-width of the CI
-    simData &lt;- eventReactive(input$runSim, {
-        n &lt;- calc_size()
-        p &lt;- input$prev
-        alpha &lt;- input$alpha
-        sims &lt;- input$sims
-        z &lt;- qnorm(1 - alpha / 2)
-        # Storage for half-widths of CIs
-        half_widths &lt;- numeric(sims)
-
-        withProgress(message = "Running simulations...", value = 0, {
-            for (i in 1:sims) {
-                # Simulate observed events using a binomial draw
-                x &lt;- rbinom(1, n, p)
-                # Compute the exact Clopper-Pearson confidence interval
-                ci &lt;- binom.test(x, n, conf.level = 1 - alpha)$conf.int
-                # Compute the half-width (take the max difference)
-                half_widths[i] &lt;- max(p - ci[1], ci[2] - p)
-                incProgress(1 / sims)
-            }
-        })
-
-        return(half_widths)
-    })
-
-    output$simPlot &lt;- renderPlot({
-        req(simData())
-        hist(simData(),
-            main = "Distribution of CI Half-Widths",
-            xlab = "Half-Width of 95% CI", col = "skyblue", border = "white"
-        )
-    })
-
-    # Simple protocol text (for copying) in plain text with simple math notation
-    output$protocolUI &lt;- renderUI({
-        n_val &lt;- calc_size()
-        CI &lt;- calc_CI()
-        simple_text &lt;- paste(
-            "Protocol Text for Prevalence Study Sample Size Calculation:",
-            "",
-            "Based on an anticipated prevalence (p) of ", input$prev,
-            " and a desired margin of error (d) of ±", input$d * 100, "%,",
-            "with a significance level (α) of ", input$alpha, ",",
-            "the required sample size (n) is calculated using the formula:",
-            "",
-            "  n = (z^2 * p * (1-p)) / d^2",
-            "",
-            "where z is the z-score corresponding to a confidence level of (1 - α/2).",
-            "",
-            "For these parameters, the calculated sample size is ", n_val, ".",
-            "This sample size will yield an approximate 95% confidence interval for the prevalence given by:",
-            "",
-            "  CI = p ± z * sqrt[ p*(1-p) / n ]",
-            "",
-            "In this example, the estimated 95% confidence interval is from ",
-            paste0(round(CI["lower"] * 100, 2), "% to ", round(CI["upper"] * 100, 2), "%."),
-            "",
-            "Researchers can copy and paste this text into their study protocol.",
-            sep = "\n"
-        )
-        tags$pre(simple_text, id = "protocolText")
-    })
+#wztxyiiewn thead, #wztxyiiewn tbody, #wztxyiiewn tfoot, #wztxyiiewn tr, #wztxyiiewn td, #wztxyiiewn th {
+  border-style: none;
 }
 
-shinyApp(ui = ui, server = server)
-</code></pre>
+#wztxyiiewn p {
+  margin: 0;
+  padding: 0;
+}
+
+#wztxyiiewn .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#wztxyiiewn .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#wztxyiiewn .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#wztxyiiewn .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#wztxyiiewn .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#wztxyiiewn .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#wztxyiiewn .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#wztxyiiewn .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#wztxyiiewn .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#wztxyiiewn .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#wztxyiiewn .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#wztxyiiewn .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#wztxyiiewn .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#wztxyiiewn .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#wztxyiiewn .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wztxyiiewn .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#wztxyiiewn .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#wztxyiiewn .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#wztxyiiewn .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wztxyiiewn .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#wztxyiiewn .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wztxyiiewn .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#wztxyiiewn .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wztxyiiewn .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wztxyiiewn .gt_left {
+  text-align: left;
+}
+
+#wztxyiiewn .gt_center {
+  text-align: center;
+}
+
+#wztxyiiewn .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#wztxyiiewn .gt_font_normal {
+  font-weight: normal;
+}
+
+#wztxyiiewn .gt_font_bold {
+  font-weight: bold;
+}
+
+#wztxyiiewn .gt_font_italic {
+  font-style: italic;
+}
+
+#wztxyiiewn .gt_super {
+  font-size: 65%;
+}
+
+#wztxyiiewn .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#wztxyiiewn .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#wztxyiiewn .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#wztxyiiewn .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#wztxyiiewn .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#wztxyiiewn .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#wztxyiiewn .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#wztxyiiewn .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#wztxyiiewn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="label"><span data-qmd-base64="PHN0cm9uZz5DaGFyYWN0ZXJpc3RpYzwvc3Ryb25nPg=="><span class="gt_from_md"><strong>Characteristic</strong></span></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span data-qmd-base64="PHN0cm9uZz5PcGh0aGFsbW9sb2dpc3Q8L3N0cm9uZz48YnIgLz4KTiA9IDcxICg8c3Ryb25nPjk1JSBDSTwvc3Ryb25nPik="><span class="gt_from_md"><strong>Ophthalmologist</strong><br>
+N = 71 (<strong>95% CI</strong>)</span></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span data-qmd-base64="PHN0cm9uZz5PcnRob3BhZWRpYzwvc3Ryb25nPjxiciAvPgpOID0gNzEgKDxzdHJvbmc+OTUlIENJPC9zdHJvbmc+KQ=="><span class="gt_from_md"><strong>Orthopaedic</strong><br>
+N = 71 (<strong>95% CI</strong>)</span></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value"><span data-qmd-base64="PHN0cm9uZz5wLXZhbHVlPC9zdHJvbmc+"><span class="gt_from_md"><strong>p-value</strong></span></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">height</td>
+<td headers="stat_1" class="gt_row gt_center">168 (28) (162, 175)</td>
+<td headers="stat_2" class="gt_row gt_center">182 (27) (175, 188)</td>
+<td headers="p.value" class="gt_row gt_center">0.004</td></tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="4"><span data-qmd-base64="QWJicmV2aWF0aW9uOiBDSSA9IENvbmZpZGVuY2UgSW50ZXJ2YWw="><span class="gt_from_md">Abbreviation: CI = Confidence Interval</span></span></td>
+    </tr>
+  </tfoot>
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="4"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span data-qmd-base64="TWVhbiAoU0Qp"><span class="gt_from_md">Mean (SD)</span></span></td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="4"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> <span data-qmd-base64="V2VsY2ggVHdvIFNhbXBsZSB0LXRlc3Q="><span class="gt_from_md">Welch Two Sample t-test</span></span></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
