@@ -117,10 +117,10 @@ document.addEventListener('DOMContentLoaded', function(){
     
     var html = '<table style="width: 100%; max-width: 400px; margin: 0 auto; border-collapse: collapse; background-color: #1f1f1f; color: #fff;">';
     // Header row for day names
-    var dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    var dayNames = ['Sun','Mon','Tue','Wed','Thu',' Fri   ','Sat'];
     html += '<tr>';
     dayNames.forEach(function(day) {
-      html += '<th style="padding: 8px; border: 1px solid #333;">' + day + '</th>';
+      html += '<th style="padding: 8px; border: 1px solid #333; width: 14.28%;">' + day + '</th>';
     });
     html += '</tr>';
     
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', function(){
             highlight = 'background-color: white; color: black;';
           }
         }
-        html += '<td style="padding: 8px; border: 1px solid #333; text-align: center; ' + highlight + '">' + cellContent + '</td>';
+        html += '<td style="padding: 8px; border: 1px solid #333; text-align: center; width: 14.28%; ' + highlight + '">' + cellContent + '</td>';
       }
       html += '</tr>';
     }
@@ -166,4 +166,5 @@ document.addEventListener('DOMContentLoaded', function(){
   generateCalendar();
 });
 </script>
+
 ```
