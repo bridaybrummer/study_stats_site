@@ -273,7 +273,6 @@ When searching through literature, pay particular attention to the methods of da
 #| echo: false
 #| messages: false
 #| viewerHeight: 800
-
 library(shiny)
 library(shinythemes)
 library(shinyjs)
@@ -338,7 +337,7 @@ ui &lt;- fluidPage(
             numericInput("alpha", "Significance Level (α):", value = 0.05, min = 0.001, max = 0.1, step = 0.005),
             numericInput("d", "Desired Margin of Error (d):", value = 0.05, min = 0.001, max = 0.1, step = 0.001),
             hr(),
-            helpText("The precisions is how wide the confidence interval should be around the prevalence estimate. (e.g. 0.05 is ±5%)"),
+            helpText("The precision is how wide the confidence interval should be around the prevalence estimate. (e.g. 0.05 is ±5%)"),
             hr(),
             numericInput("sims", "Number of Simulations:", value = 100, min = 10, max = 10000, step = 10),
             actionButton("runSim", "Run Simulations")
@@ -362,23 +361,34 @@ server &lt;- function(input, output, session) {
         precision_prevalence(input$prev, alpha = input$alpha, d = input$d)
     })
 
-    # Calculate the estimated 95% confidence interval for the prevalence (using copper-pearson approximation)
-    calc_CI &lt;- reactive({
+    # Calculate the Clopper-Pearson (exact binomial) confidence interval
+    calc_binom_CI &lt;- reactive({
         n &lt;- calc_size()
         # Calculate the expected number of events; ensure at least one event is considered.
         x &lt;- max(1, round(n * input$prev))
-        # Compute the exact Clopper-Pearson confidence interval for the binomial proportion.
-        ci &lt;- binom.test(x, n, conf.level = 1 - input$alpha)$conf.int
-        ci
+        binom.test(x, n, conf.level = 1 - input$alpha)$conf.int-&gt; conf_intervals
+        c(lower = conf_intervals[1], upper = conf_intervals[2])
+    })
+
+    # Calculate the normal approximation confidence interval
+    calc_normal_CI &lt;- reactive({
+        n &lt;- calc_size()
+        p &lt;- input$prev
+        z &lt;- qnorm(1 - input$alpha / 2)
+        se &lt;- sqrt(p * (1 - p) / n)
+        lower &lt;- p - z * se
+        upper &lt;- p + z * se
+        c(lower = lower, upper = upper)
     })
 
     output$resultTitle &lt;- renderText({
-        "Your Estimated Sample Size &amp; 95% Confidence Interval"
+        "Your Estimated Sample Size &amp; 95% Confidence Intervals"
     })
 
     output$resultsUI &lt;- renderUI({
         n_precision &lt;- calc_size()
-        CI &lt;- calc_CI()
+        binom_CI &lt;- calc_binom_CI()
+        normal_CI &lt;- calc_normal_CI()
         tagList(
             tags$p(paste(
                 "For an anticipated prevalence of", input$prev,
@@ -386,8 +396,12 @@ server &lt;- function(input, output, session) {
                 "the required sample size is:", n_precision
             )),
             tags$p(paste(
-                "This sample size is expected to yield an estimated 95% confidence interval of approximately:",
-                paste0(round(CI["lower"] * 100, 2), "% to ", round(CI["upper"] * 100, 2), "%")
+                "The Clopper-Pearson (exact binomial) 95% CI is approximately:",
+                paste0(round(binom_CI["lower"] * 100, 2), "% to ", round(binom_CI["upper"] * 100, 2), "%")
+            )),
+            tags$p(paste(
+                "The normal approximation 95% CI is approximately:",
+                paste0(round(normal_CI["lower"] * 100, 2), "% to ", round(normal_CI["upper"] * 100, 2), "%")
             ))
         )
     })
@@ -398,8 +412,7 @@ server &lt;- function(input, output, session) {
         p &lt;- input$prev
         alpha &lt;- input$alpha
         sims &lt;- input$sims
-        z &lt;- qnorm(1 - alpha / 2)
-        # Storage for half-widths of CIs
+        # Storage for half-widths of CIs from the binom test
         half_widths &lt;- numeric(sims)
 
         withProgress(message = "Running simulations...", value = 0, {
@@ -408,7 +421,7 @@ server &lt;- function(input, output, session) {
                 x &lt;- rbinom(1, n, p)
                 # Compute the exact Clopper-Pearson confidence interval
                 ci &lt;- binom.test(x, n, conf.level = 1 - alpha)$conf.int
-                # Compute the half-width (take the max difference)
+                # Compute the half-width (take the maximum deviation from p)
                 half_widths[i] &lt;- max(p - ci[1], ci[2] - p)
                 incProgress(1 / sims)
             }
@@ -428,35 +441,24 @@ server &lt;- function(input, output, session) {
     # Simple protocol text (for copying) in plain text with simple math notation
     output$protocolUI &lt;- renderUI({
         n_val &lt;- calc_size()
-        CI &lt;- calc_CI()
+        binom_CI &lt;- calc_binom_CI()
+        normal_CI &lt;- calc_normal_CI()
         simple_text &lt;- paste(
-            "Protocol Text for Prevalence Study Sample Size Calculation:",
-            "",
-            "Based on an anticipated prevalence (p) of ", input$prev,
-            " and a desired margin of error (d) of ±", input$d * 100, "%,",
-            "with a significance level (α) of ", input$alpha, ",",
-            "the required sample size (n) is calculated using the formula:",
-            "",
-            "  n = (z^2 * p * (1-p)) / d^2",
-            "",
-            "where z is the z-score corresponding to a confidence level of (1 - α/2).",
-            "",
-            "For these parameters, the calculated sample size is ", n_val, ".",
-            "This sample size will yield an approximate 95% confidence interval for the prevalence given by:",
-            "",
-            "  CI = p ± z * sqrt[ p*(1-p) / n ]",
-            "",
-            "In this example, the estimated 95% confidence interval is from ",
-            paste0(round(CI["lower"] * 100, 2), "% to ", round(CI["upper"] * 100, 2), "%."),
-            "",
-            "Researchers can copy and paste this text into their study protocol.",
-            sep = "\n"
+            "Based on an anticipated prevalence (p) of ", input$prev, " and a desired margin of error (d) of ±", input$d * 100, "%,",
+            "with a significance level (α) of ", input$alpha, ", the required sample size (n) is calculated using the formula:\n",
+            "  n = (z^2 * p * (1-p)) / d^2\n",
+            "where z is the z-score corresponding to a confidence level of (1 - α/2).\n",
+            "For these parameters, the calculated sample size is ", n_val, ".\n",
+            "This sample size is expected to yield approximate 95% confidence intervals for the prevalence as follows:\n",
+            "  - Clopper-Pearson (exact): ", paste0(round(binom_CI["lower"] * 100, 2), "% to ", round(binom_CI["upper"] * 100, 2), "%\n"),
+            "  - Normal approximation: ", paste0(round(normal_CI["lower"] * 100, 2), "% to ", round(normal_CI["upper"] * 100, 2), "%\n")
         )
         tags$pre(simple_text, id = "protocolText")
     })
 }
 
 shinyApp(ui = ui, server = server)
+
 </code></pre>
 
 
