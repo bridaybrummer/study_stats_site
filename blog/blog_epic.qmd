@@ -1,0 +1,379 @@
+---
+title: "Team pacing"
+date: "2025-03-28"
+format:
+  html:
+    resources:
+      - shinylive-sw.js
+filters:
+  - shinylive
+height: 10000
+echo: false
+---
+
+```{r}
+#| include: false
+
+library(NMCleaner)
+conflicted::conflicts_prefer( dplyr::filter)
+
+```
+# Epic 2025 Analysis
+Here is my take on some analyses of the Cape Epic results, through the eyes of en epidemiologist-competitor, if you will. 
+
+## Intention
+
+As a particpant and epidemiologist myself, I was interested in a new analysis challenge. This is one of those typical examples of when you are chatting in the car on the way back from Stage 7 saying, "flip, I wonder how many guys go chicked on each stage", "who had the most consistent race", and instead of just forgetting about it, I took it a bit further. While some of these questions are answered just by assuming what happened to the top teams on TV, I also wanted to place us mere-mortals into context. As a particpant myself, these are some of the questions I had myself. 
+
+While other analyses are possible, I am limited by what is available online. 
+
+In summary, you can I reported on the following: 
+- the "real" mortality rate of riders
+- the mortality rate of teams
+- the average time of categories 
+  
+
+
+## Data Collection 
+
+Data was scraped form the results page on the Cape Epic website. Numbers may vary slighlty from official ones reported by the Cape Epic. At the time of scraping, some data on riders was not available.
+
+
+# The real mortality rate 
+The Epic organisers usually report the drop out rate as the drop out rate of teams. While the epic is a *team* event, this is an overestimation of the actual "survival" rate of an individual rider. 
+
+Below is the mortality rate by team 
+
+```{r}
+#| label: tbl-mortality_rate_by_team
+#| tbl-cap: Table of mortality rate by team
+#| layout-ncol: 2
+
+load("outputs/team_mortality_table.rda")
+load("outputs/rider_mortality_table.rda")
+
+# mortality rate by team
+team_mortality_table %>%
+    flextable::set_table_properties(
+        width = 0.75, layout = "autofit"
+    )
+
+# mortality rate by rider
+rider_mortality_table %>%
+    flextable::set_table_properties(
+        width = 0.75, layout = "autofit"
+    )
+```
+
+
+# How many riders get chicked?
+
+Getting chicked is, colloquially, when a male rider is slower than a female rider. The Cape Epic is one fo the few events where Male and Femalre riders ride the exact same course. Unlike Cape Town Cycle Tour or Tour De Femmes. There is emerging data that females may be better at handling fatigure than males 
+
+```{r}
+#| label: tbl-chicked
+#| tbl-cap: Table of riders who got chicked
+#| layout-nrow: 2
+#| tbl-subcap:
+#|        - "Proportion of riders who got chicked by the fastest UCI team"
+#|        - "Proportion of riders who got chicked by the slowest UCI team"
+
+load("outputs/chicked_table_fastest_UCI_women.rda")
+chicked_table_fastest_UCI_women
+
+load("outputs/chicked_table_slowest_UCI_women.rda")
+chicked_table_slowest_UCI_women
+
+```
+
+
+# Track the perfomrance of your team over the stages
+
+```{shinylive-r}
+#| standalone: true
+#| echo: false
+#| messages: false
+#| viewerHeight: 1200
+
+library(shiny)
+library(tidyverse)
+library(DT)
+
+# Load from GitHub
+data_url <- "https://raw.githubusercontent.com/bridaybrummer/study_stats_site/main/data/df_full.csv"
+df_full <- read_csv(data_url)
+
+# Treat stage as ordered factor only once
+stage_levels <- c(
+    "Prologue", "Stage 1", "Stage 2", "Stage 3", "Stage 4",
+    "Stage 5", "Stage 6", "Stage 7", "Overall"
+)
+
+category_colors <- c(
+    "UCI Men" = "#1f77b4", # Blue
+    "Individual Finishers" = "#7f7f7f", # Grey
+    "Masters Men" = "#2ca02c", # Green
+    "Open Men" = "#ff7f0e", # Orange
+    "Grand Masters Men" = "#9467bd", # Purple
+    "UCI Women" = "#e377c2", # Pink
+    "Mixed" = "#bcbd22", # Olive
+    "Great Grand Masters Men" = "#8c564b", # Brown
+    "Open Women" = "#17becf", # Teal
+    "Masters Women" = "#d62728" # Red
+)
+
+df_full <- df_full %>%
+    mutate(stage = factor(stage, levels = stage_levels))
+
+ui <- fluidPage(
+    titlePanel("Team Position by Stage"),
+    tags$head(
+        tags$style(HTML("
+            div.top-left {
+            float: left;
+            }
+            div.dataTables_filter {
+            text-align: left !important;
+            }
+        "))
+    ),
+    tags$script(HTML("
+    setTimeout(function() {
+      document.querySelector('h4').innerText = 'Ready to explore your race story? 🚴‍♀️✨';
+    }, 4000);
+  ")),
+    sidebarLayout(
+        sidebarPanel(
+            h4("Welcome! 👋"),
+            helpText(
+                "This app visualises stage-by-stage team positions in a multi-day race.",
+                "➤ Select your team and compare it to another — e.g., Hayley Preen’s.",
+                "➤ Search the table to find team numbers by name or team.",
+                "➤ Only categories of the selected teams are shown (others greyed out)."
+            ),
+            numericInput("selected_team", "Enter a team number (dashed):",
+                value = 188,
+                min = min(df_full$team_number),
+                max = max(df_full$team_number)
+            ),
+            numericInput("selected_team_2", "Compare With Team Number(dotted):",
+                value = 62,
+                min = min(df_full$team_number),
+                max = max(df_full$team_number)
+            ),
+            verbatimTextOutput("category_text")
+        ),
+        mainPanel(
+            h5("🔍 Search for a Rider or Team:"),
+            helpText("E.g., search 'Hayley' or your team name."),
+            DTOutput("team_table"),
+            plotOutput("team_plot", height = "500px")
+        )
+    )
+)
+
+# Server
+server <- function(input, output) {
+    output$team_table <- renderDT({
+        df_full %>%
+            select(team_number, team, rider, category) %>%
+            distinct() %>%
+            datatable(
+                options = list(
+                    pageLength = 5,
+                    lengthChange = FALSE,
+                    dom = '<"top-left"f>tip', # 'f' = search box, now wrapped in a class
+                    scrollY = "200px",
+                    scrollCollapse = TRUE
+                ),
+                rownames = FALSE,
+                class = "compact stripe"
+            )
+    })
+
+    output$team_plot <-
+        renderPlot({
+            req(input$selected_team, input$selected_team_2)
+
+            team1 <- input$selected_team
+            team2 <- input$selected_team_2
+
+            selected_team <- input$selected_team
+            selected_team_2 <- input$selected_team_2
+
+
+            selected_category_1 <- df_full %>%
+                filter(team_number == selected_team) %>%
+                pull(category) %>%
+                unique()
+
+            selected_category_2 <- df_full %>%
+                filter(team_number == selected_team_2) %>%
+                pull(category) %>%
+                unique()
+
+            cat1 <- df_full %>%
+                filter(team_number == team1) %>%
+                pull(category) %>%
+                unique()
+
+            cat2 <- df_full %>%
+                filter(team_number == team2) %>%
+                pull(category) %>%
+                unique()
+
+
+            selected_cats <- unique(c(cat1, cat2))
+
+            selected_categories <- unique(c(selected_category_1, selected_category_2))
+
+            output$category_text <- renderText({
+                paste("Category of Team 1:", cat1, "\nCategory of Team 2:", cat2)
+            })
+
+            top_category <- df_full %>%
+                group_by(category, stage) %>%
+                slice_min(position, with_ties = FALSE) %>%
+                ungroup()
+
+            top_ids <- top_category %>%
+                mutate(stage = as.character(stage)) %>%
+                transmute(top_id = paste(team_number, stage)) %>%
+                pull(top_id)
+
+            df_plot <- df_full %>%
+                mutate(
+                    focus = case_when(
+                        team_number == selected_team ~ "Team 1",
+                        team_number == selected_team_2 ~ "Team 2",
+                        TRUE ~ "Other"
+                    ),
+                    # top_team = paste(team_number, stage) %in% top_ids,
+                    category_plot = ifelse(category %in% selected_categories, category, "Other"),
+                    alpha_level = ifelse(focus %in% c("Team 1", "Team 2"), 1,
+                        ifelse(category %in% selected_categories, 0.2, 0.05)
+                    ),
+                    stage = factor(stage, levels = c(
+                        "Prologue", "Stage 1", "Stage 2", "Stage 3", "Stage 4",
+                        "Stage 5", "Stage 6", "Stage 7", "Overall"
+                    ))
+                ) %>%
+                mutate(
+                    stage_chr = as.character(stage),
+                    focus = case_when(
+                        team_number == team1 ~ "Team 1",
+                        team_number == team2 ~ "Team 2",
+                        TRUE ~ "Other"
+                    ),
+                    color_group = ifelse(category %in% selected_cats, category, "Other"),
+                    color_val = case_when(
+                        color_group == "Other" ~ "grey80",
+                        color_group == selected_category_1 ~ category_colors[selected_category_1],
+                        color_group == selected_category_2 ~ category_colors[selected_category_2],
+                    ),
+                    alpha_val = case_when(
+                        focus %in% c("Team 1", "Team 2") ~ 1,
+                        color_group == "Other" ~ 0.1,
+                        TRUE ~ 0.3
+                    ),
+                    size_val = case_when(
+                        focus %in% c("Team 1", "Team 2") ~ 1.2,
+                        TRUE ~ 0.4
+                    ),
+                    linetype_val = case_when(
+                        focus == "Team 1" ~ "dashed",
+                        focus == "Team 2" ~ "dotted",
+                        TRUE ~ "solid"
+                    )
+                ) %>%
+                mutate(
+                    stage = factor(
+                        stage,
+                        levels = stage_levels
+                    )
+                )
+
+
+            ggplot(df_plot, aes(x = stage, y = -position, group = team)) +
+                geom_line(aes(
+                    color = color_val, alpha = alpha_val,
+                    linetype = linetype_val, size = size_val
+                )) +
+                geom_point(aes(color = color_val, alpha = alpha_val), size = 0.5) +
+                ggrepel::geom_text_repel(
+                    data = df_plot %>%
+                        filter(team_number %in% c(team1, team2)) %>%
+                        group_by(team_number) %>%
+                        filter(as.numeric(factor(stage_chr, levels = stage_levels)) == max(as.numeric(factor(stage_chr, levels = stage_levels)))),
+                    aes(label = paste0("Team ", team_number)),
+                    nudge_x = 0.2,
+                    direction = "y",
+                    size = 4,
+                    hjust = 0,
+                    segment.color = "grey50"
+                ) +
+                scale_size_identity() +
+                scale_alpha_identity() +
+                scale_linetype_identity() +
+                scale_color_identity() +
+                scale_x_discrete(
+                    # create more space on the right side of the plot
+                    expand = expansion(mult = c(0.1, 0.2))
+                ) +
+                labs(
+                    x = "Stage",
+                    y = "Position (higher is better)",
+                    title = "Team Position by Stage",
+                    subtitle = "Selected categories are shown in a bold dot-dahsed line. The rest of the category of the selected teams are show in a thin solid line in the same colour. All other categories are in a faint grey line."
+                ) +
+                theme_minimal() +
+                theme(legend.position = "bottom")
+        })
+}
+
+# Run app
+shinyApp(ui, server)
+```
+
+# Average time of categories
+
+```{r}
+#| label: tbl-mean_time_category_tbl
+
+load(
+    "outputs/mean_time_category_tbl.rda"
+)
+mean_time_category_tbl
+```
+
+# Who what and where
+Which country had the higest per capita number of epic riders form their country? 
+
+```{r}
+#| label: tbl-riders_per_1_mil_table
+#| tbl-cap: Table of riders per 1 million population of their country
+
+load("outputs/riders_per_1_mil_table.rda")
+riders_per_1_mil_table %>%
+    flextable::set_table_properties(
+        width = 0.75, layout = "autofit"
+    )
+```
+
+# How well does prologe result predice overall result? 
+```{r}
+#| label: fig-prologue_overall_table
+#| fig-cap: Scatter plot of prologue vs Overall time.
+
+load("outputs/prologue_vs_stage_1_plot.rda")
+
+prologue_vs_stage_1_plot
+```
+
+
+```{r}
+#| label: tbl-position_accuracy_table
+#| tbl-cap: Table the number of teams that had th same posiiton from the prolgue to overall. 
+#| tbl-subcap: 50% of the teams would vary their position by 30 places when comparing the prolgue to the overall position. 
+load("outputs/position_accuracy_table.rda")
+```
