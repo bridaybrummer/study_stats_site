@@ -1,5 +1,5 @@
 ---
-title: "Team pacing"
+title: "Cape Epic 2025 Analysis"
 date: "2025-03-28"
 categories: [Blog, Sport, Cycling]
 excerpt: "An analysis of the Cape Epic 2025 results"
@@ -12,6 +12,7 @@ format:
       - shinylive-sw.js
     height: 10000             # Custom height for HTML rendering (e.g., for ShinyLive apps)
 messages: false
+echo: false
 filters:
   - shinylive
 ---
