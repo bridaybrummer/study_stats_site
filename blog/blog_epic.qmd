@@ -1,14 +1,19 @@
 ---
 title: "Team pacing"
 date: "2025-03-28"
+categories: [Blog, Sport, Cycling]
+excerpt: "An analysis of the Cape Epic 2025 results"
 format:
   html:
+    css: 
+      - ../styles.css         # Optional custom styling for posts
+      - styles_blog.css       # Blog-specific overrides
     resources:
       - shinylive-sw.js
+    height: 10000             # Custom height for HTML rendering (e.g., for ShinyLive apps)
+messages: false
 filters:
   - shinylive
-height: 10000
-echo: false
 ---
 
 ```{r}
@@ -373,7 +378,8 @@ prologue_vs_stage_1_plot
 
 ```{r}
 #| label: tbl-position_accuracy_table
-#| tbl-cap: Table the number of teams that had th same posiiton from the prolgue to overall. 
-#| tbl-subcap: 50% of the teams would vary their position by 30 places when comparing the prolgue to the overall position. 
+#| tbl-cap: Table the number of teams that had th same posiiton from the prolgue to overall.
+
 load("outputs/position_accuracy_table.rda")
+position_accuracy_table
 ```

@@ -7,4 +7,4 @@ format:
     toc: false
 ---
 
-Welcome to my blog! Here you will find posts that explain simple research questions and statistical concepts in accessible language.
+Welcome to my blog! Here you will find posts that explain simple research questions and statistical concepts in accessible language, or small projects that I have worked on and want to showcase.
