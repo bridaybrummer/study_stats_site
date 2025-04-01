@@ -1,10 +1,15 @@
 ---
-title: "Team pacing"
+title: "Cape Epic 2025 Analysis"
+excerpt: "An analysis of the Cape Epic 2025 results"
 date: "2025-03-28"
+categories: [Blog, Sport, Cycling]
 format:
-  html:
-    resources:
-      - shinylive-sw.js
+    html:
+        css: 
+        - ../styles.css  # optional custom styling for posts
+        - styles_blog.css          # Blog-specific overrides
+        resources:
+        - shinylive-sw.js
 filters:
   - shinylive
 height: 10000
@@ -379,7 +384,7 @@ riders_per_1_mil_table %>%
     )
 ```
 
-@tbl-tbl-riders_per_1_mil_table is sorted by the highest per capita of riders. Very small countries naturally skew results, however, teams from Switzerland, Namibia, Costa Rica and New Zealand deserve a special mention
+@tbl-riders_per_1_mil_table is sorted by the highest per capita of riders. Very small countries naturally skew results, however, teams from Switzerland, Namibia, Costa Rica and New Zealand deserve a special mention
 
 # How well does prologe result predict overall result? 
 We all know the saying "You don't win on the prologue, but you can lose", to me this is essentially saying, your prologue doesn't predict your overall performance. 
@@ -394,7 +399,7 @@ load("outputs/prologue_vs_stage_1_plot.rda")
 prologue_vs_stage_1_plot
 ```
 
-In @fig-fig-prologue_overall_table, the red line is the 1:1 line, where the prologue time is equal to the overall time. Those on the right of the red line indicate that riders that had a better placement overall than their prologue position. Those on the left of the red line indicate that riders that had a worse placement overall than their prologue position.
+In @fig-prologue_overall_table, the red line is the 1:1 line, where the prologue time is equal to the overall time. Those on the right of the red line indicate that riders that had a better placement overall than their prologue position. Those on the left of the red line indicate that riders that had a worse placement overall than their prologue position.
 
 ```{r}
 #| label: tbl-prediction_accuracy_table
