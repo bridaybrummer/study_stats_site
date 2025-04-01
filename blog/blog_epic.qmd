@@ -28,7 +28,7 @@ Here is my take on some analyses of the Cape Epic results, through the eyes of e
 
 ## Intention
 
-As a particpant and epidemiologist myself, I was interested in a new analysis challenge. This is one of those thinsg of when you are chatting in the car on the way back from Stage 7 saying, "flip, I wonder how many guys got chicked on *that* stage", "who had the most consistent race", and instead of just forgetting about it, I took it a bit further. While some of these questions are answered just by assuming what happened to the top teams on TV, I also wanted to place us mere-mortals into context. As a particpant myself, these are some of the questions I had.
+As a participant and epidemiologist myself, I was interested in a new analysis challenge. This is one of those things of when you are chatting in the car on the way back from Stage 7 saying, "flip, I wonder how many guys got chicked on *that* stage", "who had the most consistent race", and instead of just forgetting about it, I took it a bit further. While some of these questions are answered just by assuming what happened to the top teams on TV, I also wanted to place us mere-mortals into context. As a participant myself, these are some of the questions I had.
 
 In summary, I wanted to know: 
 - the "real" mortality rate of riders
@@ -78,8 +78,8 @@ Getting chicked is, colloquially, when a male rider is slower than a female ride
 
 ```{r}
 #| label: tbl-chicked
-#| tbl-cap: Comparing how many riders get chiked by the fastest and sloest UCI women
-#| layout-nrow: 2
+#| tbl-cap: Comparing how many riders get chicked by the fastest and slowest UCI women
+#| layout-ncol: 2
 #| tbl-subcap:
 #|        - "Proportion of riders who got chicked by the fastest UCI team"
 #|        - "Proportion of riders who got chicked by the slowest UCI team"
