@@ -9,14 +9,14 @@
   {
     "objectID": "blog/blog_epic.html#intention",
     "href": "blog/blog_epic.html#intention",
-    "title": "Team pacing",
+    "title": "Cape Epic 2025 Analysis",
     "section": "Intention",
     "text": "Intention\nAs a particpant and epidemiologist myself, I was interested in a new analysis challenge. This is one of those thinsg of when you are chatting in the car on the way back from Stage 7 saying, “flip, I wonder how many guys got chicked on that stage”, “who had the most consistent race”, and instead of just forgetting about it, I took it a bit further. While some of these questions are answered just by assuming what happened to the top teams on TV, I also wanted to place us mere-mortals into context. As a particpant myself, these are some of the questions I had.\nIn summary, I wanted to know: - the “real” mortality rate of riders - the average time of categories - A tool to track your position over the stages compared to another team. - How well does prologue time predict overall performance? - The number of riders per capita from each country.\nWhile other, more in depth, analyses are possible, I am limited by the data availble online and my real job."
   },
   {
     "objectID": "blog/blog_epic.html#data-collection",
     "href": "blog/blog_epic.html#data-collection",
-    "title": "Team pacing",
+    "title": "Cape Epic 2025 Analysis",
     "section": "Data Collection",
     "text": "Data Collection\nData was scraped from the results page on the Cape Epic website using Selenium. Numbers may vary slighlty from official ones reported by the Cape Epic. At the time of scraping, some data on riders was not available."
   },
@@ -25,7 +25,7 @@
     "href": "blog/index.html",
     "title": "Blog",
     "section": "",
-    "text": "Welcome to my blog! Here you will find posts that explain simple research questions and statistical concepts in accessible language, or small projects that I have worked on and want to showcase.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nTeam pacing\n\n\n\n\n\n\n\n\n\n\n\nMar 28, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nResearch question, hypothesis testing and sample sizes (Continuous data)\n\n\n\n\n\n\n\n\n\n\n\nFeb 19, 2025\n\n\nBrian Brummer\n\n\n\n\n\n\nNo matching items"
+    "text": "Welcome to my blog! Here you will find posts that explain simple research questions and statistical concepts in accessible language, or small projects that I have worked on and want to showcase.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nCape Epic 2025 Analysis\n\n\n\n\n\n\n\n\n\n\n\nMar 28, 2025\n\n\n\n\n\n\n\n\n\n\n\n\nResearch question, hypothesis testing and sample sizes (Continuous data)\n\n\n\n\n\n\n\n\n\n\n\nFeb 19, 2025\n\n\nBrian Brummer\n\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "index.html",
