@@ -7,7 +7,7 @@ format:
     html:
         css: 
         - ../styles.css  # optional custom styling for posts
-        - styles_blog.css          # Blog-specific overrides
+       # - styles_blog.css          # Blog-specific overrides
         resources:
         - shinylive-sw.js
 filters:
