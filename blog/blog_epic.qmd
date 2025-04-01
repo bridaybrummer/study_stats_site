@@ -1,20 +1,14 @@
 ---
-title: "Cape Epic 2025 Analysis"
+title: "Team pacing"
 date: "2025-03-28"
-categories: [Blog, Sport, Cycling]
-excerpt: "An analysis of the Cape Epic 2025 results"
 format:
   html:
-    css: 
-      - ../styles.css         # Optional custom styling for posts
-      - styles_blog.css       # Blog-specific overrides
     resources:
       - shinylive-sw.js
-    height: 10000             # Custom height for HTML rendering (e.g., for ShinyLive apps)
-messages: false
-echo: false
 filters:
   - shinylive
+height: 10000
+echo: false
 ---
 
 ```{r}
@@ -29,31 +23,32 @@ Here is my take on some analyses of the Cape Epic results, through the eyes of e
 
 ## Intention
 
-As a particpant and epidemiologist myself, I was interested in a new analysis challenge. This is one of those typical examples of when you are chatting in the car on the way back from Stage 7 saying, "flip, I wonder how many guys go chicked on each stage", "who had the most consistent race", and instead of just forgetting about it, I took it a bit further. While some of these questions are answered just by assuming what happened to the top teams on TV, I also wanted to place us mere-mortals into context. As a particpant myself, these are some of the questions I had myself. 
+As a particpant and epidemiologist myself, I was interested in a new analysis challenge. This is one of those thinsg of when you are chatting in the car on the way back from Stage 7 saying, "flip, I wonder how many guys got chicked on *that* stage", "who had the most consistent race", and instead of just forgetting about it, I took it a bit further. While some of these questions are answered just by assuming what happened to the top teams on TV, I also wanted to place us mere-mortals into context. As a particpant myself, these are some of the questions I had.
 
-While other analyses are possible, I am limited by what is available online. 
-
-In summary, you can I reported on the following: 
+In summary, I wanted to know: 
 - the "real" mortality rate of riders
-- the mortality rate of teams
 - the average time of categories 
+- A tool to track your position over the stages compared to another team. 
+- How well does prologue time predict overall performance? 
+- The number of riders per capita from each country. 
   
-
+While other, more in depth, analyses are possible, I am limited by the data availble online and my real job. 
 
 ## Data Collection 
 
-Data was scraped form the results page on the Cape Epic website. Numbers may vary slighlty from official ones reported by the Cape Epic. At the time of scraping, some data on riders was not available.
-
+Data was scraped from the results page on the Cape Epic website using Selenium. Numbers may vary slighlty from official ones reported by the Cape Epic. At the time of scraping, some data on riders was not available.
 
 # The real mortality rate 
-The Epic organisers usually report the drop out rate as the drop out rate of teams. While the epic is a *team* event, this is an overestimation of the actual "survival" rate of an individual rider. 
+The Epic organisers usually report the drop out rate as the drop out rate of teams. While the epic is a *team* event, the drop out rate of individuals is much less. I present the survival rate of individuals and teams.
 
-Below is the mortality rate by team 
 
 ```{r}
 #| label: tbl-mortality_rate_by_team
-#| tbl-cap: Table of mortality rate by team
+#| tbl-cap: Comparison of the reported Survival Rate reported by Epic and by the actual survival of individual riders
 #| layout-ncol: 2
+#| tbl-subcap: 
+#|      - "Mortality rate by team"
+#|      - "Mortality rate by rider"
 
 load("outputs/team_mortality_table.rda")
 load("outputs/rider_mortality_table.rda")
@@ -74,11 +69,11 @@ rider_mortality_table %>%
 
 # How many riders get chicked?
 
-Getting chicked is, colloquially, when a male rider is slower than a female rider. The Cape Epic is one fo the few events where Male and Femalre riders ride the exact same course. Unlike Cape Town Cycle Tour or Tour De Femmes. There is emerging data that females may be better at handling fatigure than males 
+Getting chicked is, colloquially, when a male rider is slower than a female rider. The Cape Epic is one fo the few events where Male and Femalre riders ride the exact same course (and it failry similar times), unlike Cape Town Cycle Tour or Tour De Femmes. There is emerging data that females may be better at handling fatigue than males. 
 
 ```{r}
 #| label: tbl-chicked
-#| tbl-cap: Table of riders who got chicked
+#| tbl-cap: Comparing how many riders get chiked by the fastest and sloest UCI women
 #| layout-nrow: 2
 #| tbl-subcap:
 #|        - "Proportion of riders who got chicked by the fastest UCI team"
@@ -92,8 +87,9 @@ chicked_table_slowest_UCI_women
 
 ```
 
+# Track the performance of your team over the stages
 
-# Track the perfomrance of your team over the stages
+If you are interested to see how you paced compared to another team, or the pros, you can use the app below. 
 
 ```{shinylive-r}
 #| standalone: true
@@ -152,9 +148,9 @@ ui <- fluidPage(
         sidebarPanel(
             h4("Welcome! 👋"),
             helpText(
-                "This app visualises stage-by-stage team positions in a multi-day race.",
-                "➤ Select your team and compare it to another — e.g., Hayley Preen’s.",
-                "➤ Search the table to find team numbers by name or team.",
+                "This app visualises stage-by-stage team positions.",
+                "➤ Select your team and compare it to another — e.g., Like the Ladies African Jersey winners (Team 62)",
+                "➤ If you cant remember your team number, search the table to find team numbers by name or team.",
                 "➤ Only categories of the selected teams are shown (others greyed out)."
             ),
             numericInput("selected_team", "Enter a team number (dashed):",
@@ -171,7 +167,7 @@ ui <- fluidPage(
         ),
         mainPanel(
             h5("🔍 Search for a Rider or Team:"),
-            helpText("E.g., search 'Hayley' or your team name."),
+            helpText("E.g., search 'HoneyComb' or your team name."),
             DTOutput("team_table"),
             plotOutput("team_plot", height = "500px")
         )
@@ -343,8 +339,24 @@ shinyApp(ui, server)
 
 # Average time of categories
 
+As an oveall category, the average time of each category is shown below. This unfrotunately, doesn't do a good job of showing the other races that were happening within these categories. 
+
+```{r}
+#| label: fig-cumulative_time_plot
+#| fig-cap: Probability density function of the cumulative time of each category. The x-axis is the cumulative time in seconds and the y-axis is the probability density function. The lines are smoothed using a Gaussian kernel density estimate. 
+#| warning: false
+#| error: false
+#| message: false
+
+
+load("outputs/cumulative_time_plot.rda")
+cumulative_time_plot
+
+```
+
 ```{r}
 #| label: tbl-mean_time_category_tbl
+#| tbl-cap: Table of the mean time of each category. The table shows the mean time in minutes of each category and stage.
 
 load(
     "outputs/mean_time_category_tbl.rda"
@@ -359,6 +371,7 @@ Which country had the higest per capita number of epic riders form their country
 #| label: tbl-riders_per_1_mil_table
 #| tbl-cap: Table of riders per 1 million population of their country
 
+
 load("outputs/riders_per_1_mil_table.rda")
 riders_per_1_mil_table %>%
     flextable::set_table_properties(
@@ -366,21 +379,49 @@ riders_per_1_mil_table %>%
     )
 ```
 
-# How well does prologe result predice overall result? 
+@tbl-tbl-riders_per_1_mil_table is sorted by the highest per capita of riders. Very small countries naturally skew results, however, teams from Switzerland, Namibia, Costa Rica and New Zealand deserve a special mention
+
+# How well does prologe result predict overall result? 
+We all know the saying "You don't win on the prologue, but you can lose", to me this is essentially saying, your prologue doesn't predict your overall performance. 
+
 ```{r}
 #| label: fig-prologue_overall_table
 #| fig-cap: Scatter plot of prologue vs Overall time.
+
 
 load("outputs/prologue_vs_stage_1_plot.rda")
 
 prologue_vs_stage_1_plot
 ```
 
+In @fig-fig-prologue_overall_table, the red line is the 1:1 line, where the prologue time is equal to the overall time. Those on the right of the red line indicate that riders that had a better placement overall than their prologue position. Those on the left of the red line indicate that riders that had a worse placement overall than their prologue position.
+
+```{r}
+#| label: tbl-prediction_accuracy_table
+#| tbl-cap: Table of the prediction accuracy of the prologue time to predict overall time. The table shows the number of teams that were predicted correctly within a certain tolerance.
+
+
+load("outputs/prediction_accuracy_table.rda")
+prediction_accuracy_table
+ 
+
+```
+@tbl-prediction_accuracy_table shows two metrics , Spearman's correlation and R^2. These two metrics show that prologue positions and overall position are quite strongly correlated, although this correlation decreased over the stages. Neither of these metrics account for small changes in position, which may not show well when analyzing all riders, but for the individual riders, it is quite important."
 
 ```{r}
 #| label: tbl-position_accuracy_table
 #| tbl-cap: Table the number of teams that had th same posiiton from the prolgue to overall.
-
+#| include: false 
 load("outputs/position_accuracy_table.rda")
 position_accuracy_table
 ```
+
+
+```{r}
+#| label: fig-accuracy_plot
+#| fig-cap: The accuracy of predicting the position of a team based on the prologue time. 
+load("outputs/accuracy_plot.rda")
+accuracy_plot
+```
+
+@fig-accuracy_plot reports on the accuracy of predicting the position of a team based on the prologue time. The X-axis is the tolerance of the prediction. A tolerance of 100 means that the predicted position is within 100 positions of the actual position. The Y-axis is the proportion of teams that were predicted correctly. Accuracy in this case is calculated as the proportion of correct predictions. 
