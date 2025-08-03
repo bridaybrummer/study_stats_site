@@ -324,7 +324,7 @@ ui &lt;- fluidPage(
       tempInput.select();
       document.execCommand('copy');
       document.body.removeChild(tempInput);
-      alert('Explanation copied to clipboard!');
+      alert('Complete calculation with your current inputs copied to clipboard!');
     }
   ")),
   
@@ -340,7 +340,7 @@ ui &lt;- fluidPage(
     mainPanel(
       h3(textOutput("resultTitle")),
       uiOutput("resultsUI"),
-      tags$button("Copy Explanation", class = "copy-button", onclick = "copyExplanation()"),
+      tags$button("Copy Full Calculation", class = "copy-button", onclick = "copyExplanation()"),
       uiOutput("explanationUI"),
       plotOutput("barPlot")
     )
@@ -395,18 +395,51 @@ server &lt;- function(input, output, session) {
   })
   
   output$explanationUI &lt;- renderUI({
+    sizes &lt;- calc_sample_sizes()
+    z &lt;- calc_z()
+    sens &lt;- input$sens
+    spec &lt;- input$spec
+    d &lt;- input$d
+    alpha &lt;- input$alpha
+    prev &lt;- input$prev
+    confidence_level &lt;- (1 - alpha) * 100
+    
+    # Calculate intermediate values for explanation
+    sens_numerator &lt;- z^2 * sens * (1 - sens)
+    spec_numerator &lt;- z^2 * spec * (1 - spec)
+    denominator &lt;- d^2
+    
     explanation &lt;- paste0(
-      "Example Calculation:\n\n",
-      "Assume you expect a diagnostic test to have a sensitivity and specificity of 90% (0.90),\n",
-      "and you desire a 95% confidence interval (α = 0.05, z ≈ 1.96) with a margin of error of ±5% (0.05).\n",
-      "Using the formula:\n\n",
-      "    n = (z² × p(1-p)) / d²\n\n",
-      "For sensitivity (in diseased subjects):\n",
-      "    n_sens = (1.96² × 0.90×(1-0.90)) / 0.05² ≈ 139\n\n",
-      "For specificity (in non-diseased subjects):\n",
-      "    n_spec = (1.96² × 0.90×(1-0.90)) / 0.05² ≈ 139\n\n",
-      "If the disease prevalence is 10% (0.10), then to obtain about 139 diseased subjects,\n",
-      "the total sample size should be approximately 139 / 0.10 = 1390.\n\n",
+      "CALCULATION BASED ON YOUR INPUTS:\n\n",
+      "Parameters:\n",
+      "• Expected Sensitivity: ", round(sens, 3), " (", round(sens*100, 1), "%)\n",
+      "• Expected Specificity: ", round(spec, 3), " (", round(spec*100, 1), "%)\n",
+      "• Desired Margin of Error: ±", round(d, 3), " (±", round(d*100, 1), "%)\n",
+      "• Confidence Level: ", round(confidence_level, 1), "% (α = ", alpha, ", z = ", round(z, 3), ")\n",
+      "• Disease Prevalence: ", round(prev, 3), " (", round(prev*100, 1), "%)\n\n",
+      "Formula: n = (z² × p(1-p)) / d²\n\n",
+      "For SENSITIVITY (diseased subjects needed):\n",
+      "    n_sens = (", round(z, 3), "² × ", round(sens, 3), " × (1-", round(sens, 3), ")) / ", round(d, 3), "²\n",
+      "    n_sens = (", round(z^2, 3), " × ", round(sens, 3), " × ", round(1-sens, 3), ") / ", round(d^2, 4), "\n",
+      "    n_sens = ", round(sens_numerator, 4), " / ", round(denominator, 4), " = ", round(sens_numerator/denominator, 1), "\n",
+      "    Required diseased subjects: ", sizes$n_disease, "\n\n",
+      "For SPECIFICITY (non-diseased subjects needed):\n",
+      "    n_spec = (", round(z, 3), "² × ", round(spec, 3), " × (1-", round(spec, 3), ")) / ", round(d, 3), "²\n",
+      "    n_spec = (", round(z^2, 3), " × ", round(spec, 3), " × ", round(1-spec, 3), ") / ", round(d^2, 4), "\n",
+      "    n_spec = ", round(spec_numerator, 4), " / ", round(denominator, 4), " = ", round(spec_numerator/denominator, 1), "\n",
+      "    Required non-diseased subjects: ", sizes$n_nondisease, "\n\n",
+      "TOTAL SAMPLE SIZE CALCULATIONS:\n",
+      "Given disease prevalence of ", round(prev*100, 1), "% (", round(prev, 3), "):\n\n",
+      "To obtain ", sizes$n_disease, " diseased subjects:\n",
+      "    Total needed = ", sizes$n_disease, " / ", round(prev, 3), " = ", sizes$total_disease, "\n\n",
+      "To obtain ", sizes$n_nondisease, " non-diseased subjects:\n",
+      "    Total needed = ", sizes$n_nondisease, " / ", round(1-prev, 3), " = ", sizes$total_nondisease, "\n\n",
+      "FINAL RECOMMENDATION:\n",
+      "Overall total sample size required: ", sizes$overall_total, " participants\n",
+      "(This is the larger of the two total sample size estimates)\n\n",
+      "With this sample size, you can expect:\n",
+      "• Approximately ", round(sizes$overall_total * prev), " diseased subjects\n",
+      "• Approximately ", round(sizes$overall_total * (1-prev)), " non-diseased subjects\n\n",
       "Reference: Buderer, N. M. F. (1996). Statistical methodology: I. Incorporating the prevalence of disease into the sample size calculation for sensitivity and specificity. Academic Emergency Medicine, 3(9), 895-900."
     )
     
