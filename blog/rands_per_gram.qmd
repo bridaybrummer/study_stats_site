@@ -388,7 +388,7 @@ all_products %>%
     arrange(desc(rand_per_gram), Brand) %>%
     DT::datatable(
         options = list(
-            pageLength = 10,
+            pageLength = 5,
             scrollX = TRUE,
             autoWidth = TRUE,
             columnDefs = list(list(className = "dt-center", targets = "_all"))
@@ -623,6 +623,7 @@ plot_ly() %>%
 ```
 
 ```{r}
+
 # plotly ver 2
 
 # Apply emoji labels to x-axis
@@ -727,6 +728,9 @@ plot_ly() %>%
 
 
 ```{r}
+#| height: 10000
+
+
 # how much money would you spend on 300g of carbs (say a sub-3 cycle tour)
 
 all_products %>%
@@ -856,16 +860,27 @@ library(scales)
 library(forcats)
 
 # Sort by cost
-all_products_sub_3_ct <- all_products %>%
+all_products %>%
     ungroup() %>%
     mutate(
         sub_3_ct_cost = round((300 / Carbs_per_Serving) * Price_ZAR)
     ) %>%
+    mutate(Product = as.character(Product)) %>%
     select(Brand, Product, sub_3_ct_cost) %>%
-    arrange(desc(sub_3_ct_cost)) %>%
+    # arrange(desc(sub_3_ct_cost)) %>%
+    # arrange the most expensive brand and then expensive product to least within each brand
+    group_by(Brand) %>%
+    mutate(avg_brand_cost = mean(sub_3_ct_cost)) %>%
+    ungroup() %>%
+    arrange(desc(avg_brand_cost), .by_group = TRUE) %>%
     mutate(
-        Product = fct_reorder(Product, sub_3_ct_cost)
-    )
+        Product = factor(
+            Product,
+            levels = Product
+        )
+    ) %>%
+    ungroup() -> all_products_sub_3_ct_order
+
 
 # Plot
 p <- ggplot(all_products_sub_3_ct, aes(
@@ -888,11 +903,11 @@ p <- ggplot(all_products_sub_3_ct, aes(
         title = "Cost of 300g Carbohydrates per Product",
         x = "Cost (ZAR)", y = NULL, fill = "Brand"
     ) +
-    theme_minimal(base_size = 14) +
+    theme_minimal(base_size = 10) +
     theme(
-        axis.text.y = element_text(size = 10),
+        axis.text.y = element_blank(),
         legend.position = "bottom",
-        plot.title = element_text(face = "bold", size = 16)
+        plot.title = element_text(face = "bold", size = 10)
     )
 
 # Interactive version
