@@ -31,10 +31,10 @@ citation-location: margin
 ---
 
 # Introduction
-This post is a look at the cost of sports nutrition in South Africa, specifically looking at the cost per gram of carbohydrates. The goal is to provide a quick reference for athletes and cyclists to make informed decisions about their nutrition choices based on cost-effectiveness. While sports nutrition products do offer other things like caffeine, "electrolytes" in various forms, we felt that the cost and grams of carbohydrate are the first things to consider when planning training and racing.
+This post is a look at the cost of sports nutrition in South Africa, specifically looking at the cost per gram of carbohydrates. The goal is to provide a quick reference for athletes and cyclists to make informed decisions about their nutrition choices based on cost-effectiveness. While sports nutrition products do offer other things like caffeine, "electrolytes" in various forms, we felt that the cost and grams of carbohydrate are the first things to consider when planning trainig and racing.
 
 # Methodology
-We used chatbots to scrape prices from websites and included the website the price was taken from so that each price was then checked. We collected claimed product weight and carbohydrate contents from the nutrition label and the price from the website to calculate the rands per gram. We divided products into four categories: gels, bars, drink mixes, and everyday foods for real-life comparisons.
+We used chatbots to scrape prices from websites and include the website the price was taken from so that each price was then checked. We collected claimed product weight and carbohydrate contents from the nutrition label and the price from the website to calculate the rands per gram. We divided products into four categories: gels, bars, drink mixes, and everyday foods for real-life comparisons.
 
 
 ```{r}
@@ -388,7 +388,7 @@ all_products %>%
     arrange(desc(rand_per_gram), Brand) %>%
     DT::datatable(
         options = list(
-            pageLength = 5,
+            pageLength = 10,
             scrollX = TRUE,
             autoWidth = TRUE,
             columnDefs = list(list(className = "dt-center", targets = "_all"))
@@ -623,7 +623,6 @@ plot_ly() %>%
 ```
 
 ```{r}
-
 # plotly ver 2
 
 # Apply emoji labels to x-axis
@@ -728,9 +727,6 @@ plot_ly() %>%
 
 
 ```{r}
-#| height: 10000
-
-
 # how much money would you spend on 300g of carbs (say a sub-3 cycle tour)
 
 all_products %>%
@@ -860,27 +856,16 @@ library(scales)
 library(forcats)
 
 # Sort by cost
-all_products %>%
+all_products_sub_3_ct <- all_products %>%
     ungroup() %>%
     mutate(
         sub_3_ct_cost = round((300 / Carbs_per_Serving) * Price_ZAR)
     ) %>%
-    mutate(Product = as.character(Product)) %>%
     select(Brand, Product, sub_3_ct_cost) %>%
-    # arrange(desc(sub_3_ct_cost)) %>%
-    # arrange the most expensive brand and then expensive product to least within each brand
-    group_by(Brand) %>%
-    mutate(avg_brand_cost = mean(sub_3_ct_cost)) %>%
-    ungroup() %>%
-    arrange(desc(avg_brand_cost), .by_group = TRUE) %>%
+    arrange(desc(sub_3_ct_cost)) %>%
     mutate(
-        Product = factor(
-            Product,
-            levels = Product
-        )
-    ) %>%
-    ungroup() -> all_products_sub_3_ct_order
-
+        Product = fct_reorder(Product, sub_3_ct_cost)
+    )
 
 # Plot
 p <- ggplot(all_products_sub_3_ct, aes(
@@ -903,11 +888,11 @@ p <- ggplot(all_products_sub_3_ct, aes(
         title = "Cost of 300g Carbohydrates per Product",
         x = "Cost (ZAR)", y = NULL, fill = "Brand"
     ) +
-    theme_minimal(base_size = 10) +
+    theme_minimal(base_size = 14) +
     theme(
-        axis.text.y = element_blank(),
+        axis.text.y = element_text(size = 10),
         legend.position = "bottom",
-        plot.title = element_text(face = "bold", size = 10)
+        plot.title = element_text(face = "bold", size = 16)
     )
 
 # Interactive version
@@ -931,10 +916,10 @@ ggplotly(p, tooltip = "text") %>%
 
 
 # Limitations
-Prices, stock, specials and discount codes may influence prices here. Carbohydrate composition (glucose:fructose ratio), and sodium content of the products are not considered. The carbohydrate content of the products is based on the manufacturer's claims, and may not be accurate. The actual vs claimed carbohydrate is not measured, nor is the amount of residual product that is left in the product packaging accounted for. We also did not account for the ease of use of the product such as gel-opening failure rates, or how long a drink mix may take to dissolve. We also did not measure how long it may take to consume a given amount of carbohydrate for each product. 
+Prices, stock, specials and discount codes may influence prices here. Carbohydrate composition (glucose:fructose ratio), and sodium content of the products are not considered. The carbohydrate content of the products is based on the manufacturer's claims, and may not be accurate. The actual vs claimed carbohydrate is not measured, nor is the amount of residual product that is left in the product packaging accounted for. We also did not account for the ease of use of the product such gel-opening failure rates, or how long a drink mix may take to dissolve. We also did not measure how long it may take to consume x amount of carbohydrate for each product. 
 
 # Conclusion 
-Assuming all other things are equal, the rand per gram may be a simple way to guide purchasing decisions. Gel products are the most expensive, followed by bars and drink mixes. 
+Assuming all other things equal, the rand per gram may be a simple was to guide purchasing decisions. Gel products are the most expensive, followed by bars and drink mixes. 
 
 # Practical Applications
 High value gel products should not cost more than double the rands for the amount of carbohydrate they contain. For instance, a gel that contains 30g of carbohydrate should not cost more than R60. 
@@ -943,14 +928,15 @@ High value drink mix products should contain double the amount of carbohydrate p
 
 # Not medical advice but food for thought
 
-There is evidence to suggest that oxidation rates of gels, bars and drink mixes do not differ when matched with liquid consumption [@jeukendrup2014StepPersonalizedSports; @pfeiffer2010CHOOxidationCHO; @pfeiffer2010OxidationSolidLiquid] and therefore the product type should be chosen based on personal preference, such as convenience or taste, instead of for "performance" reasons. 
+There is evidence to suggest that oxidation rates of gels, bars and drinks mixes do not differ when matched with liquid consumption [@jeukendrup2014StepPersonalizedSports; @pfeiffer2010CHOOxidationCHO; @pfeiffer2010OxidationSolidLiquid] and therefore the the product type should be chosen based on personal preference, such as convenience or taste, instead of for "performance" reasons. 
 
 Products may market natural flavoring or high quality ingredients as reasons that they are better than other products, but there is evidence to suggest that the body does not actually know the difference between food sources marketed as sports food and those that are not [@cramer2015PostexerciseGlycogenRecovery; @flynn2020MalesFemalesExhibit; @jeukendrup2014StepPersonalizedSports; @trommelen2017FructoseSucroseIntake].
 
 Anecdotally from this exercise, we noticed that isotonic or high sodium products (like GU Roctane, or "hydrogel" products) are much more expensive than their "normal" counterparts with the main difference being sodium content. Sodium exists in table salt and is cheap to supplement into your drink mixes based on your own needs. 
 
-Since glucose transport is saturated at 60g/hr based on the maximal transport from SGLT1, fructose is the carbohydrate type that can be increased based on increasing needs (intensity or duration) [@jeukendrup2014StepPersonalizedSports]. Fructose is cheap and relatively available at pharmacies or large grocery stores. It can be supplemented into existing drink mixes based on the intensity. The more intense, the more fructose to add. For instance, a 90g CHO serving from a product marketed as a 2:1 ratio can have an additional 30g fructose added for a 120g CHO serving without saturating the SGLT1 transporter.
+Since glucose transport is saturated at 60g/hr based on the maximal transport from SGLT1, fructose is the carbohydrate type that can be increased based on increasing needs (intensity or duration) [@jeukendrup2014StepPersonalizedSports]. Fructose is cheap and relatively available at pharmacies or large grocery stores. It can be supplemented into existing drink mixes based on the intensity. The more intense, the more fructose to add. For instance a 90g CHO serving from a product marketed as a 2:1 ratio can have an additional 30g fructose added for a 120g CHO serving without saturating the SGLT1 transporter.
 
 
 *Note: This analysis is for informational purposes only and should not be considered medical or nutritional advice. Always consult with qualified healthcare professionals before making significant changes to your nutrition or supplementation strategy.*
+
 
