@@ -39,4 +39,16 @@ format:
     include-before-body: before.html
     include-after: after.html
     output-dir: public
+    citations-hover: true
+    footnotes-hover: true
+    smooth-scroll: true
+    toc: true
+    toc-depth: 3
+    link-external-newwindow: true
+    reference-location: margin
+    citation-location: margin
 editor: source
+
+# Global citation settings
+cite-method: citeproc
+csl: https://www.zotero.org/styles/apa-6th-edition

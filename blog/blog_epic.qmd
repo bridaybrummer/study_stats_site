@@ -24,7 +24,7 @@ conflicted::conflicts_prefer( dplyr::filter)
 
 ```
 # Epic 2025 Analysis
-Here is my take on some analyses of the Cape Epic results, through the eyes of en epidemiologist-competitor, if you will. 
+Here is my take on some analyses of the Cape Epic results, through the eyes of an epidemiologist-competitor, if you will. 
 
 ## Intention
 
@@ -37,11 +37,11 @@ In summary, I wanted to know:
 - How well does prologue time predict overall performance? 
 - The number of riders per capita from each country. 
   
-While other, more in depth, analyses are possible, I am limited by the data availble online and my real job. 
+While other, more in depth, analyses are possible, I am limited by the data available online and my real job. 
 
 ## Data Collection 
 
-Data was scraped from the results page on the Cape Epic website using Selenium. Numbers may vary slighlty from official ones reported by the Cape Epic. At the time of scraping, some data on riders was not available.
+Data was scraped from the results page on the Cape Epic website using Selenium. Numbers may vary slightly from official ones reported by the Cape Epic. At the time of scraping, some data on riders was not available.
 
 # The real mortality rate 
 The Epic organisers usually report the drop out rate as the drop out rate of teams. While the epic is a *team* event, the drop out rate of individuals is much less. I present the survival rate of individuals and teams.
@@ -74,7 +74,7 @@ rider_mortality_table %>%
 
 # How many riders get chicked?
 
-Getting chicked is, colloquially, when a male rider is slower than a female rider. The Cape Epic is one fo the few events where Male and Femalre riders ride the exact same course (and it failry similar times), unlike Cape Town Cycle Tour or Tour De Femmes. There is emerging data that females may be better at handling fatigue than males. 
+Getting chicked is, colloquially, when a male rider is slower than a female rider. The Cape Epic is one of the few events where Male and Female riders ride the exact same course (and at fairly similar times), unlike Cape Town Cycle Tour or Tour De Femmes. There is emerging data that females may be better at handling fatigue than males. 
 
 ```{r}
 #| label: tbl-chicked
@@ -146,17 +146,17 @@ ui <- fluidPage(
     ),
     tags$script(HTML("
     setTimeout(function() {
-      document.querySelector('h4').innerText = 'Ready to explore your race story? 🚴‍♀️✨';
+      document.querySelector('h4').innerText = 'Search for teams and riders';
     }, 4000);
   ")),
     sidebarLayout(
         sidebarPanel(
-            h4("Welcome! 👋"),
+            h4("Welcome!"),
             helpText(
                 "This app visualises stage-by-stage team positions.",
-                "➤ Select your team and compare it to another — e.g., Like the Ladies African Jersey winners (Team 62)",
-                "➤ If you cant remember your team number, search the table to find team numbers by name or team.",
-                "➤ Only categories of the selected teams are shown (others greyed out)."
+                "Select your team and compare it to another — e.g., Like the Ladies African Jersey winners (Team 62)",
+                "If you can't remember your team number, search the table to find team numbers by name or team.",
+                "Only categories of the selected teams are shown (others greyed out)."
             ),
             numericInput("selected_team", "Enter a team number (dashed):",
                 value = 188,
@@ -171,7 +171,7 @@ ui <- fluidPage(
             verbatimTextOutput("category_text")
         ),
         mainPanel(
-            h5("🔍 Search for a Rider or Team:"),
+            h5("Search for a Rider or Team:"),
             helpText("E.g., search 'HoneyComb' or your team name."),
             DTOutput("team_table"),
             plotOutput("team_plot", height = "500px")
@@ -331,7 +331,7 @@ server <- function(input, output) {
                     x = "Stage",
                     y = "Position (higher is better)",
                     title = "Team Position by Stage",
-                    subtitle = "Selected categories are shown in a bold dot-dahsed line. The rest of the category of the selected teams are show in a thin solid line in the same colour. All other categories are in a faint grey line."
+                    subtitle = "Selected categories are shown in a bold dot-dashed line. The rest of the category of the selected teams are shown in a thin solid line in the same colour. All other categories are in a faint grey line."
                 ) +
                 theme_minimal() +
                 theme(legend.position = "bottom")
@@ -344,7 +344,7 @@ shinyApp(ui, server)
 
 # Average time of categories
 
-As an oveall category, the average time of each category is shown below. This unfrotunately, doesn't do a good job of showing the other races that were happening within these categories. 
+As an overall category, the average time of each category is shown below. This unfortunately, doesn't do a good job of showing the other races that were happening within these categories. 
 
 ```{r}
 #| label: fig-cumulative_time_plot
@@ -370,7 +370,7 @@ mean_time_category_tbl
 ```
 
 # Who what and where
-Which country had the higest per capita number of epic riders form their country? 
+Which country had the highest per capita number of epic riders from their country? 
 
 ```{r}
 #| label: tbl-riders_per_1_mil_table
@@ -386,7 +386,7 @@ riders_per_1_mil_table %>%
 
 @tbl-riders_per_1_mil_table is sorted by the highest per capita of riders. Very small countries naturally skew results, however, teams from Switzerland, Namibia, Costa Rica and New Zealand deserve a special mention
 
-# How well does prologe result predict overall result? 
+# How well does prologue result predict overall result? 
 We all know the saying "You don't win on the prologue, but you can lose", to me this is essentially saying, your prologue doesn't predict your overall performance. 
 
 ```{r}
@@ -415,7 +415,7 @@ prediction_accuracy_table
 
 ```{r}
 #| label: tbl-position_accuracy_table
-#| tbl-cap: Table the number of teams that had th same posiiton from the prolgue to overall.
+#| tbl-cap: Table of the number of teams that had the same position from the prologue to overall.
 #| include: false 
 load("outputs/position_accuracy_table.rda")
 position_accuracy_table
