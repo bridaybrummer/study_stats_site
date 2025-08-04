@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Brian Brummer">
+<meta name="dcterms.date" content="2025-02-19">
 
-<title>Tools – STUDYSTATS</title>
+<title>Research question, hypothesis testing and sample sizes (Continuous data) – STUDYSTATS</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -30,8 +32,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
-<script src="../site_libs/quarto-listing/list.min.js"></script>
-<script src="../site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="../site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
@@ -72,35 +72,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-MKT52KHL7C"></script>
 
 <script type="text/plain" cookie-consent="tracking">
@@ -160,6 +131,8 @@ window.Quarto = {
 };
 </script>
 
+<link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="styles_blog.css">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -199,7 +172,7 @@ window.Quarto = {
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../tools/index.html" aria-current="page"> 
+    <a class="nav-link" href="../tools/index.html"> 
 <span class="menu-text">Tools</span></a>
   </li>  
   <li class="nav-item">
@@ -221,8 +194,22 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#research-question-to-hypothesis-to-sample-size" id="toc-research-question-to-hypothesis-to-sample-size" class="nav-link active" data-scroll-target="#research-question-to-hypothesis-to-sample-size">Research question to Hypothesis to Sample Size</a>
+  <ul class="collapse">
+  <li><a href="#a-good-research-question" id="toc-a-good-research-question" class="nav-link" data-scroll-target="#a-good-research-question">A good research question</a></li>
+  <li><a href="#we-should-keep-in-mind" id="toc-we-should-keep-in-mind" class="nav-link" data-scroll-target="#we-should-keep-in-mind">We should keep in mind</a></li>
+  </ul></li>
+  <li><a href="#hypothesis" id="toc-hypothesis" class="nav-link" data-scroll-target="#hypothesis">Hypothesis</a></li>
+  <li><a href="#sample-size-calculations" id="toc-sample-size-calculations" class="nav-link" data-scroll-target="#sample-size-calculations">Sample Size Calculations</a></li>
+  <li><a href="#what-will-this-data-look-like" id="toc-what-will-this-data-look-like" class="nav-link" data-scroll-target="#what-will-this-data-look-like">What will this data look like?</a></li>
+  <li><a href="#in-summary" id="toc-in-summary" class="nav-link" data-scroll-target="#in-summary">In Summary</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -236,14 +223,31 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Tools</h1>
-</div>
+<h1 class="title">Research question, hypothesis testing and sample sizes (Continuous data)</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Blog</div>
+    <div class="quarto-category">Statistics</div>
+    <div class="quarto-category">Sample Size</div>
+  </div>
+  </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Brian Brummer </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 19, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -253,106 +257,609 @@ window.Quarto = {
 </header>
 
 
-<p>We have a set of tools for estimating sample sizes.</p>
+<section id="research-question-to-hypothesis-to-sample-size" class="level1">
+<h1>Research question to Hypothesis to Sample Size</h1>
+<p>Most research needs to have a <strong>research question</strong>, which means you have to have a hypothesis to test and sufficient data to demonstrate whether to accept or reject your hypothesis.</p>
+<section id="a-good-research-question" class="level2">
+<h2 class="anchored" data-anchor-id="a-good-research-question">A good research question</h2>
+<p>An effective research question must include:</p>
+<ul>
+<li><p>An <strong>outcome measure</strong> (e.g., weight, height, success, failure, pain score, anxiety score)</p></li>
+<li><p>An <strong>exposure or intervention</strong> (e.g., surgery, time, diagnosis, treatment)</p></li>
+<li><p>An idea of the <strong>direction and magnitude</strong> of the difference between the groups (e.g., higher, lower, different)</p></li>
+</ul>
+<p>For example, a simple research question might be:</p>
+<blockquote class="blockquote">
+<p><strong>To determine whether the height</strong> (outcome) <strong>between orthopaedic surgeons and ophthalmologists</strong> (exposure: type of specialty) <strong>differs by 10cm</strong> (magnitude of difference).</p>
+</blockquote>
+</section>
+<section id="we-should-keep-in-mind" class="level2">
+<h2 class="anchored" data-anchor-id="we-should-keep-in-mind">We should keep in mind</h2>
+<ul>
+<li>we can also keep in mind the data types. Briefly, data types can be:
+<ul>
+<li><strong>Continuous</strong> (e.g., height, weight, blood pressure)</li>
+<li><strong>Categorical</strong> (e.g., HIV stage, Death, Complication)</li>
+</ul></li>
+</ul>
+<hr>
+</section>
+</section>
+<section id="hypothesis" class="level1">
+<h1>Hypothesis</h1>
+<p>The <strong>null hypothesis (H₀)</strong> represents the status quo or the assumption of no difference. To show that there is a difference, you must disprove H₀.</p>
+<ul>
+<li><strong>Null hypothesis (H₀):</strong> The heights are <strong>not different by more than 10cm</strong> between the two groups.</li>
+<li><strong>Alternative hypothesis (H₁):</strong> The heights <strong>are different by more than 10cm</strong>.</li>
+</ul>
+<p>By disproving H₀, you support H₁.</p>
+<hr>
+</section>
+<section id="sample-size-calculations" class="level1">
+<h1>Sample Size Calculations</h1>
+<p>A simplified formula for the sample size required for detecting a difference between two means (or continuous variables) is:</p>
+<p><span class="math display">\[
+n = \frac{\left(Z_{1-\alpha/2} + Z_{1-\beta}\right)^2 \, \sigma^2}{\Delta^2}
+\]</span></p>
+<p>We need to fill in some values with our best guesses, or info from exisitng literature.</p>
+<p>Where:</p>
+<ul>
+<li><span class="math inline">\(( Z_{1-\alpha/2} )\)</span> won’t change and is the critical value for the desired confidence level (e.g., 1.96 for 95% confidence).</li>
+<li><span class="math inline">\(( Z_{1-\beta} )\)</span> won’t change and is the critical value for the desired power (e.g., 0.84 for 80% power).</li>
+<li><span class="math inline">\(( \Delta )\)</span> is the minimum detectable difference (we set this to 10 cm).</li>
+<li><span class="math inline">\(( \sigma )\)</span> is the standard deviation of the outcome.</li>
+</ul>
+<p>In normal language: We want to show atleast the <span class="math inline">\(\Delta\)</span> between the two groups. I like to call <span class="math inline">\(\Delta\)</span> the minimum detectable difference - If the actual difference is smaller than 10cm, we will not be able to detect it.</p>
+<p>You must also consider the variability in each group. In other words each persons height will vary, or is spread around the mean. We describe this by the <strong>standard deviation (SD)</strong> (σ) of the outcome. As a sample size increases, the SD becomes narrower.</p>
+<blockquote class="blockquote">
+<p>SD is calculated by taking the square root of the differences between each value and the mean, squaring them, summing them, and dividing by the number of values.</p>
+</blockquote>
+</section>
+<section id="what-will-this-data-look-like" class="level1">
+<h1>What will this data look like?</h1>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 12.5</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ResearchQuestion_SampleSize_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code>
+     Two-sample t test power calculation 
+
+              n = 142.2462
+              d = 0.3333333
+      sig.level = 0.05
+          power = 0.8
+    alternative = two.sided
+
+NOTE: n is number in *each* group</code></pre>
+</div>
+</div>
+<p>Finding a difference that is equal to the to or more than the standard deviation is ideal but this is generally not the case in real life, often you may wish to find a smaller difference with a much larger spread of data around a mean. Remember spread (or variance) can be affect by the natural variablitly of the event you are observing or the measurement process itself. Think of how much variation you see in the measuremnts you observe each day, from patietns weight, CD4 count, blood pressure, etc.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ResearchQuestion_SampleSize_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<hr>
+</section>
+<section id="in-summary" class="level1">
+<h1>In Summary</h1>
+<p>Research Question: <strong>To determine whether the height between orthopaedic surgeons and ophthalmologists differs by 10cm.</strong></p>
+<p>Null Hypothesis: <strong>The heights are not different by more than 10cm between the two groups.</strong></p>
+<p>A p-value of &lt;0.05 means we reject the null hypothesis and accept the alternative hypothesis.</p>
+<p>We determined the sample size by calculating the number of participants needed to detect a difference of 10 cm with a power of 80% and a significance level of 5%. Both groups had a standard deviation of 15 cm. This results in a sample size of 142 (or 71 per group).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="ResearchQuestion_SampleSize_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="wztxyiiewn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#wztxyiiewn table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#wztxyiiewn thead, #wztxyiiewn tbody, #wztxyiiewn tfoot, #wztxyiiewn tr, #wztxyiiewn td, #wztxyiiewn th {
+  border-style: none;
+}
+
+#wztxyiiewn p {
+  margin: 0;
+  padding: 0;
+}
+
+#wztxyiiewn .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#wztxyiiewn .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#wztxyiiewn .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#wztxyiiewn .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#wztxyiiewn .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#wztxyiiewn .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#wztxyiiewn .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#wztxyiiewn .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#wztxyiiewn .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#wztxyiiewn .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#wztxyiiewn .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#wztxyiiewn .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#wztxyiiewn .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#wztxyiiewn .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#wztxyiiewn .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wztxyiiewn .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#wztxyiiewn .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#wztxyiiewn .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#wztxyiiewn .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wztxyiiewn .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#wztxyiiewn .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wztxyiiewn .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#wztxyiiewn .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wztxyiiewn .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wztxyiiewn .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wztxyiiewn .gt_left {
+  text-align: left;
+}
+
+#wztxyiiewn .gt_center {
+  text-align: center;
+}
+
+#wztxyiiewn .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#wztxyiiewn .gt_font_normal {
+  font-weight: normal;
+}
+
+#wztxyiiewn .gt_font_bold {
+  font-weight: bold;
+}
+
+#wztxyiiewn .gt_font_italic {
+  font-style: italic;
+}
+
+#wztxyiiewn .gt_super {
+  font-size: 65%;
+}
+
+#wztxyiiewn .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#wztxyiiewn .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#wztxyiiewn .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#wztxyiiewn .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#wztxyiiewn .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#wztxyiiewn .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#wztxyiiewn .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#wztxyiiewn .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#wztxyiiewn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="label"><span data-qmd-base64="KipDaGFyYWN0ZXJpc3RpYyoq"><span class="gt_from_md"><strong>Characteristic</strong></span></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span data-qmd-base64="KipPcGh0aGFsbW9sb2dpc3QqKiAgCk4gPSA3MSAoKio5NSUgQ0kqKik="><span class="gt_from_md"><strong>Ophthalmologist</strong><br>
+N = 71 (<strong>95% CI</strong>)</span></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span data-qmd-base64="KipPcnRob3BhZWRpYyoqICAKTiA9IDcxICgqKjk1JSBDSSoqKQ=="><span class="gt_from_md"><strong>Orthopaedic</strong><br>
+N = 71 (<strong>95% CI</strong>)</span></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value"><span data-qmd-base64="KipwLXZhbHVlKio="><span class="gt_from_md"><strong>p-value</strong></span></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">height</td>
+<td headers="stat_1" class="gt_row gt_center">168 (28) (162, 175)</td>
+<td headers="stat_2" class="gt_row gt_center">182 (27) (175, 188)</td>
+<td headers="p.value" class="gt_row gt_center">0.004</td></tr>
+  </tbody>
+  <tfoot class="gt_sourcenotes">
+    <tr>
+      <td class="gt_sourcenote" colspan="4"><span data-qmd-base64="QWJicmV2aWF0aW9uOiBDSSA9IENvbmZpZGVuY2UgSW50ZXJ2YWw="><span class="gt_from_md">Abbreviation: CI = Confidence Interval</span></span></td>
+    </tr>
+  </tfoot>
+  <tfoot class="gt_footnotes">
+    <tr>
+      <td class="gt_footnote" colspan="4"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span data-qmd-base64="TWVhbiAoU0Qp"><span class="gt_from_md">Mean (SD)</span></span></td>
+    </tr>
+    <tr>
+      <td class="gt_footnote" colspan="4"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> <span data-qmd-base64="V2VsY2ggVHdvIFNhbXBsZSB0LXRlc3Q="><span class="gt_from_md">Welch Two Sample t-test</span></span></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+</div>
 
 
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="c3RhdGlzdGljcyUyQ3R0ZXN0JTJDc2FtcGxlc2l6ZQ==" data-listing-date-sort="1740002400000" data-listing-file-modified-sort="1740993052392" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1440">
-<div class="thumbnail"><a href="../tools/shiny_sample_size_ttest.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../tools/shiny_sample_size_ttest.html" class="no-external">Comparing two averages (means)</a>
-</h3>
-<div class="delink listing-description"><a href="../tools/shiny_sample_size_ttest.html" class="no-external">
-
-    <p></p>
-  
-</a></div>
-</div>
-<div class="metadata">
-<a href="../tools/shiny_sample_size_ttest.html" class="no-external">
-<div class="listing-date">
-Feb 20, 2025
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="c3RhdGlzdGljcyUyQ3NoaW55JTJDYmxvZw==" data-listing-date-sort="1740002400000" data-listing-file-modified-sort="1741009024797" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2736">
-<div class="thumbnail"><a href="../tools/shiny_sample_size_prevalence.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../tools/shiny_sample_size_prevalence.html" class="no-external"><strong>Prevalence Study</strong> sample size calculator</a>
-</h3>
-<div class="delink listing-description"><a href="../tools/shiny_sample_size_prevalence.html" class="no-external">
-We often want to estimate the <strong>prevalence</strong> in a population (i.e., the proportion of individuals with a certain condition). For example, if we want to estimate the prevalence…
-</a></div>
-</div>
-<div class="metadata">
-<a href="../tools/shiny_sample_size_prevalence.html" class="no-external">
-<div class="listing-date">
-Feb 20, 2025
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="c3RhdGlzdGljcyUyQ3NoaW55JTJDYmxvZw==" data-listing-date-sort="1740002400000" data-listing-file-modified-sort="1743156406572" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1012">
-<div class="thumbnail"><a href="../tools/shiny_sample_size_log_regression.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../tools/shiny_sample_size_log_regression.html" class="no-external"><strong>Logistic Regression</strong> Sample Size Calculator</a>
-</h3>
-<div class="delink listing-description"><a href="../tools/shiny_sample_size_log_regression.html" class="no-external">
-A <strong>logistic regression</strong> has the output of Odds Ratios (OR) and is usually used when the outcome is binary (e.g.&nbsp;yes/no, success/failure). We usually use a logistic regression…
-</a></div>
-</div>
-<div class="metadata">
-<a href="../tools/shiny_sample_size_log_regression.html" class="no-external">
-<div class="listing-date">
-Feb 20, 2025
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="c3RhdGlzdGljcyUyQ3NoaW55JTJDYmxvZw==" data-listing-date-sort="1740002400000" data-listing-file-modified-sort="1754290150734" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1960">
-<div class="thumbnail"><a href="../tools/shiny_sample_size_diagnostics_sensitivity_specificity.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../tools/shiny_sample_size_diagnostics_sensitivity_specificity.html" class="no-external"><strong>Diagnostic Accuracy</strong> (sensitivity/specificity) Sample Size Calculator</a>
-</h3>
-<div class="delink listing-description"><a href="../tools/shiny_sample_size_diagnostics_sensitivity_specificity.html" class="no-external">
-Diagnostics studies are relatively simple to conduct but require careful planning and data collection. It is important to identify gold standard test and diagnostic criteria…
-</a></div>
-</div>
-<div class="metadata">
-<a href="../tools/shiny_sample_size_diagnostics_sensitivity_specificity.html" class="no-external">
-<div class="listing-date">
-Feb 20, 2025
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
