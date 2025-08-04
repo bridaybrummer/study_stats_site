@@ -387,7 +387,10 @@ all_products %>%
     select(Brand, Product, rand_per_gram, Carbs_per_Serving, Price_ZAR, Serving_Size, , Source_Link) %>%
     arrange(desc(rand_per_gram), Brand) %>%
     DT::datatable(
+        extensions = 'Buttons',
         options = list(
+                    dom = 'Bfrtip',
+        buttons = c('csv', 'excel'),
             pageLength = 5,
             scrollX = TRUE,
             autoWidth = TRUE,
