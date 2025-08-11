@@ -1,0 +1,49 @@
+---
+title: ""
+---
+
+## Activities
+
+### Protocol and Thesis Methodology Writing
+
+A protocol is your road map. It is your backup when things become confusing later down the line. If you have found our services and you are busy writing your protocol, it is good to touch base and we can advise on what kind of analyses can and cannot answer your research question and ensure your aims and objectives have their statistical partner.
+
+### Sample Size Calculations
+
+Collaboratively determining sample sizes is a crucial step in your research journey. Our team works with Principal Investigators to refine sample size calculations, incorporating prior work from literature reviews and ensuring statistical validity. Large analyses of secondary dataset may not require a formal sample size calculation but reporting some known sample size of the dataset is favourable.
+
+### Data Wrangling
+
+Data Wrangling---the art of refining and organizing raw data to ensure it's in optimal shape for analysis. We conduct simple variable recoding up to more complex dataset merging or probablisitc record linkage studies. Useful solutions also inlude natural language text processing, which involved transforming high-volume free-text responses into structured and analyzable data.
+
+### Statistical Analysis
+
+Our expertise covers a spectrum of statistical analyses, including descriptive statistics (mean, median), basic comparisons (chi-squared, Fischer's exact, Wilcoxon, etc.), regression models, survival analysis, and Cox proportional and extended hazard models for longitudinal cohort studies and clinical trials.
+
+### Cost-Effectiveness and QALY Calculations
+
+We can assist in navigating the complexities of cost-effectiveness and Quality-Adjusted Life Year (QALY) calculations however this is not an area of expertise.
+
+### Publication-Ready Tables
+
+Transforming your data into compelling and publication-ready tables is a critical step in presenting your findings. We have a strong focus on ensuring that your tables are formatted, clean and logical. We also ensure that tables formatting align with the standards of your target journal.
+
+### Figures
+
+We offer extended consulting for the creation of specific figures, including bar graphs, line graphs, and Likert scale graphs when the figure are more efficient than tables.
+
+### Assistance and Consulting
+
+Beyond data analysis, we provide comprehensive assistance and consulting on result interpretation and discussion writing. Although it is often overlooked, we take pride in understanding the exact metric we report on and know what you can and cannot say about your data. Our goal is to ensure that the statistical aspects of your research are presented with clarity and depth.
+
+### Real-time trial monitoring
+
+While this has been set up in theory, it has not yet been done practically for a client. For those wishing to follow the results of their project in near real-time and are collecting data with an active API we may create simple tables and analsyes that run and indicate when your sample size has reached saturation. This may be useful if there is uncertainty in your sample size calculation or if resources per participant is expensive.
+
+## Limitations
+
+While we excel in the areas mentioned above, there are certain services we do not provide. These include data collection, managing ethics applications (though we support protocol methodology writing), and full results, discussion, and conclusion writing - this is often best done by the expert (you) in the field
+
+## Outputs
+
+We can produce tables, figures and writing in pdf, html and word documents to the satisfaction of the principal investigator.

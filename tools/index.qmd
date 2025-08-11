@@ -1,0 +1,10 @@
+---
+title: "Tools"
+listing:
+  sort: date desc
+format:
+  html:
+    toc: true
+---
+
+We have a set of tools for estimating sample sizes.
