@@ -30,12 +30,11 @@ reference-location: margin
 citation-location: margin
 ---
 
-# Why This Post?
-Ever stood in front of a wall of gels or drink mixes wondering which one actually gives you the best value?  While there are various things you can throw into a product, the total amount of carbs per rand spent can be a good way to find the best value product. This post has a look at the real cost of sports nutrition in South Africa—specifically, how much you’re paying for each gram of carbohydrate in the product. Whether you’re prepping for a big race or just want to get the most bang for your buck, this guide will help you spot the best deals (and the slight rip-offs) on the market.
+# Introduction
+This post is a look at the cost of sports nutrition in South Africa, specifically looking at the cost per gram of carbohydrates. The goal is to provide a quick reference for athletes and cyclists to make informed decisions about their nutrition choices based on cost-effectiveness. While sports nutrition products do offer other things like caffeine, "electrolytes" in various forms, we felt that the cost and grams of carbohydrate are the first things to consider when planning training and racing.
 
-# How We Did It
-We let chatbots do the heavy lifting - scraping products, from various south African websites using single quantities for products, and then double-checked everything by hand. For each product, we grabbed the price, serving size, and carb content straight from the nutrition label and website, then crunched the numbers to get the rands per gram. To keep things fair, we split products into four groups: gels, bars, drink mixes, and everyday foods (because sometimes a banana or slice of bread is all you need). Now, let’s see who’s selling the real fuel, or just selling a marketing strategy. 
-
+# Methodology
+We used chatbots to scrape prices from websites and included the website the price was taken from so that each price was then checked. We collected claimed product weight and carbohydrate contents from the nutrition label and the price from the website to calculate the rands per gram. We divided products into four categories: gels, bars, drink mixes, and everyday foods for real-life comparisons.
 
 
 ```{r}
