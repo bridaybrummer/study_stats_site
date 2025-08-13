@@ -1,7 +1,29 @@
-.Rproj.user
+# OS/editor
+.DS_Store
+.vscode/
+
+# Quarto build + caches
+_site/
+.quarto/
+.quarto-cache/
+_freeze/
+*_cache/
+
+# R junk (if you use R)
+.Rproj.user/
 .Rhistory
 .RData
-.Ruserdata
-dev/
+renv/
+renv/library/
+.Renv
 
-/.quarto/
+# Python junk (if you use Python)
+.venv/
+__pycache__/
+
+# Node (if used)
+node_modules/
+dist/
+
+# Accidental git backups
+.git.bak_*/
