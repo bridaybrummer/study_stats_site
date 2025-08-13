@@ -27,3 +27,4 @@ dist/
 
 # Accidental git backups
 .git.bak_*/
+/.quarto/
