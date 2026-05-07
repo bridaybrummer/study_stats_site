@@ -11,10 +11,11 @@
     "listing": "/tools/index.html",
     "items": [
       "/tools/sample_size_proportions.html",
-      "/tools/shiny_sample_size_diagnostics_sensitivity_specificity.html",
-      "/tools/shiny_sample_size_log_regression.html",
+      "/tools/shiny_sample_size_ttest.html",
       "/tools/shiny_sample_size_prevalence.html",
-      "/tools/shiny_sample_size_ttest.html"
+      "/tools/lab/proportions_shiny.html",
+      "/tools/shiny_sample_size_log_regression.html",
+      "/tools/shiny_sample_size_diagnostics_sensitivity_specificity.html"
     ]
   }
 ]

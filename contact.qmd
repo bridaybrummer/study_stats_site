@@ -1,51 +1,15 @@
 ---
-title: "Contact"
-description: "Get in touch with StudyStats. Book a free 20-minute discovery call or send a project enquiry — replies within one working day."
-pagetitle: "Contact StudyStats — Biostatistics Consulting"
-format: html
+title: "contact"
+format:
+  html:
+    theme: cyborg
 ---
 
-## Get in touch
+::: {.contact-info style="font-size:1.2em; margin:1em 0;"}
+<p><strong>Email:</strong> [studystatsbb\@gmail.com]{#email} <button class="btn btn-secondary btn-sm" onclick="copyText('email')" style="margin-left:0.5em;">Copy Email</button></p>
 
-Tell us about your project and we'll reply within one working day. Prefer to talk? Book a free 20-minute discovery call.
-
-::: {.contact-info style="font-size:1.15em; margin:1em 0;"}
-<p><strong>Email:</strong> <a href="mailto:studystatsbb@gmail.com" id="email">studystatsbb@gmail.com</a> <button class="btn btn-secondary btn-sm" onclick="copyText('email')" style="margin-left:0.5em;">Copy</button></p>
-
-<p><strong>Cell / WhatsApp:</strong> <a href="https://wa.me/27718904528" id="cell">+27 71 890 4528</a> <button class="btn btn-secondary btn-sm" onclick="copyText('cell')" style="margin-left:0.5em;">Copy</button></p>
+<p><strong>Cell:</strong> [+27 71 890 4528]{#cell} <button class="btn btn-secondary btn-sm" onclick="copyText('cell')" style="margin-left:0.5em;">Copy Cell Number</button></p>
 :::
-
-### Send a project enquiry
-
-<!--
-  TODO: replace YOUR_FORM_ID with your real Formspree (or Tally / Netlify) endpoint.
-  Sign up free at https://formspree.io and paste the endpoint below.
--->
-
-<form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="enquiry-form" style="display:grid; gap:0.75rem; max-width:640px; margin-top:1rem;">
-  <label>Your name
-    <input type="text" name="name" required class="form-control" />
-  </label>
-  <label>Email
-    <input type="email" name="email" required class="form-control" />
-  </label>
-  <label>Project type
-    <select name="project_type" class="form-control">
-      <option>MMed / MSc research report</option>
-      <option>PhD thesis</option>
-      <option>Journal manuscript</option>
-      <option>Sample size only</option>
-      <option>Other</option>
-    </select>
-  </label>
-  <label>Deadline (approx.)
-    <input type="text" name="deadline" placeholder="e.g. end of August" class="form-control" />
-  </label>
-  <label>Tell us about your project
-    <textarea name="message" rows="5" required class="form-control"></textarea>
-  </label>
-  <button type="submit" class="btn btn-light btn-lg" style="font-weight:600; justify-self:start;">Send enquiry</button>
-</form>
 
 ```{=html}
 <script>

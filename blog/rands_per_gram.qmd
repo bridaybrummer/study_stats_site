@@ -30,17 +30,12 @@ reference-location: margin
 citation-location: margin
 ---
 
-# Why This Post?
+# Introduction
+This post is a look at the cost of sports nutrition in South Africa, specifically looking at the cost per gram of carbohydrates. The goal is to provide a quick reference for athletes and cyclists to make informed decisions about their nutrition choices based on cost-effectiveness. While sports nutrition products do offer other things like caffeine, "electrolytes" in various forms, we felt that the cost and grams of carbohydrate are the first things to consider when planning training and racing.
 
-Ever stood in front of a wall of gels or drink mixes wondering which one actually gives you the best value? All other things being equal, a good indicator of the value of a product is the amount you pay for the amount of carbohydrates (CHO). As cyclists and endurance athletes, we all want to fuel enough - but without going broke in the process.
+# Methodology
+We used chatbots to scrape prices from websites and included the website the price was taken from so that each price was then checked. We collected claimed product weight and carbohydrate contents from the nutrition label and the price from the website to calculate the rands per gram. We divided products into four categories: gels, bars, drink mixes, and everyday foods for real-life comparisons.
 
-This post breaks down the cost of sports nutrition products in South Africa, looking specifically at how much you’re paying per gram of carbohydrate. Whether you’re fueling up for your next big race or just trying to keep your rides steady without bleeding cash, this should help you figure out which products are worth it—and which ones are just shiny packaging.
-
-# How We Did It
-
-We did a deep dive into prices across a bunch of local websites—checking out the usual sports nutrition suspects (you can have a look at the dataset yourself). For each product, we pulled the price, the carb content, and the serving size straight from the labels or product pages. Then we calculated the rand-per-gram of carbs and plotted it. To keep things simple and fair, we grouped everything into four categories: gels, bars, drink mixes, and everyday foods (because sometimes some bread and a coke does the job just fine). Each product type is coloured by whether it is above, below, or on the average price for that category.
-
-Let’s dig in and see who’s offering real fuel—and who’s just fueling the hype.
 
 ```{r}
 #| include: false
@@ -270,8 +265,8 @@ all_products <- tribble(
     "https://www.fatsecret.co.za/calories-nutrition/search?q=Monster+Energy+Drink", # ~27 g per 250 ml → 54 g per 500 ml ([fatsecret.com](https://www.fatsecret.com/calories-nutrition/generic/energy-drink?portionamount=250.000&portionid=1136973&utm_source=chatgpt.com))
     "Coca-Cola Classic (330 ml can)", "Groceries", 7.50, "330 ml can", 35,
     "https://www.pnp.co.za/pnpstorefront/pnp/en/pp-red-drinks-400987",
-    "Energade Sports Drink Mix (500g tub)", "Groceries", 150.00, "500 g tub", 318, "https://nutripro.co.za/product/energade-sports-drink-mix",
-    "Powerade Sports Drink Mix (400g tub)", "Groceries", 120.00, "400 g tub", 242, "https://nutripro.co.za/product/powerade-sports-drink-mix",
+       "Energade Sports Drink Mix (500g tub)",        "Groceries", 150.00, "500 g tub", 318,  "https://nutripro.co.za/product/energade-sports-drink-mix",
+    "Powerade Sports Drink Mix (400g tub)",        "Groceries", 120.00, "400 g tub", 242,  "https://nutripro.co.za/product/powerade-sports-drink-mix",
 
     # Everyday South African Foods
     "Albany White Bread (2 slices @ R20 for 20 slices)", "Groceries", 2.00, "80 g", 35, "https://www.albany.co.za/Products/everyday-bread/Everyday-White-Bread",
@@ -280,88 +275,7 @@ all_products <- tribble(
     "Kellogg's Corn Flakes (50g @ R50 for 500g)", "Groceries", 5.00, "50 g", 42, "https://www.pnp.co.za/kellogg-s-corn-flakes-500g"
 )
 
-# --- VERIFIED PRICE UPDATES / ADDITIONS (checked 2026-03-02) ---
 
-updates_new <- tribble(
-    ~Product, ~Brand, ~Price_ZAR, ~Serving_Size, ~Carbs_per_Serving, ~Source_Link,
-
-    # Maurten (Cyclelab confirmed for gels; Maurten SA confirmed for drink mixes)
-    "Maurten Gel 100", "Maurten", 74.99, "40 g gel", 25, "https://www.cyclelab.com/product/4005624-gel-maurten-100-each",
-    "Maurten Gel 100 CAF 100", "Maurten", 84.55, "40 g gel", 25, "https://www.cyclelab.com/product/4005626-gel-maurten-100-caf-each",
-    "Maurten Drink Mix 160", "Maurten", 50.00, "40 g sachet", 40, "https://maurten.co.za/catalogue/maurten-drinkmix-160/",
-    "Maurten Drink Mix 320", "Maurten", 75.00, "80 g sachet", 80, "https://maurten.co.za/catalogue/maurten-drinkmix-320/",
-    "Maurten Drink Mix 320 CAF 100", "Maurten", 82.00, "80 g sachet", 80, "https://maurten.co.za/catalogue/sachet-maurten-drink-mix-320-caf/",
-
-    # SiS (Science in Sport SA)
-    "SiS GO Isotonic Energy Gel", "SiS", 44.00, "60 ml gel", 22, "https://scienceinsport.co.za/go-isotonic-energy-gel-60ml-single-unit-fruit-salad",
-    "SiS Beta Fuel Dual-Source Energy Gel", "SiS", 74.00, "60 ml gel", 40, "https://scienceinsport.co.za/beta-fuel",
-    "SiS Beta Fuel + Nootropics Gel", "SiS", 80.00, "60 ml gel", 40, "https://scienceinsport.co.za/beta-fuel",
-
-    # 226ERS (226ERS SA)
-    "226ERS High Fructose Gel", "226ERS", 92.99, "80 g gel", 55, "https://226ers.co.za/products/high-fructose-gel-energy-gel-80g",
-
-    # STYRKR (Vivo Vita SA)
-    "STYRKR GEL50", "STYRKR", 85.00, "60 g gel", 50, "https://vivovitasport.com/product-category/styrkr/energy-gels/",
-
-    # AMACx (Gear-Change SA)  ---- corrections + new items
-    "AMACx Turbo Gel", "AMACx", 79.00, "60 ml gel", 40, "https://gearchange.co.za/products/nutrition-amacx-turbo-gel",
-    "AMACx Drink Gel", "AMACx", 66.00, "60 ml gel", NA, "https://gearchange.co.za/products/nutrition-amacx-drink-gel",
-    "AMACx Turbo Ice Gel", "AMACx", 90.00, "60 ml gel", NA, "https://gearchange.co.za/products/nutrition-amacx-turbo-ice-gel",
-
-    # NEVERSECOND (new-to-your-list; SA retailer example)
-    "NEVERSECOND C30 Energy Gel", "NEVERSECOND", 90.00, "gel (single)", 30, "https://complete-cyclist.com/products/neversecond-c30-energy-gel"
-)
-
-# Precision Fuel – Carbon Endurance price updated (single unit)
-precision_updates <- tribble(
-    ~Product, ~Brand, ~Price_ZAR, ~Serving_Size, ~Carbs_per_Serving, ~Source_Link,
-    "Precision Fuel 30g Gel", "Precision Fuel", 69.00, "30 g gel", 30, "https://www.carbonendurance.co/precision-fuel-30-gel"
-)
-
-# 32Gi – Sports Gel single updated (if you want to use 32Gi store pricing)
-gi_updates <- tribble(
-    ~Product, ~Brand, ~Price_ZAR, ~Serving_Size, ~Carbs_per_Serving, ~Source_Link,
-    "32Gi Sports Gel (27 g single)", "32Gi", 31.99, "27 g gel", 21, "https://32gi.co.za/"
-)
-
-# all_products = your big master tibble
-# updates_new, precision_updates, gi_updates = your “latest” tibbles
-conflicts_prefer(dplyr::last)
-
-latest_updates <- bind_rows(
-    all_products, 
-    updates_new,
-    precision_updates,
-    gi_updates
-) %>%
-    # if the update tables themselves have duplicates, keep the last one
-    arrange(Brand, Product) %>%
-    group_by(Brand, Product) %>%
-    summarise(
-        Price_ZAR = last(Price_ZAR),
-        Serving_Size = last(Serving_Size),
-        Carbs_per_Serving = last(Carbs_per_Serving),
-        Source_Link = last(Source_Link),
-        .groups = "drop"
-    )
-# --- VERIFIED PRICE UPDATES / ADDITIONS (checked 2026-03-02) ---
-
-
-all_products_updated <- all_products %>%
-    # drop any old versions of rows that appear in the update set
-    anti_join(latest_updates, by = c("Brand", "Product")) %>%
-    # add in the updated/new rows
-    bind_rows(latest_updates) %>%
-    # optional: nice ordering
-    arrange(Brand, Product)
-
-# sanity checks
-all_products_updated %>%
-    count(Brand, Product) %>%
-    filter(n > 1) # should be empty
-all_products_updated %>% nrow()
-
-all_products_updated -> all_products
 # View or use the table in R
 all_products %>% glimpse()
 all_products %>%
@@ -388,7 +302,7 @@ all_products %>%
     geom_point(
         aes(color = factor(Brand)),
     ) +
-    geom_smooth(method = "lm", se = TRUE, color = "blue") # Rands per gram
+    geom_smooth(method = "lm", se = TRUE, color = "blue") # Rands per gram 
 ```
 
 

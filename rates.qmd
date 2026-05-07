@@ -1,51 +1,20 @@
 ---
-title: "Pricing"
-description: "Transparent ZAR pricing for biostatistics consulting: protocol starter, full analysis and publication-polish packages, plus an hourly rate."
-pagetitle: "Pricing — StudyStats Biostatistics Packages"
-format: html
+title: ""
 ---
 
-## Rates &amp; Packages
+## Rates
 
-Every research project is different, so we offer **fixed-price packages** for common workflows and a transparent hourly rate for everything else. All prices are in South African Rand (ZAR) and exclude VAT.
+Science is flexible, complex and nuanced; all projects have intricacies and it is difficult to charge a flat rate per service. Until a tiered package service is created, an hourly rate of **600 ZAR** is charged. This rate is valid until the end of February 2024. Certain services and expected time spent on each is tabulated below.
 
-### Discovery Call &mdash; *Free*
+| Service                  | Estimated Timeframe (hours) |
+|:-------------------------|:----------------------------|
+| Protocol Writing         | 1-2                         |
+| Sample Size Calculations | 1-4                         |
+| Data Wrangling           | 3-5                         |
+| Statistical Analysis     | 3-5                         |
+| Publication-Ready Tables | 2-4                         |
+| Figure Creation          | 1-3                         |
+| Results Interpretation   | 1-3                         |
+| Discussion Assistance    | 1-3                         |
 
-A 20&ndash;30 minute call to scope your project, sanity-check your research question, and outline next steps. No commitment.
-
-[Book a free call](contact.html){.btn .btn-light .btn-sm}
-
-### Fixed-Price Packages
-
-| Package                | Best for                                | What's included                                                                                  | Price (from) |
-|:-----------------------|:----------------------------------------|:-------------------------------------------------------------------------------------------------|-------------:|
-| **Protocol Starter**   | MMed / MSc registrars at proposal stage | Aims &amp; objectives review, sample size calculation, statistical analysis plan                | R 3 500      |
-| **Full Analysis**      | Thesis or first-author paper            | Data wrangling, analysis, publication-ready tables &amp; figures, written interpretation memo   | R 8 500      |
-| **Publication Polish** | Pre-submission manuscripts              | Re-analysis, journal-formatted tables/figures, reviewer-response support                        | R 5 500      |
-| **Research Retainer**  | Research units / NGOs                   | Block of consulting hours per month, priority turnaround                                        | R 5 000 / mo |
-
-### Hourly Rate
-
-For ad-hoc work or scope outside a package: **R 850 / hour**, billed in 30-minute increments.
-
-### Indicative Time per Service
-
-| Service                  | Estimated time |
-|:-------------------------|:---------------|
-| Protocol writing support | 1&ndash;2 hours |
-| Sample size calculation  | 1&ndash;4 hours |
-| Data wrangling           | 3&ndash;5 hours |
-| Statistical analysis     | 3&ndash;5 hours |
-| Publication-ready tables | 2&ndash;4 hours |
-| Figure creation          | 1&ndash;3 hours |
-| Results interpretation   | 1&ndash;3 hours |
-| Discussion assistance    | 1&ndash;3 hours |
-
-### How Billing Works
-
-- A **50% deposit** secures your project start; balance on delivery.
-- You can be billed **per stage** of the project (e.g. protocol &rarr; analysis &rarr; tables).
-- Quotes are valid for 30 days.
-- Turnaround is typically **1&ndash;2 weeks** for a preliminary deliverable, with iterative revisions thereafter.
-
-[Request a quote](contact.html){.btn .btn-light .btn-lg}
+\*Fees can be billed per stage of the project.

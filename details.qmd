@@ -1,7 +1,5 @@
 ---
-title: "Activities"
-description: "Detailed list of StudyStats services: protocol writing, sample size calculation, analysis, tables, figures and interpretation."
-pagetitle: "Activities — StudyStats Services"
+title: ""
 ---
 
 ## Activities

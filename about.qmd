@@ -1,7 +1,5 @@
 ---
-title: "About StudyStats"
-description: "Meet Brian Brummer — physiotherapist turned epidemiologist (NICD / Wits) offering biostatistics consulting for MMed, MSc and PhD researchers."
-pagetitle: "About StudyStats — Biostatistics Consulting"
+title: ""
 format: html
 ---
 
@@ -29,7 +27,7 @@ We offer a wide range of statistical solutions for medical professionals, includ
 ## Meet the Expert
 
 :::: {.profile-card style="display: flex; align-items: center; margin-top: 2rem; background-color: #343a40; padding: 1rem; border-radius: 0.5rem;"}
-<img src="images/image_1.webp" alt="Biostatistician Profile" class="rounded-circle" width="150" height="150" loading="lazy" decoding="async" style="width: 150px; height: 150px; object-fit: cover; margin-right: 1rem; border: 3px solid #495057;"/>
+<img src="images/image_1.jpg" alt="Biostatistician Profile" class="rounded-circle" style="width: 150px; margin-right: 1rem; border: 3px solid #495057;"/>
 
 ::: profile-info
 <h3 style="color: #fff;">
