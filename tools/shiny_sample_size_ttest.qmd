@@ -9,6 +9,7 @@ format:
 filters:
   - shinylive
 height: 10000
+engine: knitr
 ---
 
 ```{shinylive-r}

@@ -9,6 +9,7 @@ format:
 filters:
   - shinylive
 height: 10000
+engine: knitr
 ---
 
 Diagnostics studies are relatively simple to conduct but require careful planning and data collection. It is important to identify gold standard test and diagnostic criteria you are going to use (usually some sort of standard of care) and an experimental test you are going to study. You must have an idea of the prevalence of the disease you are studying and the estimated sensitivity and specificity of the experimental diagnostics. Sometimes, we want to correlate two diagnostic measures that are not binary, like Cd4 and Viral load. This is a different type of analysis and we will cover this in a future post. There is also finding a threshold of a continuous diagnostic, perhaps a viral load, that is most predictive of a binary outcome, like death. This is also a different type of analysis and we will cover this in a future post.

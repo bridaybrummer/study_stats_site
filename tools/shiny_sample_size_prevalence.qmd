@@ -9,6 +9,7 @@ format:
 filters:
   - shinylive
 height: 10000
+engine: knitr
 ---
 
 We often want to estimate the **prevalence** in a population (i.e., the proportion of individuals with a certain condition). For example, if we want to estimate the prevalence of a rare disease in a population, we need to determine how many individuals we need to sample to obtain a reliable estimate.

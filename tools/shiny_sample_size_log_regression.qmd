@@ -9,6 +9,7 @@ format:
 filters:
   - shinylive
 height: 10000
+engine: knitr
 ---
 
 A **logistic regression** has the output of Odds Ratios (OR) and is usually used when the outcome is binary (e.g. yes/no, success/failure). We usually use a logistic regression model to look at the associations between a binary outcome and a set of explanatory variables ( ie. predictors, covariates, independent variables).

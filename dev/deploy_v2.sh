@@ -37,6 +37,13 @@ PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 # Change to project directory
 cd "$PROJECT_DIR"
 
+# Activate project Python venv if present (Quarto needs jupyter+pyyaml
+# for some pages; the venv lives in .venv/).
+if [ -f ".venv/bin/activate" ]; then
+    # shellcheck disable=SC1091
+    source .venv/bin/activate
+fi
+
 print_status "Starting StudyStats Site Deployment v2..."
 print_status "Project directory: $PROJECT_DIR"
 
