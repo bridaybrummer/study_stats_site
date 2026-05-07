@@ -1,10 +1,23 @@
 project:
   type: website
   title: "StudyStats: Expert Statistical Consulting"
+  output-dir: _site
+  resources:
+    - "js/**"
+    - "CNAME"
 website:
   # Optionally repeat (or override) title and description here
   title: "STUDYSTATS"
   description: "StudyStats: Expert statistical consulting, blog, and tools."
+  site-url: "https://study-stats.com"
+  favicon: "logo/StudyStats_Logo Files/CMYK/second_logo_portrait/White/white_big_C.png"
+  open-graph:
+    locale: en_ZA
+    site-name: StudyStats
+    image: "logo/StudyStats_Logo Files/CMYK/Primary Logo (Landscape)/Grey/StudyStats_Primary Logo_Grey.svg"
+  twitter-card:
+    card-style: summary_large_image
+    image: "logo/StudyStats_Logo Files/CMYK/Primary Logo (Landscape)/Grey/StudyStats_Primary Logo_Grey.svg"
   cookie-consent: true
   google-analytics: "G-MKT52KHL7C"
   navbar:
@@ -18,6 +31,8 @@ website:
         href: about.qmd
       - text: "How it works"
         href: how_it_works.qmd
+      - text: "Pricing"
+        href: rates.qmd
       - text: "Blog"
         href: blog/index.qmd
 #      - text: "Mission"
@@ -32,13 +47,21 @@ website:
         href: friends.qmd
       - text: "Contact"
         href: contact.qmd
+  page-footer:
+    left: "© 2026 StudyStats. All rights reserved."
+    right:
+      - text: "Privacy"
+        href: privacy.qmd
+      - text: "Terms"
+        href: terms.qmd
+      - text: "Contact"
+        href: contact.qmd
 
 format:
   html:
     theme: "styles.css"
     include-before-body: before.html
     include-after: after.html
-    output-dir: public
     citations-hover: true
     footnotes-hover: true
     smooth-scroll: true

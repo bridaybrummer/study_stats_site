@@ -1,0 +1,275 @@
+/* StudyStats sample-size calculators — shared styles */
+
+.ss-calc {
+  --bg: #121212;
+  --panel: #1e1e1e;
+  --panel-2: #262626;
+  --border: #333;
+  --text: #fff;
+  --muted: #b8b8b8;
+  --accent: #4ECDC4;
+  --accent-2: #FF6B6B;
+  --warn: #f3c969;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  color: var(--text);
+  margin: 1.5rem 0 3rem;
+}
+
+.ss-calc h2 { font-size: 1.6rem; margin: 0 0 0.5rem; }
+.ss-calc .ss-lede {
+  color: var(--muted);
+  font-size: 1rem;
+  margin: 0 0 1.25rem;
+  max-width: 70ch;
+  line-height: 1.55;
+}
+
+/* Quick-start scenarios */
+.ss-quickstart {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.ss-quickstart button {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.ss-quickstart button:hover,
+.ss-quickstart button.active {
+  background: var(--accent);
+  color: #121212;
+  border-color: var(--accent);
+}
+
+/* Two-column grid: inputs left, result right */
+.ss-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.5rem;
+}
+@media (max-width: 760px) {
+  .ss-grid { grid-template-columns: 1fr; }
+}
+
+.ss-inputs, .ss-result {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+/* Input fields */
+.ss-field { margin-bottom: 1rem; }
+.ss-field:last-child { margin-bottom: 0; }
+.ss-field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+  font-size: 0.95rem;
+}
+.ss-field .ss-symbol {
+  color: var(--muted);
+  font-weight: 400;
+  font-size: 0.85rem;
+  margin-left: 0.35rem;
+}
+.ss-field .ss-tip {
+  color: var(--muted);
+  font-size: 0.82rem;
+  margin: 0.15rem 0 0.4rem;
+}
+.ss-field input[type="number"],
+.ss-field select {
+  width: 100%;
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.5rem 0.65rem;
+  font-size: 1rem;
+  font: inherit;
+}
+.ss-field input[type="number"]:focus,
+.ss-field select:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+.ss-field input[type="checkbox"] { margin-right: 0.4rem; }
+
+/* "How to justify" expand boxes */
+.ss-justify {
+  margin-top: 0.4rem;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font-size: 0.88rem;
+}
+.ss-justify > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0.45rem 0.7rem;
+  color: var(--accent);
+  font-weight: 500;
+  user-select: none;
+}
+.ss-justify > summary::-webkit-details-marker { display: none; }
+.ss-justify > summary::before {
+  content: "▸ ";
+  display: inline-block;
+  transition: transform 0.15s;
+}
+.ss-justify[open] > summary::before { transform: rotate(90deg); }
+.ss-justify-body {
+  padding: 0 0.85rem 0.75rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+.ss-justify-body p { margin: 0.5rem 0; }
+.ss-justify-body ul, .ss-justify-body ol { margin: 0.4rem 0 0.4rem 1.1rem; padding: 0; }
+.ss-justify-body li { margin: 0.25rem 0; }
+.ss-justify-body code,
+.ss-justify-body .ss-cite {
+  font-size: 0.85em;
+  background: rgba(78, 205, 196, 0.1);
+  padding: 1px 4px;
+  border-radius: 3px;
+  color: #d8f5f2;
+}
+
+/* Result panel */
+.ss-result h3 {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.ss-big {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+  margin: 0.2rem 0;
+  color: var(--accent);
+}
+.ss-big.ss-warn { color: var(--warn); }
+.ss-result .ss-sub {
+  color: var(--muted);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+.ss-interpret {
+  background: var(--panel-2);
+  border-left: 3px solid var(--accent);
+  padding: 0.7rem 0.9rem;
+  border-radius: 4px;
+  margin: 0.5rem 0 1rem;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+/* Action buttons */
+.ss-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.ss-actions button {
+  background: var(--accent);
+  color: #121212;
+  border: none;
+  padding: 0.55rem 0.95rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.ss-actions button.ss-secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.ss-actions button:hover { filter: brightness(1.1); }
+.ss-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #121212;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 0.55rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 2000;
+}
+.ss-toast.show { opacity: 1; }
+
+/* Bottom expand-boxes (formula, R code, methods) */
+.ss-details {
+  margin-top: 1.25rem;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.ss-details > summary {
+  cursor: pointer;
+  padding: 0.85rem 1.1rem;
+  font-weight: 600;
+  color: var(--accent);
+  list-style: none;
+}
+.ss-details > summary::-webkit-details-marker { display: none; }
+.ss-details > summary::before {
+  content: "▸ ";
+  display: inline-block;
+  transition: transform 0.15s;
+}
+.ss-details[open] > summary::before { transform: rotate(90deg); }
+.ss-details-body {
+  padding: 0 1.1rem 1.1rem;
+  color: var(--text);
+  line-height: 1.55;
+}
+.ss-details pre, .ss-details code {
+  background: #0f0f0f;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.7rem 0.85rem;
+  display: block;
+  overflow-x: auto;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 0.85rem;
+  color: #d8f5f2;
+  white-space: pre;
+}
+
+/* SVG power curve */
+.ss-chart {
+  width: 100%;
+  margin-top: 1rem;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem;
+}
+.ss-chart svg { width: 100%; height: auto; display: block; }
+
+/* Quiet "lab" link in footer of fast page */
+.ss-lab-link {
+  margin-top: 2rem;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-align: right;
+}
+.ss-lab-link a { color: var(--muted); text-decoration: underline dotted; }

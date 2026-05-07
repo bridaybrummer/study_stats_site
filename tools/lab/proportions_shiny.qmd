@@ -1,0 +1,337 @@
+---
+title: "Comparing two **rates/proportions** (R/Shiny lab version)"
+date: "2025-02-20"
+categories: ["statistics", "proportions", "rates"]
+listing: false
+search: false
+sitemap: false
+format:
+    html:
+        resources:
+        - shinylive-sw.js
+        include-in-header:
+          text: |
+            <meta name="robots" content="noindex,nofollow">
+filters:
+  - shinylive
+height: 10000
+---
+
+```{shinylive-r}
+#| standalone: true
+#| echo: false
+#| messages: false
+#| viewerHeight: 800
+
+library(shiny)
+library(shinythemes)
+library(shinyjs)
+library(ggplot2)
+library(dplyr)
+
+ui <- fluidPage(
+    theme = shinytheme("cyborg"),
+    useShinyjs(),
+    # CSS to style the explanation text in Times New Roman
+    tags$style(HTML("
+    #explanationText {
+      font-family: 'Times New Roman', Times, serif;
+      white-space: pre-wrap;
+    }
+    .copy-button {
+      margin-bottom: 10px;
+    }
+  ")),
+    # JavaScript function for copying explanation text to clipboard
+    tags$script(HTML("
+    function copyExplanation() {
+      var explanation = document.getElementById('explanationText').innerText;
+      var tempInput = document.createElement('textarea');
+      tempInput.value = explanation;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      alert('Explanation copied to clipboard!');
+    }
+  ")),
+    titlePanel("Sample Size Calculator for Proportion Comparison"),
+    sidebarLayout(
+        sidebarPanel(
+            numericInput("p1", "Proportion in Group 1 (p₁):", value = 0.3, min = 0.01, max = 0.99, step = 0.01),
+            numericInput("p2", "Proportion in Group 2 (p₂):", value = 0.5, min = 0.01, max = 0.99, step = 0.01),
+            numericInput("alpha", "Significance Level (α):",
+                value = 0.05, min = 0.001, max = 0.1, step = 0.005
+            ),
+            numericInput("power", "Power (1-β):",
+                value = 0.8, min = 0.5, max = 0.99, step = 0.01
+            ),
+            checkboxInput("clustering", "Account for clustering effect", value = FALSE),
+            tags$div(style = "margin-top: 10px; margin-bottom: 15px; padding: 10px; background-color: rgba(255, 255, 255, 0.1); border-radius: 5px;",
+                tags$h5("What is clustering?", style = "color: #4ECDC4; margin-bottom: 5px;"),
+                tags$p("Clustering happens when your study participants are naturally grouped together (e.g., students in classrooms, patients in hospitals, residents in neighborhoods). People in the same cluster tend to be more similar to each other than to people in other clusters.", 
+                       style = "font-size: 12px; margin-bottom: 5px; color: white;"),
+                tags$p("This similarity reduces the effective sample size because each person doesn't provide completely independent information.", 
+                       style = "font-size: 12px; margin: 0; color: white;")
+            ),
+            conditionalPanel(
+                condition = "input.clustering == true",
+                numericInput("icc", "Intracluster Correlation (ICC):", value = 0.05, min = 0.001, max = 0.5, step = 0.001),
+                tags$div(style = "margin-bottom: 15px; padding: 8px; background-color: rgba(255, 255, 255, 0.05); border-radius: 3px;",
+                    tags$h6("Understanding ICC:", style = "color: #FF6B6B; margin-bottom: 3px;"),
+                    tags$ul(style = "font-size: 11px; margin: 0; padding-left: 15px; color: white;",
+                        tags$li("ICC = 0: People in clusters are no more similar than random people"),
+                        tags$li("ICC = 0.01-0.05: Low clustering (e.g., students in different classes)"),
+                        tags$li("ICC = 0.05-0.15: Moderate clustering (e.g., patients in clinics)"),
+                        tags$li("ICC = 0.15+: High clustering (e.g., family members)")
+                    )
+                ),
+                numericInput("cluster_size", "Average cluster size:", value = 20, min = 2, max = 100, step = 1),
+                tags$div(style = "margin-bottom: 10px; padding: 8px; background-color: rgba(255, 255, 255, 0.05); border-radius: 3px;",
+                    tags$p("Cluster size = how many people are in each group on average (e.g., 25 students per classroom, 15 patients per clinic)", 
+                           style = "font-size: 11px; margin: 0; color: white;")
+                )
+            )
+        ),
+        mainPanel(
+            h3(textOutput("sampleSize")),
+            conditionalPanel(
+                condition = "input.clustering == true",
+                h4(textOutput("designEffect"))
+            ),
+            tags$button("Copy Explanation", class = "copy-button", onclick = "copyExplanation()"),
+            uiOutput("explanationUI"),
+            plotOutput("ciPlot", height = "400px"),
+            plotOutput("powerPlot", height = "400px")
+        )
+    )
+)
+
+server <- function(input, output, session) {
+    
+    # Clopper-Pearson confidence interval function
+    clopper_pearson_ci <- function(x, n, conf.level = 0.95) {
+        alpha <- 1 - conf.level
+        if (x == 0) {
+            lower <- 0
+            upper <- 1 - (alpha/2)^(1/n)
+        } else if (x == n) {
+            lower <- (alpha/2)^(1/n)
+            upper <- 1
+        } else {
+            lower <- qbeta(alpha/2, x, n - x + 1)
+            upper <- qbeta(1 - alpha/2, x + 1, n - x)
+        }
+        return(c(lower = lower, upper = upper))
+    }
+    
+    output$sampleSize <- renderText({
+        p1 <- input$p1
+        p2 <- input$p2
+        delta <- abs(p2 - p1)
+        
+        if (delta == 0) {
+            return("Proportions are equal. Please adjust the proportions.")
+        }
+        
+        # Pooled proportion
+        p_pooled <- (p1 + p2) / 2
+        
+        # Critical values
+        z_alpha <- qnorm(1 - input$alpha / 2)
+        z_beta <- qnorm(input$power)
+        
+        # Sample size per group (basic formula)
+        n <- ((z_alpha * sqrt(2 * p_pooled * (1 - p_pooled)) + 
+               z_beta * sqrt(p1 * (1 - p1) + p2 * (1 - p2)))^2) / (delta^2)
+        
+        # Apply design effect if clustering is enabled
+        if (input$clustering) {
+            design_effect <- 1 + (input$cluster_size - 1) * input$icc
+            n_adjusted <- n * design_effect
+            n_clusters <- ceiling(n_adjusted / input$cluster_size)
+            paste("Required sample size per group:", round(n_adjusted), 
+                  "participants (", n_clusters, "clusters of size", input$cluster_size, ")")
+        } else {
+            paste("Required sample size per group:", round(n))
+        }
+    })
+    
+    output$designEffect <- renderText({
+        if (input$clustering) {
+            design_effect <- 1 + (input$cluster_size - 1) * input$icc
+            paste("Design Effect:", round(design_effect, 3))
+        }
+    })
+
+    output$explanationUI <- renderUI({
+        p1 <- input$p1
+        p2 <- input$p2
+        delta <- abs(p2 - p1)
+        
+        if (delta == 0) {
+            return(tags$pre("Proportions are equal. Please adjust the proportions to see the explanation.", id = "explanationText"))
+        }
+
+        p_pooled <- (p1 + p2) / 2
+        z_alpha <- qnorm(1 - input$alpha / 2)
+        z_beta <- qnorm(input$power)
+        
+        n <- ((z_alpha * sqrt(2 * p_pooled * (1 - p_pooled)) + 
+               z_beta * sqrt(p1 * (1 - p1) + p2 * (1 - p2)))^2) / (delta^2)
+
+        explanation <- paste0(
+            "Sample Size Calculation for Proportion Comparison:\n\n",
+            "Basic Formula:\n",
+            "n = [(z₁₋α/₂ × √(2p̄(1-p̄)) + z₁₋β × √(p₁(1-p₁) + p₂(1-p₂)))²] / δ²\n\n",
+            "Where:\n",
+            "  z₁₋α/₂ = Critical value for significance = ", round(z_alpha, 3), "\n",
+            "  z₁₋β   = Critical value for power = ", round(z_beta, 3), "\n",
+            "  p₁     = Proportion in Group 1 = ", p1, "\n",
+            "  p₂     = Proportion in Group 2 = ", p2, "\n",
+            "  p̄      = Pooled proportion = (p₁ + p₂)/2 = ", round(p_pooled, 3), "\n",
+            "  δ      = |p₂ - p₁| = ", round(delta, 3), "\n\n",
+            "Basic sample size per group: ", round(n), "\n"
+        )
+        
+        if (input$clustering) {
+            design_effect <- 1 + (input$cluster_size - 1) * input$icc
+            n_adjusted <- n * design_effect
+            n_clusters <- ceiling(n_adjusted / input$cluster_size)
+            
+            explanation <- paste0(explanation,
+                "\n=== CLUSTERING EXPLANATION ===\n",
+                "When people are grouped together (clustered), they tend to be more similar\n",
+                "to each other than to people in other groups. This reduces the 'effective'\n",
+                "sample size because each person provides less unique information.\n\n",
+                "Think of it this way:\n",
+                "• If you survey 100 random people = 100 independent opinions\n",
+                "• If you survey 4 classrooms of 25 students each = less than 100\n",
+                "  independent opinions (students in same class are more similar)\n\n",
+                "Clustering Adjustment Formula:\n",
+                "Design Effect = 1 + (m - 1) × ρ\n\n",
+                "Where:\n",
+                "  m = Average cluster size = ", input$cluster_size, " people per cluster\n",
+                "  ρ = ICC (similarity within clusters) = ", input$icc, "\n",
+                "  Design Effect = ", round(design_effect, 3), "\n\n",
+                "This means you need ", round(design_effect, 1), "× more participants than if\n",
+                "everyone was completely independent.\n\n",
+                "Final Requirements:\n",
+                "• Adjusted sample size per group: ", round(n_adjusted), " participants\n",
+                "• Number of clusters needed per group: ", n_clusters, "\n",
+                "• Total participants needed: ", round(n_adjusted * 2)
+            )
+        }
+
+        tags$pre(explanation, id = "explanationText")
+    })
+
+    output$ciPlot <- renderPlot({
+        # Calculate sample size for simulation
+        p1 <- input$p1
+        p2 <- input$p2
+        delta <- abs(p2 - p1)
+        
+        if (delta == 0) return(NULL)
+        
+        p_pooled <- (p1 + p2) / 2
+        z_alpha <- qnorm(1 - input$alpha / 2)
+        z_beta <- qnorm(input$power)
+        
+        n <- ((z_alpha * sqrt(2 * p_pooled * (1 - p_pooled)) + 
+               z_beta * sqrt(p1 * (1 - p1) + p2 * (1 - p2)))^2) / (delta^2)
+        
+        sample_size <- max(30, round(n))
+        
+        # Simulate observed proportions
+        x1 <- rbinom(1, sample_size, p1)
+        x2 <- rbinom(1, sample_size, p2)
+        
+        p1_obs <- x1 / sample_size
+        p2_obs <- x2 / sample_size
+        
+        # Calculate Clopper-Pearson confidence intervals
+        ci1 <- clopper_pearson_ci(x1, sample_size, 1 - input$alpha)
+        ci2 <- clopper_pearson_ci(x2, sample_size, 1 - input$alpha)
+        
+        # Create data for plotting
+        plot_data <- data.frame(
+            Group = c("Group 1", "Group 2"),
+            Proportion = c(p1_obs, p2_obs),
+            Lower = c(ci1[1], ci2[1]),
+            Upper = c(ci1[2], ci2[2]),
+            True_Prop = c(p1, p2)
+        )
+        
+        ggplot(plot_data, aes(x = Group, y = Proportion, color = Group)) +
+            geom_point(size = 4) +
+            geom_errorbar(aes(ymin = Lower, ymax = Upper), width = 0.2, size = 1) +
+            geom_point(aes(y = True_Prop), shape = 4, size = 6, color = "white") +
+            scale_color_manual(values = c("Group 1" = "#FF6B6B", "Group 2" = "#4ECDC4")) +
+            labs(title = paste0("Clopper-Pearson Confidence Intervals (", (1-input$alpha)*100, "%)"),
+                 subtitle = paste("Sample size:", sample_size, "per group | White X = True proportion"),
+                 y = "Proportion") +
+            theme_minimal() +
+            theme(legend.position = "none",
+                  panel.background = element_rect(fill = "#2c3e50"),
+                  plot.background = element_rect(fill = "#2c3e50"),
+                  text = element_text(color = "white"),
+                  axis.text = element_text(color = "white")) +
+            ylim(0, 1)
+    })
+    
+    output$powerPlot <- renderPlot({
+        p1 <- input$p1
+        p2 <- input$p2
+        delta <- abs(p2 - p1)
+        
+        if (delta == 0) return(NULL)
+        
+        # Calculate power curve for different sample sizes
+        sample_sizes <- seq(10, 500, by = 10)
+        powers <- sapply(sample_sizes, function(n) {
+            p_pooled <- (p1 + p2) / 2
+            se_pooled <- sqrt(2 * p_pooled * (1 - p_pooled) / n)
+            se_alt <- sqrt((p1 * (1 - p1) + p2 * (1 - p2)) / n)
+            
+            z_alpha <- qnorm(1 - input$alpha / 2)
+            critical_value <- z_alpha * se_pooled
+            
+            power <- 1 - pnorm((critical_value - delta) / se_alt) + 
+                     pnorm((-critical_value - delta) / se_alt)
+            return(power)
+        })
+        
+        power_data <- data.frame(
+            SampleSize = sample_sizes,
+            Power = powers
+        )
+        
+        # Calculate current required sample size
+        p_pooled <- (p1 + p2) / 2
+        z_alpha <- qnorm(1 - input$alpha / 2)
+        z_beta <- qnorm(input$power)
+        
+        current_n <- ((z_alpha * sqrt(2 * p_pooled * (1 - p_pooled)) + 
+                      z_beta * sqrt(p1 * (1 - p1) + p2 * (1 - p2)))^2) / (delta^2)
+        
+        ggplot(power_data, aes(x = SampleSize, y = Power)) +
+            geom_line(color = "#4ECDC4", size = 1.2) +
+            geom_hline(yintercept = input$power, linetype = "dashed", color = "#FF6B6B") +
+            geom_vline(xintercept = current_n, linetype = "dashed", color = "#FF6B6B") +
+            geom_point(x = current_n, y = input$power, color = "#FF6B6B", size = 4) +
+            labs(title = "Power Analysis",
+                 subtitle = paste("Red lines show required sample size (", round(current_n), ") for power =", input$power),
+                 x = "Sample Size per Group",
+                 y = "Statistical Power") +
+            theme_minimal() +
+            theme(panel.background = element_rect(fill = "#2c3e50"),
+                  plot.background = element_rect(fill = "#2c3e50"),
+                  text = element_text(color = "white"),
+                  axis.text = element_text(color = "white")) +
+            ylim(0, 1)
+    })
+}
+
+shinyApp(ui = ui, server = server)
+```

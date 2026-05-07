@@ -124,33 +124,65 @@ else
     print_warning "No remote repository configured"
 fi
 
-# Optional: Deploy to GitHub Pages if using gh-pages
-if git show-ref --verify --quiet refs/heads/gh-pages; then
-    read -p "Deploy to GitHub Pages? (y/N): " -n 1 -r
+# Deploy to GitHub Pages via the gh-pages branch.
+# IMPORTANT: _site is gitignored on the source branch, so it cannot be
+# 'git checkout'-ed across branches. We stage it to a temp dir on the
+# filesystem before switching branches, then sync into gh-pages.
+if git show-ref --verify --quiet refs/heads/gh-pages || \
+   git ls-remote --exit-code --heads origin gh-pages &>/dev/null; then
+
+    read -p "Deploy to GitHub Pages? (Y/n): " -n 1 -r
     echo
-    if [[ $REPLY =~ ^[Yy]$ ]]; then
+    if [[ ! $REPLY =~ ^[Nn]$ ]]; then
         print_status "Deploying to GitHub Pages..."
-        
-        # Copy _site contents to gh-pages branch
-        git checkout gh-pages
-        
-        # Remove old files (keep .git)
-        find . -maxdepth 1 ! -name '.git' ! -name '.' ! -name '..' -exec rm -rf {} +
-        
-        # Copy new site files
-        git checkout "$CURRENT_BRANCH" -- _site/
-        mv _site/* .
-        rmdir _site
-        
-        # Commit and push gh-pages
-        git add .
-        git commit -m "Deploy site: $(date '+%Y-%m-%d %H:%M:%S')" || true
-        git push origin gh-pages
-        
-        # Switch back to main branch
+
+        if [ ! -d "_site" ]; then
+            print_error "_site/ does not exist. Run 'quarto render' first."
+            exit 1
+        fi
+
+        # Stage rendered site to a temp dir outside the working tree.
+        STAGE_DIR="$(mktemp -d -t studystats_site_XXXX)"
+        print_status "Staging site to $STAGE_DIR"
+        # rsync preserves dotfiles (.nojekyll, CNAME if dotted) and is
+        # safer than mv; trailing /. copies contents only.
+        rsync -a --delete _site/ "$STAGE_DIR/"
+
+        # Ensure GitHub Pages does NOT run Jekyll on Quarto's _-prefixed dirs.
+        touch "$STAGE_DIR/.nojekyll"
+
+        # Ensure custom domain CNAME is present.
+        if [ -f CNAME ] && [ ! -f "$STAGE_DIR/CNAME" ]; then
+            cp CNAME "$STAGE_DIR/CNAME"
+        fi
+
+        # Switch to gh-pages (create tracking branch from origin if local missing).
+        if git show-ref --verify --quiet refs/heads/gh-pages; then
+            git checkout gh-pages
+        else
+            git fetch origin gh-pages
+            git checkout -b gh-pages origin/gh-pages
+        fi
+
+        # Remove only TRACKED files; leaves local untracked dirs (.venv,
+        # _site, .quarto, etc.) intact.
+        git rm -rf . >/dev/null 2>&1 || true
+
+        # Copy the staged site over the now-empty tree (incl. dotfiles).
+        rsync -a "$STAGE_DIR/" ./
+
+        git add -A
+        if git diff --staged --quiet; then
+            print_warning "gh-pages: no changes to deploy"
+        else
+            git commit -m "Deploy site: $(date '+%Y-%m-%d %H:%M:%S')"
+            git push origin gh-pages
+            print_success "Deployed to GitHub Pages"
+        fi
+
+        # Return to source branch and clean up.
         git checkout "$CURRENT_BRANCH"
-        
-        print_success "Deployed to GitHub Pages"
+        rm -rf "$STAGE_DIR"
     fi
 fi
 

@@ -1,5 +1,7 @@
 ---
-title: ""
+title: "Our Mission"
+description: "StudyStats helps health professionals — especially MMed registrars — meet the statistical demands of their research with confidence."
+pagetitle: "Mission — StudyStats"
 ---
 
 ## Mission

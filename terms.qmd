@@ -1,0 +1,55 @@
+---
+title: "Terms of Service"
+description: "Terms governing the use of the StudyStats website and consulting services."
+pagetitle: "Terms of Service — StudyStats"
+format: html
+---
+
+*Last updated: May 2026*
+
+By using **study-stats.com** or engaging StudyStats for consulting services,
+you agree to the following terms.
+
+## Services
+
+StudyStats provides biostatistics and research-methodology consulting. Specific
+deliverables, timelines and fees are agreed in writing for each engagement
+(quote, email or contract).
+
+## Fees and payment
+
+- Quotes are valid for 30 days.
+- A 50% deposit secures the start of a project; the balance is due on delivery.
+- Hourly work is billed in 30-minute increments at the published rate.
+- All prices are in South African Rand (ZAR) and exclude VAT unless stated.
+
+## Scope and revisions
+
+Each package includes a defined number of revision rounds (specified at
+quotation). Additional revisions are billed at the hourly rate.
+
+## Confidentiality
+
+We treat all client data, protocols and unpublished results as confidential. A
+formal NDA can be signed on request.
+
+## Authorship and acknowledgement
+
+StudyStats provides statistical support; authorship of resulting manuscripts
+follows ICMJE criteria and remains the client's responsibility. Acknowledgement
+of statistical support in publications is appreciated but optional.
+
+## Limitation of liability
+
+Statistical advice is provided in good faith based on the data and information
+supplied by the client. StudyStats is not liable for decisions made on the
+basis of incomplete or inaccurate inputs, nor for indirect or consequential
+losses.
+
+## Governing law
+
+These terms are governed by the laws of the Republic of South Africa.
+
+## Contact
+
+[studystatsbb@gmail.com](mailto:studystatsbb@gmail.com)

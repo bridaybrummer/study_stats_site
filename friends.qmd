@@ -1,5 +1,7 @@
 ---
 title: "Friends of StudyStats"
+description: "Trusted partners we recommend for copy editing, language editing and complementary research services."
+pagetitle: "Friends of StudyStats — Recommended Partners"
 format: html
 ---
 

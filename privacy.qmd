@@ -1,0 +1,59 @@
+---
+title: "Privacy Policy"
+description: "How StudyStats handles personal information collected via this website."
+pagetitle: "Privacy Policy — StudyStats"
+format: html
+---
+
+*Last updated: May 2026*
+
+StudyStats ("we", "our") respects your privacy. This page explains what
+information we collect through **study-stats.com**, why we collect it, and the
+choices you have.
+
+## Information we collect
+
+- **Information you provide**: name, email, phone number and project details
+  submitted via the contact form or email.
+- **Automatically collected**: anonymised usage data (pages visited, device
+  type, country) via Google Analytics 4 and, where consent is given, Google
+  Ads conversion tracking.
+- **Cookies**: a cookie-consent banner allows you to accept or reject
+  non-essential cookies.
+
+## How we use it
+
+- To respond to your enquiry and deliver agreed services.
+- To improve the website (aggregate analytics only).
+- To measure the effectiveness of advertising campaigns.
+
+We **do not** sell or share personal information with third parties for
+marketing purposes.
+
+## Lawful basis (POPIA / GDPR)
+
+We process personal information on the basis of your consent (form submissions,
+analytics) and legitimate interest (responding to direct enquiries). You may
+withdraw consent at any time.
+
+## Data retention
+
+Enquiry emails are retained for 24 months. Analytics data is retained for the
+minimum period configured in Google Analytics (currently 14 months).
+
+## Your rights
+
+You may request access to, correction of, or deletion of your personal
+information. Contact us at
+[studystatsbb@gmail.com](mailto:studystatsbb@gmail.com).
+
+## Third-party services
+
+- **Google Analytics 4** — usage analytics
+- **Google Ads** (when active) — conversion measurement
+- **Formspree** — contact form delivery
+- **GitHub Pages** — website hosting
+
+## Contact
+
+Questions about this policy: [studystatsbb@gmail.com](mailto:studystatsbb@gmail.com).

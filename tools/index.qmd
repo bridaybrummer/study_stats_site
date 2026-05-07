@@ -1,6 +1,10 @@
 ---
 title: "Tools"
 listing:
+  contents:
+    - "*.qmd"
+    - "!index.qmd"
+    - "!lab/**"
   sort: date desc
 format:
   html:

@@ -1,0 +1,412 @@
+---
+title: "Sample size: comparing two proportions"
+date: "2026-05-07"
+categories: ["sample size", "proportions", "rates"]
+description: "Fast, MMed-friendly sample-size calculator for comparing two independent proportions or rates. Plain-language inputs, citations to support each assumption, and a copy-ready methods paragraph."
+pagetitle: "Sample size for two proportions — StudyStats"
+format:
+  html:
+    toc: false
+    css:
+      - _calculator.css
+resources:
+  - _calculator.js
+---
+
+```{=html}
+<section class="ss-calc" id="propCalc" aria-labelledby="propTitle">
+  <h2 id="propTitle">Compare two proportions (or rates)</h2>
+  <p class="ss-lede">
+    Use this tool when your outcome is <strong>binary</strong> (e.g. died / survived,
+    cured / not cured, complication / no complication) and you want to compare two
+    independent groups. Defaults are tuned for a typical MMed-level study.
+  </p>
+
+  <div class="ss-quickstart" role="group" aria-label="Quick start scenarios">
+    <button type="button" data-preset="mmed" class="active">▶ MMed default</button>
+    <button type="button" data-preset="small">▶ Small effect</button>
+    <button type="button" data-preset="large">▶ Large effect</button>
+  </div>
+
+  <div class="ss-grid">
+    <div class="ss-inputs">
+      <div class="ss-field">
+        <label for="p1">Outcome rate in Group 1 (control / reference)
+          <span class="ss-symbol">p₁</span></label>
+        <p class="ss-tip">As a proportion between 0 and 1 (e.g. 0.30 = 30 %).</p>
+        <input type="number" id="p1" min="0.001" max="0.999" step="0.01" value="0.30">
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p>This is what you <em>expect</em> to see in your control or standard-care
+            group, <em>before</em> running the study. Sources, in order of strength:</p>
+            <ol>
+              <li>A recent local study in a similar South African setting.</li>
+              <li>A systematic review or meta-analysis of the outcome.</li>
+              <li>A registry / audit (NICD, Stats SA, hospital M&amp;M data).</li>
+              <li>A pilot chart review of 30–50 of your own records.</li>
+            </ol>
+            <p><em>Search:</em>
+              <code>"&lt;outcome&gt;" "&lt;setting&gt;" prevalence OR incidence South Africa</code>
+              on PubMed (last 5 years).</p>
+            <p><em>In your protocol:</em> "Based on Smith et al. (2022), the 30-day
+            mortality at our institution for this cohort was approximately 30 %."</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ss-field">
+        <label for="p2">Outcome rate in Group 2 (intervention / comparison)
+          <span class="ss-symbol">p₂</span></label>
+        <p class="ss-tip">As a proportion between 0 and 1.</p>
+        <input type="number" id="p2" min="0.001" max="0.999" step="0.01" value="0.50">
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p>Two valid framings:</p>
+            <ul>
+              <li><strong>Expected effect</strong> — what you predict the
+              comparison group will show, based on prior trials.</li>
+              <li><strong>Minimum clinically important difference (MCID)</strong> —
+              the smallest change that would justify acting on the result. Often
+              more defensible.</li>
+            </ul>
+            <p>Cite an MCID from clinical guidelines or expert consensus where
+            possible (e.g. <span class="ss-cite">SA Society of Anaesthesiologists
+            guideline 2019</span>).</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ss-field">
+        <label for="alpha">Significance level <span class="ss-symbol">α</span></label>
+        <p class="ss-tip">Acceptable false-positive rate. Two-sided test.</p>
+        <select id="alpha">
+          <option value="0.01">0.01 (stricter — confirmatory trials)</option>
+          <option value="0.05" selected>0.05 (standard)</option>
+          <option value="0.10">0.10 (exploratory / pilot only)</option>
+        </select>
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p>α = 0.05 is the universal default in clinical research. Only deviate
+            with reason — strict (0.01) for confirmatory or multiple-testing
+            studies; lenient (0.10) only for exploratory work, and flag it.</p>
+            <p><em>Cite:</em> <span class="ss-cite">ICH E9 (1998) Statistical
+            Principles for Clinical Trials</span>.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ss-field">
+        <label for="power">Power <span class="ss-symbol">1 − β</span></label>
+        <p class="ss-tip">Probability of detecting the effect if it really exists.</p>
+        <select id="power">
+          <option value="0.80" selected>0.80 (standard)</option>
+          <option value="0.85">0.85</option>
+          <option value="0.90">0.90 (more conservative)</option>
+          <option value="0.95">0.95 (large / high-stakes trials)</option>
+        </select>
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p>Convention is 0.80. Increase to 0.90 if the study is expensive,
+            hard to repeat, or missing the effect would have major clinical
+            consequences.</p>
+            <p><em>Cite:</em> <span class="ss-cite">Cohen J. Statistical Power
+            Analysis for the Behavioral Sciences. 2nd ed. 1988</span>.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ss-field">
+        <label>
+          <input type="checkbox" id="clustering"> Account for clustering
+        </label>
+        <p class="ss-tip">Tick this if participants are grouped (clinics, classrooms,
+          households). People in the same cluster are more similar than random
+          individuals, which inflates the required sample size.</p>
+      </div>
+
+      <div id="clusterFields" hidden>
+        <div class="ss-field">
+          <label for="icc">Intracluster correlation
+            <span class="ss-symbol">ρ (ICC)</span></label>
+          <p class="ss-tip">How similar people in the same cluster are (0–1).</p>
+          <input type="number" id="icc" min="0.001" max="0.5" step="0.005" value="0.05">
+          <details class="ss-justify">
+            <summary>How to justify this number</summary>
+            <div class="ss-justify-body">
+              <p>ICC values are notoriously hard to pin down. Cite a published
+              compendium and pick a <em>conservative</em> value (i.e. higher rather
+              than lower) for the planning stage:</p>
+              <ul>
+                <li><span class="ss-cite">Adams G et al. <em>J Clin Epidemiol</em>
+                2004</span> — primary care.</li>
+                <li><span class="ss-cite">Murray DM et al. <em>Am J Public Health</em>
+                2004</span> — community-based trials.</li>
+                <li><span class="ss-cite">Campbell MK et al. <em>Methods in Cluster
+                Randomised Trials</em>, 2005</span>.</li>
+              </ul>
+              <p>If no published ICC exists, justify a conservative estimate
+              (e.g. 0.05 for clinic-level outcomes) and report sensitivity at
+              ρ = 0.02, 0.05, 0.10.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="ss-field">
+          <label for="m">Average cluster size <span class="ss-symbol">m</span></label>
+          <p class="ss-tip">People per cluster (e.g. 20 patients per clinic).</p>
+          <input type="number" id="m" min="2" max="500" step="1" value="20">
+        </div>
+      </div>
+    </div>
+
+    <div class="ss-result" aria-live="polite">
+      <h3>You need</h3>
+      <div id="ssBig" class="ss-big">— per group</div>
+      <div id="ssSub" class="ss-sub">— in total</div>
+
+      <div id="ssInterpret" class="ss-interpret">Adjust the inputs to see your sample size.</div>
+
+      <div class="ss-actions">
+        <button type="button" id="copyMethods">📋 Copy methods paragraph</button>
+        <button type="button" id="copyR" class="ss-secondary">📋 Copy R code</button>
+      </div>
+
+      <div class="ss-chart" id="powerChart" aria-label="Power curve"></div>
+    </div>
+  </div>
+
+  <details class="ss-details">
+    <summary>What does this calculation actually do?</summary>
+    <div class="ss-details-body">
+      <p>For comparing two independent proportions with a two-sided z-test, the
+      required sample size <em>per group</em> is approximately:</p>
+      <pre>n = [ z₁₋α/₂ · √(2 · p̄ · (1 − p̄))  +  z₁₋β · √(p₁(1 − p₁) + p₂(1 − p₂)) ]² / (p₂ − p₁)²</pre>
+      <p>where <em>p̄</em> = (p₁ + p₂) / 2.
+      When clustering is on, the required sample is inflated by the
+      <strong>design effect</strong>:</p>
+      <pre>DEff = 1 + (m − 1) · ρ</pre>
+      <p><strong>Assumptions:</strong> independent observations within groups
+      (or constant ICC across clusters); no interim analyses; complete follow-up.
+      Inflate by your expected drop-out rate before recruiting.</p>
+      <p><strong>References:</strong> Fleiss JL, Tytun A, Ury HK. <em>Biometrics</em>
+      1980;36:343–6. · Cohen J. <em>Statistical Power Analysis</em> 1988. ·
+      Lwanga SK, Lemeshow S. <em>Sample Size Determination in Health Studies</em>,
+      WHO 1991.</p>
+    </div>
+  </details>
+
+  <details class="ss-details">
+    <summary>Worked MMed example</summary>
+    <div class="ss-details-body">
+      <p><em>Setting:</em> A registrar audits 30-day mortality in two ICUs in a
+      tertiary hospital. ICU A uses a standard sepsis bundle; ICU B uses an
+      enhanced bundle introduced in 2023.</p>
+      <p>From a 2024 single-centre cohort (Mokoena et al.), 30-day mortality on
+      the standard bundle was about 30 %. The enhanced bundle is expected to drop
+      mortality to roughly 50 % of patients surviving without complications —
+      i.e. the registrar wants to detect a difference between p₁ = 0.30 and
+      p₂ = 0.50, with α = 0.05 and 80 % power.</p>
+      <p>The calculator returns roughly <strong>93 patients per ICU
+      (186 total)</strong>, comfortably feasible in a 12-month chart-review
+      window. After inflating for an expected 10 % missing-record rate, the
+      registrar plans for 207 charts.</p>
+    </div>
+  </details>
+
+  <p class="ss-lab-link">
+    Prefer to explore this in R / Shiny? Open the
+    <a href="lab/proportions_shiny.html" rel="nofollow">interactive R version →</a>
+  </p>
+</section>
+
+<script src="_calculator.js"></script>
+<script>
+(function () {
+  'use strict';
+  var SS = window.StudyStats;
+
+  var presets = {
+    mmed:  { p1: 0.30, p2: 0.50, alpha: '0.05', power: '0.80', clustering: false },
+    small: { p1: 0.30, p2: 0.40, alpha: '0.05', power: '0.80', clustering: false },
+    large: { p1: 0.20, p2: 0.50, alpha: '0.05', power: '0.80', clustering: false }
+  };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var inputs = ['p1', 'p2', 'alpha', 'power', 'clustering', 'icc', 'm'].map($);
+
+  function readVals() {
+    return {
+      p1: parseFloat($('p1').value),
+      p2: parseFloat($('p2').value),
+      alpha: parseFloat($('alpha').value),
+      power: parseFloat($('power').value),
+      clustering: $('clustering').checked,
+      icc: parseFloat($('icc').value),
+      m: parseFloat($('m').value)
+    };
+  }
+
+  // n per group for a two-proportion z-test (Fleiss).
+  function nPerGroup(p1, p2, alpha, power) {
+    if (!(p1 > 0 && p1 < 1) || !(p2 > 0 && p2 < 1)) return NaN;
+    var delta = Math.abs(p2 - p1);
+    if (delta === 0) return Infinity;
+    var pBar = (p1 + p2) / 2;
+    var zA = SS.qnorm(1 - alpha / 2);
+    var zB = SS.qnorm(power);
+    var num = zA * Math.sqrt(2 * pBar * (1 - pBar)) +
+              zB * Math.sqrt(p1 * (1 - p1) + p2 * (1 - p2));
+    return (num * num) / (delta * delta);
+  }
+
+  // Empirical power for a given n per group.
+  function powerAt(n, p1, p2, alpha) {
+    var pBar = (p1 + p2) / 2;
+    var zA = SS.qnorm(1 - alpha / 2);
+    var sePool = Math.sqrt(2 * pBar * (1 - pBar) / n);
+    var seAlt  = Math.sqrt((p1 * (1 - p1) + p2 * (1 - p2)) / n);
+    var delta = Math.abs(p2 - p1);
+    return 1 - SS.pnorm((zA * sePool - delta) / seAlt) +
+               SS.pnorm((-zA * sePool - delta) / seAlt);
+  }
+
+  function update() {
+    var v = readVals();
+    var clusterFields = $('clusterFields');
+    clusterFields.hidden = !v.clustering;
+
+    var nRaw = nPerGroup(v.p1, v.p2, v.alpha, v.power);
+    var deff = v.clustering ? 1 + (v.m - 1) * v.icc : 1;
+    var nGroup = nRaw * deff;
+
+    var big = $('ssBig'), sub = $('ssSub'), interp = $('ssInterpret');
+    if (!isFinite(nGroup) || isNaN(nGroup)) {
+      big.textContent = '—';
+      big.classList.add('ss-warn');
+      sub.textContent = 'Set p₁ and p₂ to different values between 0 and 1.';
+      interp.textContent = 'Adjust the inputs to see your sample size.';
+      $('powerChart').innerHTML = '';
+      return;
+    }
+    var nGroupCeil = Math.ceil(nGroup);
+    var total = nGroupCeil * 2;
+
+    big.classList.toggle('ss-warn', total > 400);
+    big.textContent = SS.formatN(nGroupCeil) + ' per group';
+    sub.textContent = SS.formatN(total) + ' in total' +
+                      (v.clustering ? '  ·  Design effect = ' + deff.toFixed(2) : '');
+
+    var msg = 'To detect a difference between ' + (v.p1 * 100).toFixed(0) + '% and ' +
+              (v.p2 * 100).toFixed(0) + '% at α = ' + v.alpha +
+              ' with ' + (v.power * 100).toFixed(0) + '% power, you need ' +
+              SS.formatN(nGroupCeil) + ' participants in each group (' +
+              SS.formatN(total) + ' in total).';
+    if (v.clustering) {
+      var nClusters = Math.ceil(nGroupCeil / v.m);
+      msg += ' Accounting for clustering (ρ = ' + v.icc + ', m = ' + v.m + '), this is ' +
+             nClusters + ' clusters per group.';
+    }
+    if (total > 400) {
+      msg += ' ⚠ This may exceed typical MMed feasibility — consider a larger expected effect or relaxed power.';
+    }
+    interp.textContent = msg;
+
+    // Power curve over a sensible n-range.
+    var nLo = Math.max(10, Math.round(nRaw * 0.2));
+    var nHi = Math.max(nLo + 20, Math.round(nRaw * 2.5));
+    var step = Math.max(1, Math.round((nHi - nLo) / 60));
+    var pts = [];
+    for (var n = nLo; n <= nHi; n += step) {
+      pts.push({ x: n, y: Math.max(0, Math.min(1, powerAt(n, v.p1, v.p2, v.alpha))) });
+    }
+    SS.svgPowerCurve($('powerChart'), pts, nGroupCeil,
+                     Math.max(0, Math.min(1, powerAt(nGroupCeil, v.p1, v.p2, v.alpha))),
+                     { xlab: 'Sample size per group', ylab: 'Power (1 − β)' });
+  }
+
+  function applyPreset(name) {
+    var p = presets[name];
+    if (!p) return;
+    $('p1').value = p.p1;
+    $('p2').value = p.p2;
+    $('alpha').value = p.alpha;
+    $('power').value = p.power;
+    $('clustering').checked = p.clustering;
+    update();
+    document.querySelectorAll('.ss-quickstart button').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.preset === name);
+    });
+  }
+
+  function methodsParagraph() {
+    var v = readVals();
+    var n = Math.ceil(nPerGroup(v.p1, v.p2, v.alpha, v.power));
+    var deff = v.clustering ? 1 + (v.m - 1) * v.icc : 1;
+    var nFinal = Math.ceil(n * deff);
+    var s =
+      'Sample size was calculated for the comparison of two independent proportions ' +
+      'using a two-sided z-test (Fleiss, Tytun & Ury, 1980) at α = ' + v.alpha +
+      ' with ' + (v.power * 100).toFixed(0) + '% power (Cohen, 1988). ' +
+      'Assuming an outcome rate of ' + (v.p1 * 100).toFixed(0) + '% in the reference group ' +
+      'and ' + (v.p2 * 100).toFixed(0) + '% in the comparison group, ' +
+      SS.formatN(nFinal) + ' participants per group (' + SS.formatN(nFinal * 2) +
+      ' in total) are required.';
+    if (v.clustering) {
+      s += ' To account for clustering (ICC = ' + v.icc + ', average cluster size = ' +
+           v.m + '), the sample was inflated by a design effect of ' + deff.toFixed(2) + '.';
+    }
+    s += ' Calculations were performed with the StudyStats sample-size tool ' +
+         '(https://study-stats.com/tools/sample_size_proportions.html).';
+    return s;
+  }
+
+  function rCode() {
+    var v = readVals();
+    var lines = [
+      '# Two-proportion sample size (Fleiss formula, via base R)',
+      'p1    <- ' + v.p1,
+      'p2    <- ' + v.p2,
+      'alpha <- ' + v.alpha,
+      'power <- ' + v.power,
+      'pbar  <- (p1 + p2) / 2',
+      'zA    <- qnorm(1 - alpha / 2)',
+      'zB    <- qnorm(power)',
+      'n     <- ((zA * sqrt(2 * pbar * (1 - pbar)) +',
+      '           zB * sqrt(p1 * (1 - p1) + p2 * (1 - p2)))^2) / (p2 - p1)^2',
+      'ceiling(n)   # n per group',
+      '',
+      '# Equivalent using the pwr package:',
+      '# install.packages("pwr")',
+      'library(pwr)',
+      'h <- ES.h(p1, p2)   # Cohen\'s h',
+      'pwr.2p.test(h = h, sig.level = alpha, power = power)'
+    ];
+    if (v.clustering) {
+      lines.push('',
+        '# Adjust for clustering',
+        'icc  <- ' + v.icc,
+        'm    <- ' + v.m,
+        'deff <- 1 + (m - 1) * icc',
+        'ceiling(n * deff)   # adjusted n per group');
+    }
+    return lines.join('\n');
+  }
+
+  inputs.forEach(function (el) {
+    el.addEventListener('input', update);
+    el.addEventListener('change', update);
+  });
+  document.querySelectorAll('.ss-quickstart button').forEach(function (b) {
+    b.addEventListener('click', function () { applyPreset(b.dataset.preset); });
+  });
+  $('copyMethods').addEventListener('click', function () { SS.copyText(methodsParagraph()); });
+  $('copyR').addEventListener('click', function () { SS.copyText(rCode()); });
+
+  update();
+})();
+</script>
+```
