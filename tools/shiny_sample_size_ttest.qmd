@@ -2,6 +2,9 @@
 title: "Comparing two averages (means)"
 date: "2025-02-20"
 categories: ["statistics", "ttest", "samplesize"]
+output-file: means.html
+aliases:
+  - shiny_sample_size_ttest.html
 format: 
     html:
         resources: 

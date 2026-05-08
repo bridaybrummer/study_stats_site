@@ -178,6 +178,19 @@ if git show-ref --verify --quiet refs/heads/gh-pages || \
         # Copy the staged site over the now-empty tree (incl. dotfiles).
         rsync -a "$STAGE_DIR/" ./
 
+        # Write a .gitignore so 'git add -A' does NOT pick up local-only
+        # source-tree dirs that may still be sitting in the working tree
+        # (.venv/, .quarto/ cache, _site/, macOS noise). Without this,
+        # git add -A races with Quarto rewriting .quarto/idx/*.json.
+        cat > .gitignore <<'GITIGNORE'
+.venv/
+.quarto/
+_site/
+.DS_Store
+**/.DS_Store
+*~
+GITIGNORE
+
         git add -A
         if git diff --staged --quiet; then
             print_warning "gh-pages: no changes to deploy"

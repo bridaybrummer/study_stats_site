@@ -4,6 +4,9 @@ date: "2026-05-07"
 categories: ["sample size", "proportions", "rates"]
 description: "Fast, MMed-friendly sample-size calculator for comparing two independent proportions or rates. Plain-language inputs, citations to support each assumption, and a copy-ready methods paragraph."
 pagetitle: "Sample size for two proportions — StudyStats"
+output-file: proportions.html
+aliases:
+  - sample_size_proportions.html
 format:
   html:
     toc: false
@@ -360,7 +363,7 @@ resources:
            v.m + '), the sample was inflated by a design effect of ' + deff.toFixed(2) + '.';
     }
     s += ' Calculations were performed with the StudyStats sample-size tool ' +
-         '(https://study-stats.com/tools/sample_size_proportions.html).';
+         '(https://study-stats.com/tools/proportions.html).';
     return s;
   }
 
