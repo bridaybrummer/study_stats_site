@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.36">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-05-07">
+<meta name="description" content="Fast, MMed-friendly sample-size calculator for comparing two independent proportions or rates. Plain-language inputs, citations to support each assumption, and a copy-ready methods paragraph.">
+
+<title>Sample size for two proportions — StudyStats – STUDYSTATS</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../logo/StudyStats_Logo Files/CMYK/second_logo_portrait/White/white_big_C.png" rel="icon" type="image/png">
+<script src="../site_libs/cookie-consent/cookie-consent.js"></script>
+<link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-845c23b38eaddc0f92fda52bfe77a8c8.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-c76ffff97d0325988a61ab36bec4ba29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-MKT52KHL7C"></script>
+
+<script type="text/plain" cookie-consent="tracking">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-MKT52KHL7C', { 'anonymize_ip': true});
+</script>
+
+<script type="text/javascript" charset="UTF-8">
+document.addEventListener('DOMContentLoaded', function () {
+cookieconsent.run({
+  "notice_banner_type":"simple",
+  "consent_type":"express",
+  "palette":"light",
+  "language":"en",
+  "page_load_consent_levels":["strictly-necessary"],
+  "notice_banner_reject_button_hide":false,
+  "preferences_center_close_button_hide":false,
+  "website_name":""
+  ,
+"language":"en"
+  });
+});
+</script> 
+  
+<style>html{ scroll-behavior: smooth; }</style>
+
+
+<link rel="stylesheet" href="_calculator.css">
+<meta property="og:title" content="Sample size for two proportions — StudyStats">
+<meta property="og:description" content="Fast, MMed-friendly sample-size calculator for comparing two independent proportions or rates. Plain-language inputs, citations to support each assumption, and a copy-ready methods paragraph.">
+<meta property="og:image" content="https://study-stats.com/tools/logo/StudyStats_Logo Files/CMYK/Primary Logo (Landscape)/Grey/StudyStats_Primary Logo_Grey.svg">
+<meta property="og:site_name" content="STUDYSTATS">
+<meta property="og:locale" content="en_ZA">
+<meta name="twitter:title" content="Sample size for two proportions — StudyStats">
+<meta name="twitter:description" content="Fast, MMed-friendly sample-size calculator for comparing two independent proportions or rates. Plain-language inputs, citations to support each assumption, and a copy-ready methods paragraph.">
+<meta name="twitter:image" content="https://study-stats.com/tools/logo/StudyStats_Logo Files/CMYK/Primary Logo (Landscape)/Grey/StudyStats_Primary Logo_Grey.svg">
+<meta name="twitter:card" content="summary_large_image">
+</head>
+
+<body class="nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../logo/StudyStats_Logo Files/CMYK/second_logo_portrait/White/white_big_C.png" alt="StudyStats Logo" class="navbar-logo light-content">
+    <img src="../logo/StudyStats_Logo Files/CMYK/second_logo_portrait/White/white_big_C.png" alt="StudyStats Logo" class="navbar-logo dark-content">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">STUDYSTATS</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Landing</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../how_it_works.html"> 
+<span class="menu-text">How it works</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../rates.html"> 
+<span class="menu-text">Pricing</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../blog/index.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../tools/index.html"> 
+<span class="menu-text">Tools</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../friends.html"> 
+<span class="menu-text">Friends of StudyStats</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../contact.html"> 
+<span class="menu-text">Contact</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+<!-- before.html -->
+<div class="custom-before">
+    <p></p>
+  </div>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Sample size: comparing two proportions</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">sample size</div>
+    <div class="quarto-category">proportions</div>
+    <div class="quarto-category">rates</div>
+  </div>
+  </div>
+
+<div>
+  <div class="description">
+    Fast, MMed-friendly sample-size calculator for comparing two independent proportions or rates. Plain-language inputs, citations to support each assumption, and a copy-ready methods paragraph.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">May 7, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section class="ss-calc" id="propCalc" aria-labelledby="propTitle">
+  <h2 id="propTitle" class="anchored">Compare two proportions (or rates)</h2>
+  <p class="ss-lede">
+    Use this tool when your outcome is <strong>binary</strong> (e.g. died / survived,
+    cured / not cured, complication / no complication) and you want to compare two
+    independent groups. Defaults are tuned for a typical MMed-level study.
+  </p>
+
+  <div class="ss-quickstart" role="group" aria-label="Quick start scenarios">
+    <button type="button" data-preset="mmed" class="active">▶ MMed default</button>
+    <button type="button" data-preset="small">▶ Small effect</button>
+    <button type="button" data-preset="large">▶ Large effect</button>
+  </div>
+
+  <div class="ss-grid">
+    <div class="ss-inputs">
+      <div class="ss-field">
+        <label for="p1">Outcome rate in Group 1 (control / reference)
+          <span class="ss-symbol">p₁</span></label>
+        <p class="ss-tip">As a proportion between 0 and 1 (e.g. 0.30 = 30 %).</p>
+        <input type="number" id="p1" min="0.001" max="0.999" step="0.01" value="0.30">
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p>This is what you <em>expect</em> to see in your control or standard-care
+            group, <em>before</em> running the study. Sources, in order of strength:</p>
+            <ol>
+              <li>A recent local study in a similar South African setting.</li>
+              <li>A systematic review or meta-analysis of the outcome.</li>
+              <li>A registry / audit (NICD, Stats SA, hospital M&amp;M data).</li>
+              <li>A pilot chart review of 30–50 of your own records.</li>
+            </ol>
+            <p><em>Search:</em>
+              <code>"&lt;outcome&gt;" "&lt;setting&gt;" prevalence OR incidence South Africa</code>
+              on PubMed (last 5 years).</p>
+            <p><em>In your protocol:</em> "Based on Smith et al. (2022), the 30-day
+            mortality at our institution for this cohort was approximately 30 %."</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ss-field">
+        <label for="p2">Outcome rate in Group 2 (intervention / comparison)
+          <span class="ss-symbol">p₂</span></label>
+        <p class="ss-tip">As a proportion between 0 and 1.</p>
+        <input type="number" id="p2" min="0.001" max="0.999" step="0.01" value="0.50">
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p>Two valid framings:</p>
+            <ul>
+              <li><strong>Expected effect</strong> — what you predict the
+              comparison group will show, based on prior trials.</li>
+              <li><strong>Minimum clinically important difference (MCID)</strong> —
+              the smallest change that would justify acting on the result. Often
+              more defensible.</li>
+            </ul>
+            <p>Cite an MCID from clinical guidelines or expert consensus where
+            possible (e.g. <span class="ss-cite">SA Society of Anaesthesiologists
+            guideline 2019</span>).</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ss-field">
+        <label for="alpha">Significance level <span class="ss-symbol">α</span></label>
+        <p class="ss-tip">Acceptable false-positive rate. Two-sided test.</p>
+        <select id="alpha">
+          <option value="0.01">0.01 (stricter — confirmatory trials)</option>
+          <option value="0.05" selected="">0.05 (standard)</option>
+          <option value="0.10">0.10 (exploratory / pilot only)</option>
+        </select>
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p>α = 0.05 is the universal default in clinical research. Only deviate
+            with reason — strict (0.01) for confirmatory or multiple-testing
+            studies; lenient (0.10) only for exploratory work, and flag it.</p>
+            <p><em>Cite:</em> <span class="ss-cite">ICH E9 (1998) Statistical
+            Principles for Clinical Trials</span>.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ss-field">
+        <label for="power">Power <span class="ss-symbol">1 − β</span></label>
+        <p class="ss-tip">Probability of detecting the effect if it really exists.</p>
+        <select id="power">
+          <option value="0.80" selected="">0.80 (standard)</option>
+          <option value="0.85">0.85</option>
+          <option value="0.90">0.90 (more conservative)</option>
+          <option value="0.95">0.95 (large / high-stakes trials)</option>
+        </select>
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p>Convention is 0.80. Increase to 0.90 if the study is expensive,
+            hard to repeat, or missing the effect would have major clinical
+            consequences.</p>
+            <p><em>Cite:</em> <span class="ss-cite">Cohen J. Statistical Power
+            Analysis for the Behavioral Sciences. 2nd ed. 1988</span>.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ss-field">
+        <label>
+          <input type="checkbox" id="clustering"> Account for clustering
+        </label>
+        <p class="ss-tip">Tick this if participants are grouped (clinics, classrooms,
+          households). People in the same cluster are more similar than random
+          individuals, which inflates the required sample size.</p>
+      </div>
+
+      <div id="clusterFields" hidden="">
+        <div class="ss-field">
+          <label for="icc">Intracluster correlation
+            <span class="ss-symbol">ρ (ICC)</span></label>
+          <p class="ss-tip">How similar people in the same cluster are (0–1).</p>
+          <input type="number" id="icc" min="0.001" max="0.5" step="0.005" value="0.05">
+          <details class="ss-justify">
+            <summary>How to justify this number</summary>
+            <div class="ss-justify-body">
+              <p>ICC values are notoriously hard to pin down. Cite a published
+              compendium and pick a <em>conservative</em> value (i.e. higher rather
+              than lower) for the planning stage:</p>
+              <ul>
+                <li><span class="ss-cite">Adams G et al. <em>J Clin Epidemiol</em>
+                2004</span> — primary care.</li>
+                <li><span class="ss-cite">Murray DM et al. <em>Am J Public Health</em>
+                2004</span> — community-based trials.</li>
+                <li><span class="ss-cite">Campbell MK et al. <em>Methods in Cluster
+                Randomised Trials</em>, 2005</span>.</li>
+              </ul>
+              <p>If no published ICC exists, justify a conservative estimate
+              (e.g. 0.05 for clinic-level outcomes) and report sensitivity at
+              ρ = 0.02, 0.05, 0.10.</p>
+            </div>
+          </details>
+        </div>
+
+        <div class="ss-field">
+          <label for="m">Average cluster size <span class="ss-symbol">m</span></label>
+          <p class="ss-tip">People per cluster (e.g. 20 patients per clinic).</p>
+          <input type="number" id="m" min="2" max="500" step="1" value="20">
+        </div>
+      </div>
+    </div>
+
+    <div class="ss-result" aria-live="polite">
+      <h3 class="anchored">You need</h3>
+      <div id="ssBig" class="ss-big">— per group</div>
+      <div id="ssSub" class="ss-sub">— in total</div>
+
+      <div id="ssInterpret" class="ss-interpret">Adjust the inputs to see your sample size.</div>
+
+      <div class="ss-actions">
+        <button type="button" id="copyMethods">📋 Copy methods paragraph</button>
+        <button type="button" id="copyR" class="ss-secondary">📋 Copy R code</button>
+      </div>
+
+      <div class="ss-chart" id="powerChart" aria-label="Power curve"></div>
+    </div>
+  </div>
+
+  <details class="ss-details">
+    <summary>What does this calculation actually do?</summary>
+    <div class="ss-details-body">
+      <p>For comparing two independent proportions with a two-sided z-test, the
+      required sample size <em>per group</em> is approximately:</p>
+      <pre>n = [ z₁₋α/₂ · √(2 · p̄ · (1 − p̄))  +  z₁₋β · √(p₁(1 − p₁) + p₂(1 − p₂)) ]² / (p₂ − p₁)²</pre>
+      <p>where <em>p̄</em> = (p₁ + p₂) / 2.
+      When clustering is on, the required sample is inflated by the
+      <strong>design effect</strong>:</p>
+      <pre>DEff = 1 + (m − 1) · ρ</pre>
+      <p><strong>Assumptions:</strong> independent observations within groups
+      (or constant ICC across clusters); no interim analyses; complete follow-up.
+      Inflate by your expected drop-out rate before recruiting.</p>
+      <p><strong>References:</strong> Fleiss JL, Tytun A, Ury HK. <em>Biometrics</em>
+      1980;36:343–6. · Cohen J. <em>Statistical Power Analysis</em> 1988. ·
+      Lwanga SK, Lemeshow S. <em>Sample Size Determination in Health Studies</em>,
+      WHO 1991.</p>
+    </div>
+  </details>
+
+  <details class="ss-details">
+    <summary>Worked MMed example</summary>
+    <div class="ss-details-body">
+      <p><em>Setting:</em> A registrar audits 30-day mortality in two ICUs in a
+      tertiary hospital. ICU A uses a standard sepsis bundle; ICU B uses an
+      enhanced bundle introduced in 2023.</p>
+      <p>From a 2024 single-centre cohort (Mokoena et al.), 30-day mortality on
+      the standard bundle was about 30 %. The enhanced bundle is expected to drop
+      mortality to roughly 50 % of patients surviving without complications —
+      i.e. the registrar wants to detect a difference between p₁ = 0.30 and
+      p₂ = 0.50, with α = 0.05 and 80 % power.</p>
+      <p>The calculator returns roughly <strong>93 patients per ICU
+      (186 total)</strong>, comfortably feasible in a 12-month chart-review
+      window. After inflating for an expected 10 % missing-record rate, the
+      registrar plans for 207 charts.</p>
+    </div>
+  </details>
+
+  <p class="ss-lab-link">
+    Prefer to explore this in R / Shiny? Open the
+    <a href="lab/proportions_shiny.html" rel="nofollow">interactive R version →</a>
+  </p>
+</section>
+
+<script src="_calculator.js"></script>
+<script>
+(function () {
+  'use strict';
+  var SS = window.StudyStats;
+
+  var presets = {
+    mmed:  { p1: 0.30, p2: 0.50, alpha: '0.05', power: '0.80', clustering: false },
+    small: { p1: 0.30, p2: 0.40, alpha: '0.05', power: '0.80', clustering: false },
+    large: { p1: 0.20, p2: 0.50, alpha: '0.05', power: '0.80', clustering: false }
+  };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var inputs = ['p1', 'p2', 'alpha', 'power', 'clustering', 'icc', 'm'].map($);
+
+  function readVals() {
+    return {
+      p1: parseFloat($('p1').value),
+      p2: parseFloat($('p2').value),
+      alpha: parseFloat($('alpha').value),
+      power: parseFloat($('power').value),
+      clustering: $('clustering').checked,
+      icc: parseFloat($('icc').value),
+      m: parseFloat($('m').value)
+    };
+  }
+
+  // n per group for a two-proportion z-test (Fleiss).
+  function nPerGroup(p1, p2, alpha, power) {
+    if (!(p1 > 0 && p1 < 1) || !(p2 > 0 && p2 < 1)) return NaN;
+    var delta = Math.abs(p2 - p1);
+    if (delta === 0) return Infinity;
+    var pBar = (p1 + p2) / 2;
+    var zA = SS.qnorm(1 - alpha / 2);
+    var zB = SS.qnorm(power);
+    var num = zA * Math.sqrt(2 * pBar * (1 - pBar)) +
+              zB * Math.sqrt(p1 * (1 - p1) + p2 * (1 - p2));
+    return (num * num) / (delta * delta);
+  }
+
+  // Empirical power for a given n per group.
+  function powerAt(n, p1, p2, alpha) {
+    var pBar = (p1 + p2) / 2;
+    var zA = SS.qnorm(1 - alpha / 2);
+    var sePool = Math.sqrt(2 * pBar * (1 - pBar) / n);
+    var seAlt  = Math.sqrt((p1 * (1 - p1) + p2 * (1 - p2)) / n);
+    var delta = Math.abs(p2 - p1);
+    return 1 - SS.pnorm((zA * sePool - delta) / seAlt) +
+               SS.pnorm((-zA * sePool - delta) / seAlt);
+  }
+
+  function update() {
+    var v = readVals();
+    var clusterFields = $('clusterFields');
+    clusterFields.hidden = !v.clustering;
+
+    var nRaw = nPerGroup(v.p1, v.p2, v.alpha, v.power);
+    var deff = v.clustering ? 1 + (v.m - 1) * v.icc : 1;
+    var nGroup = nRaw * deff;
+
+    var big = $('ssBig'), sub = $('ssSub'), interp = $('ssInterpret');
+    if (!isFinite(nGroup) || isNaN(nGroup)) {
+      big.textContent = '—';
+      big.classList.add('ss-warn');
+      sub.textContent = 'Set p₁ and p₂ to different values between 0 and 1.';
+      interp.textContent = 'Adjust the inputs to see your sample size.';
+      $('powerChart').innerHTML = '';
+      return;
+    }
+    var nGroupCeil = Math.ceil(nGroup);
+    var total = nGroupCeil * 2;
+
+    big.classList.toggle('ss-warn', total > 400);
+    big.textContent = SS.formatN(nGroupCeil) + ' per group';
+    sub.textContent = SS.formatN(total) + ' in total' +
+                      (v.clustering ? '  ·  Design effect = ' + deff.toFixed(2) : '');
+
+    var msg = 'To detect a difference between ' + (v.p1 * 100).toFixed(0) + '% and ' +
+              (v.p2 * 100).toFixed(0) + '% at α = ' + v.alpha +
+              ' with ' + (v.power * 100).toFixed(0) + '% power, you need ' +
+              SS.formatN(nGroupCeil) + ' participants in each group (' +
+              SS.formatN(total) + ' in total).';
+    if (v.clustering) {
+      var nClusters = Math.ceil(nGroupCeil / v.m);
+      msg += ' Accounting for clustering (ρ = ' + v.icc + ', m = ' + v.m + '), this is ' +
+             nClusters + ' clusters per group.';
+    }
+    if (total > 400) {
+      msg += ' ⚠ This may exceed typical MMed feasibility — consider a larger expected effect or relaxed power.';
+    }
+    interp.textContent = msg;
+
+    // Power curve over a sensible n-range.
+    var nLo = Math.max(10, Math.round(nRaw * 0.2));
+    var nHi = Math.max(nLo + 20, Math.round(nRaw * 2.5));
+    var step = Math.max(1, Math.round((nHi - nLo) / 60));
+    var pts = [];
+    for (var n = nLo; n <= nHi; n += step) {
+      pts.push({ x: n, y: Math.max(0, Math.min(1, powerAt(n, v.p1, v.p2, v.alpha))) });
+    }
+    SS.svgPowerCurve($('powerChart'), pts, nGroupCeil,
+                     Math.max(0, Math.min(1, powerAt(nGroupCeil, v.p1, v.p2, v.alpha))),
+                     { xlab: 'Sample size per group', ylab: 'Power (1 − β)' });
+  }
+
+  function applyPreset(name) {
+    var p = presets[name];
+    if (!p) return;
+    $('p1').value = p.p1;
+    $('p2').value = p.p2;
+    $('alpha').value = p.alpha;
+    $('power').value = p.power;
+    $('clustering').checked = p.clustering;
+    update();
+    document.querySelectorAll('.ss-quickstart button').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.preset === name);
+    });
+  }
+
+  function methodsParagraph() {
+    var v = readVals();
+    var n = Math.ceil(nPerGroup(v.p1, v.p2, v.alpha, v.power));
+    var deff = v.clustering ? 1 + (v.m - 1) * v.icc : 1;
+    var nFinal = Math.ceil(n * deff);
+    var s =
+      'Sample size was calculated for the comparison of two independent proportions ' +
+      'using a two-sided z-test (Fleiss, Tytun & Ury, 1980) at α = ' + v.alpha +
+      ' with ' + (v.power * 100).toFixed(0) + '% power (Cohen, 1988). ' +
+      'Assuming an outcome rate of ' + (v.p1 * 100).toFixed(0) + '% in the reference group ' +
+      'and ' + (v.p2 * 100).toFixed(0) + '% in the comparison group, ' +
+      SS.formatN(nFinal) + ' participants per group (' + SS.formatN(nFinal * 2) +
+      ' in total) are required.';
+    if (v.clustering) {
+      s += ' To account for clustering (ICC = ' + v.icc + ', average cluster size = ' +
+           v.m + '), the sample was inflated by a design effect of ' + deff.toFixed(2) + '.';
+    }
+    s += ' Calculations were performed with the StudyStats sample-size tool ' +
+         '(https://study-stats.com/tools/proportions.html).';
+    return s;
+  }
+
+  function rCode() {
+    var v = readVals();
+    var lines = [
+      '# Two-proportion sample size (Fleiss formula, via base R)',
+      'p1    <- ' + v.p1,
+      'p2    <- ' + v.p2,
+      'alpha <- ' + v.alpha,
+      'power <- ' + v.power,
+      'pbar  <- (p1 + p2) / 2',
+      'zA    <- qnorm(1 - alpha / 2)',
+      'zB    <- qnorm(power)',
+      'n     <- ((zA * sqrt(2 * pbar * (1 - pbar)) +',
+      '           zB * sqrt(p1 * (1 - p1) + p2 * (1 - p2)))^2) / (p2 - p1)^2',
+      'ceiling(n)   # n per group',
+      '',
+      '# Equivalent using the pwr package:',
+      '# install.packages("pwr")',
+      'library(pwr)',
+      'h <- ES.h(p1, p2)   # Cohen\'s h',
+      'pwr.2p.test(h = h, sig.level = alpha, power = power)'
+    ];
+    if (v.clustering) {
+      lines.push('',
+        '# Adjust for clustering',
+        'icc  <- ' + v.icc,
+        'm    <- ' + v.m,
+        'deff <- 1 + (m - 1) * icc',
+        'ceiling(n * deff)   # adjusted n per group');
+    }
+    return lines.join('\n');
+  }
+
+  inputs.forEach(function (el) {
+    el.addEventListener('input', update);
+    el.addEventListener('change', update);
+  });
+  document.querySelectorAll('.ss-quickstart button').forEach(function (b) {
+    b.addEventListener('click', function () { applyPreset(b.dataset.preset); });
+  });
+  $('copyMethods').addEventListener('click', function () { SS.copyText(methodsParagraph()); });
+  $('copyR').addEventListener('click', function () { SS.copyText(rCode()); });
+
+  update();
+})();
+</script>
+
+
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/study-stats\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+            // target, if specified
+            link.setAttribute("target", "_blank");
+            if (link.getAttribute("rel") === null) {
+              link.setAttribute("rel", "noopener");
+            }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 StudyStats. All rights reserved.</p>
+</div>   
+    <div class="nav-footer-center">
+
+<div class="cookie-consent-footer"><a href="#" id="open_preferences_center">Cookie Preferences</a></div></div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../privacy.html">
+<p>Privacy</p>
+</a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="../terms.html">
+<p>Terms</p>
+</a>
+  </li>  
+    <li class="nav-item">
+    <a class="nav-link" href="../contact.html">
+<p>Contact</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+../after.html
+
+
+
+
+<script src="../site_libs/quarto-html/zenscroll-min.js"></script>
+</body></html>
