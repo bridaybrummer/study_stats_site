@@ -10,12 +10,12 @@
   {
     "listing": "/tools/index.html",
     "items": [
-      "/tools/proportions.html",
-      "/tools/means.html",
-      "/tools/prevalence.html",
-      "/tools/lab/proportions_shiny.html",
+      "/tools/diagnostic.html",
       "/tools/logistic.html",
-      "/tools/diagnostic.html"
+      "/tools/prevalence.html",
+      "/tools/means.html",
+      "/tools/proportions.html",
+      "/tools/lab/proportions_shiny.html"
     ]
   }
 ]

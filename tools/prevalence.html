@@ -6,9 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="dcterms.date" content="2025-02-20">
+<meta name="dcterms.date" content="2026-05-08">
+<meta name="description" content="Sample-size calculator for estimating a single proportion or prevalence with a desired margin of error. Includes design effect and finite-population correction.">
 
-<title>Prevalence Study sample size calculator – STUDYSTATS</title>
+<title>Sample size for a single prevalence — StudyStats – STUDYSTATS</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -47,11 +48,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-c76ffff97d0325988a61ab36bec4ba29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
-<meta name="shinylive:serviceworker_dir" content="..">
-<script src="../site_libs/quarto-contrib/shinylive-0.10.8/shinylive/load-shinylive-sw.js" type="module"></script>
-<script src="../site_libs/quarto-contrib/shinylive-0.10.8/shinylive/run-python-blocks.js" type="module"></script>
-<link href="../site_libs/quarto-contrib/shinylive-0.10.8/shinylive/shinylive.css" rel="stylesheet">
-<link href="../site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -108,48 +104,20 @@ cookieconsent.run({
   
 <style>html{ scroll-behavior: smooth; }</style>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<meta property="og:title" content="Prevalence Study sample size calculator – STUDYSTATS">
-<meta property="og:description" content="StudyStats: Expert statistical consulting, blog, and tools.">
+<link rel="stylesheet" href="_calculator.css">
+<meta property="og:title" content="Sample size for a single prevalence — StudyStats">
+<meta property="og:description" content="Sample-size calculator for estimating a single proportion or prevalence with a desired margin of error. Includes design effect and finite-population correction.">
 <meta property="og:image" content="https://study-stats.com/tools/logo/StudyStats_Logo Files/CMYK/Primary Logo (Landscape)/Grey/StudyStats_Primary Logo_Grey.svg">
 <meta property="og:site_name" content="STUDYSTATS">
 <meta property="og:locale" content="en_ZA">
-<meta name="twitter:title" content="Prevalence Study sample size calculator – STUDYSTATS">
-<meta name="twitter:description" content="StudyStats: Expert statistical consulting, blog, and tools.">
+<meta name="twitter:title" content="Sample size for a single prevalence — StudyStats">
+<meta name="twitter:description" content="Sample-size calculator for estimating a single proportion or prevalence with a desired margin of error. Includes design effect and finite-population correction.">
 <meta name="twitter:image" content="https://study-stats.com/tools/logo/StudyStats_Logo Files/CMYK/Primary Logo (Landscape)/Grey/StudyStats_Primary Logo_Grey.svg">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -213,9 +181,7 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
-    </div>
+    
 <!-- main -->
 <main class="content" id="quarto-document-content">
 <!-- before.html -->
@@ -228,14 +194,19 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title"><strong>Prevalence Study</strong> sample size calculator</h1>
+<h1 class="title">Sample size: estimating a single prevalence</h1>
   <div class="quarto-categories">
-    <div class="quarto-category">statistics</div>
-    <div class="quarto-category">shiny</div>
-    <div class="quarto-category">blog</div>
+    <div class="quarto-category">sample size</div>
+    <div class="quarto-category">prevalence</div>
+    <div class="quarto-category">survey</div>
   </div>
   </div>
 
+<div>
+  <div class="description">
+    Sample-size calculator for estimating a single proportion or prevalence with a desired margin of error. Includes design effect and finite-population correction.
+  </div>
+</div>
 
 
 <div class="quarto-title-meta">
@@ -244,7 +215,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">February 20, 2025</p>
+      <p class="date">May 8, 2026</p>
     </div>
   </div>
   
@@ -256,232 +227,278 @@ window.Quarto = {
 </header>
 
 
-<p>We often want to estimate the <strong>prevalence</strong> in a population (i.e., the proportion of individuals with a certain condition). For example, if we want to estimate the prevalence of a rare disease in a population, we need to determine how many individuals we need to sample to obtain a reliable estimate.</p>
-<p>The required sample size is largely influenced by how precise we want our estimate. The more accurate we want our estimate to be, the more individuals we need to sample. We report precision as how wide the 95% confidence interval will be from our prevalence estimate. If the precision is 0.05, (5%), the confidence interval will be 5% above and below the prevalence estimate. For instance, for a disease with 50% prevalence, and a precision of 5%, we need a sample size of ~ 385. Our estimated prevalence will be 50% (95% CI 45% to 55%).</p>
-<p>The required sample size for estimating a proportion (prevalence) is given by:</p>
-<p><span class="math display">\[
-n = \frac{z^2 \; p \; (1-p)}{d^2}
-\]</span></p>
-<p>where:</p>
-<ul>
-<li><p><span class="math inline">\(p\)</span> is the anticipated prevalence,</p></li>
-<li><p><span class="math inline">\(d\)</span> is the desired margin of error,</p></li>
-<li><p><span class="math inline">\(z\)</span> is the z-score corresponding to a confidence level of <span class="math inline">\((1-\alpha/2)\)</span> for a significance level <span class="math inline">\(\alpha\)</span>.</p></li>
-</ul>
-<p>The estimated 95% confidence interval for evenly distributed (CI) is given by:</p>
-<p><span class="math display">\[
-\text{CI} = p \pm z \times \sqrt{\frac{p(1-p)}{n}}
-\]</span></p>
-<p><strong>When a disease is rare</strong>, this formula does not work well as the sample size recommende becomes to small. For instance, collecting info on n=50 patients with an expected prevalence of 1% means we may not find any patients with this rare disease. The calculator therefore uses an iterative approach to find the sample size required to achieve the desired margin of error when a prevalence is less than 10%.</p>
-<p>The Copper-Pearson approximation for a confidence interval is used for rare diseases:</p>
-<p><span class="math display">\[
-\text{CI} = \left( \frac{x}{n} - \frac{z^2}{2n^2}, \frac{x}{n} + \frac{z^2}{2n^2} \right)
-\]</span></p>
-<p>where <span class="math inline">\(x\)</span> is the number of observed events.</p>
-<p>This formula is repeated for differnt smaple sizes until the desired precision is achieved.</p>
-<p><strong>Desirable Prevalence and Precision Estimates:</strong><br>
-A good starting point for a new researcher is to use prevalence estimates based on previous studies or pilot data. For instance, if studying a rare condition, a prevalence of around 1% (i.e., <span class="math inline">\(p = 0.01\)</span>) might be expected, while more common conditions may have prevalences closer to 10% or even 50%.</p>
-<p>The margin of error, <span class="math inline">\(d\)</span>, reflects how precise you want your prevalence estimate to be. A margin of error of ±5% (i.e., <span class="math inline">\(d = 0.05\)</span>) is common when a high degree of precision is needed. However, if resources are limited, a wider margin (e.g., ±10% or <span class="math inline">\(d = 0.10\)</span>) may be acceptable.</p>
-<p>Keep in mind: - <strong>Effect of Prevalence on Sample Size:</strong> The required sample size is largest when <span class="math inline">\(p = 0.5\)</span> (i.e., 50%), because <span class="math inline">\(p(1-p)\)</span> is maximized at this value. If the anticipated prevalence is lower or higher than 50%, the sample size required for the same margin of error decreases. - <strong>Effect of Precision on Sample Size:</strong> A smaller margin of error (i.e., a more precise estimate) increases the required sample size. Conversely, if you are willing to accept a larger margin of error, the sample size can be reduced.</p>
-<blockquote class="blockquote">
-<p><strong>Practical Tip:</strong><br>
-When searching through literature, pay particular attention to the methods of data collection int he study. A study that reports a low prevalence may used very broad measures, if you are sampling from a population that has been screened or referred, your prevalence may be higher than the general population. Sometimes, prevalence estimates may be in subgroup analyses in a study. If there is absolutely no data available , consider a small pilot study or some educated guesses.</p>
-</blockquote>
-<p>Use this calculator and play with the parameters to help you find a realistic sample size.</p>
-<pre class="shinylive-r" data-engine="r"><code>#| '!! shinylive warning !!': |
-#|   shinylive does not work in self-contained HTML documents.
-#|   Please set `embed-resources: false` in your metadata.
-#| standalone: true
-#| echo: false
-#| messages: false
-#| viewerHeight: 800
-library(shiny)
-library(shinythemes)
-library(shinyjs)
+<section class="ss-calc" id="prevCalc" aria-labelledby="prevTitle">
+  <h2 id="prevTitle" class="anchored">Estimate a single prevalence (one-group survey)</h2>
+  <p class="ss-lede">
+    Use this tool when you want to estimate <strong>how common something is</strong>
+    in a single population — e.g. prevalence of hypertension, vaccine coverage, or
+    the proportion of patients with a complication. Defaults match a typical
+    cross-sectional MMed survey.
+  </p>
 
-# Precision-based sample size calculation (for estimation)
-precision_prevalence &lt;- function(prevalence, alpha = 0.05, d = 0.05, threshold = 0.09) {
-    # For larger prevalences, use the normal approximation
-    if (prevalence &gt;= threshold) {
-        z &lt;- qnorm(1 - alpha / 2)
-        n &lt;- (z^2 * prevalence * (1 - prevalence)) / (d^2)
-        return(ceiling(n))
-    } else {
-        # For very small prevalences, use an iterative approach based on exact binomial CI (Clopper-Pearson)
-        # Start with n at least large enough so that we expect at least one event.
-        n &lt;- ceiling(1 / prevalence)
-        found &lt;- FALSE
-        while (!found) {
-            # Ensure at least one observed event
-            x &lt;- max(1, round(n * prevalence))
-            ci &lt;- binom.test(x, n, conf.level = 1 - alpha)$conf.int
-            # Compute the half-width of the confidence interval (we use the larger deviation from p)
-            half_width &lt;- max(ci[2] - prevalence, prevalence - ci[1])
-            if (half_width &lt;= d) {
-                found &lt;- TRUE
-            } else {
-                n &lt;- n + 1
-            }
-        }
-        return(n)
+  <div class="ss-quickstart" role="group" aria-label="Quick start scenarios">
+    <button type="button" data-preset="mmed" class="active">▶ MMed default</button>
+    <button type="button" data-preset="rare">▶ Rare outcome (5%)</button>
+    <button type="button" data-preset="unknown">▶ Unknown (use 50%)</button>
+  </div>
+
+  <div class="ss-grid">
+    <div class="ss-inputs">
+      <div class="ss-field">
+        <label for="p">Expected prevalence <span class="ss-symbol">p</span></label>
+        <p class="ss-tip">As a proportion (e.g. 0.30 = 30 %). If unsure, use 0.50 — it gives the most conservative (largest) sample size.</p>
+        <input type="number" id="p" min="0.001" max="0.999" step="0.01" value="0.30">
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p>Use a recent local survey, registry, or systematic review. If
+            no prior estimate exists, use <strong>p = 0.50</strong> — this maximises
+            <em>p(1−p)</em> and gives a conservative sample size.</p>
+            <p><em>In your protocol:</em> "Based on Mokoena et al. (2023), the
+            expected prevalence of hypertension in adult outpatients was 30%."</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ss-field">
+        <label for="d">Margin of error <span class="ss-symbol">d</span></label>
+        <p class="ss-tip">Half-width of the 95 % confidence interval. 0.05 = ± 5 percentage points.</p>
+        <input type="number" id="d" min="0.005" max="0.5" step="0.005" value="0.05">
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p>How precise do you need to be? For a prevalence near 30%, a margin
+            of ± 5 percentage points (i.e. CI 25–35%) is usually acceptable. Tighter
+            margins blow up your sample size quickly.</p>
+            <p><em>Rule of thumb:</em> halving the margin of error <em>quadruples</em> the sample size.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ss-field">
+        <label for="alpha">Confidence level <span class="ss-symbol">1 − α</span></label>
+        <p class="ss-tip">Conventionally 95 %.</p>
+        <select id="alpha">
+          <option value="0.10">90 %</option>
+          <option value="0.05" selected="">95 % (standard)</option>
+          <option value="0.01">99 % (high stakes)</option>
+        </select>
+      </div>
+
+      <div class="ss-field">
+        <label>
+          <input type="checkbox" id="useFPC"> Apply finite-population correction
+        </label>
+        <p class="ss-tip">Tick this if you're sampling more than ~10 % of a known, finite population (e.g. all 800 patients on a ward register).</p>
+      </div>
+
+      <div id="fpcFields" hidden="">
+        <div class="ss-field">
+          <label for="N">Total population size <span class="ss-symbol">N</span></label>
+          <input type="number" id="N" min="10" step="1" value="1000">
+        </div>
+      </div>
+
+      <div class="ss-field">
+        <label>
+          <input type="checkbox" id="useDEff"> Account for clustering / multi-stage sampling
+        </label>
+        <p class="ss-tip">Tick this if you're sampling whole groups (clinics, classrooms, households) instead of individuals.</p>
+      </div>
+
+      <div id="deffFields" hidden="">
+        <div class="ss-field">
+          <label for="icc">Intracluster correlation <span class="ss-symbol">ρ (ICC)</span></label>
+          <input type="number" id="icc" min="0.001" max="0.5" step="0.005" value="0.05">
+        </div>
+        <div class="ss-field">
+          <label for="m">Average cluster size <span class="ss-symbol">m</span></label>
+          <input type="number" id="m" min="2" max="500" step="1" value="20">
+        </div>
+      </div>
+
+      <div class="ss-field">
+        <label for="dropout">Expected drop-out / non-response (%)</label>
+        <p class="ss-tip">Inflate your target to allow for refusals, lost-to-follow-up, missing data.</p>
+        <input type="number" id="dropout" min="0" max="50" step="1" value="10">
+      </div>
+    </div>
+
+    <div class="ss-result" aria-live="polite">
+      <h3 class="anchored">You need</h3>
+      <div id="ssBig" class="ss-big">—</div>
+      <div id="ssSub" class="ss-sub">—</div>
+
+      <div id="ssInterpret" class="ss-interpret">Adjust the inputs to see your sample size.</div>
+
+      <div class="ss-actions">
+        <button type="button" id="copyMethods">📋 Copy methods paragraph</button>
+        <button type="button" id="copyR" class="ss-secondary">📋 Copy R code</button>
+      </div>
+    </div>
+  </div>
+
+  <details class="ss-details">
+    <summary>What does this calculation actually do?</summary>
+    <div class="ss-details-body">
+      <p>For estimating a single proportion with a desired margin of error <em>d</em>:</p>
+      <pre>n₀ = z² · p · (1 − p) / d²</pre>
+      <p>With finite-population correction (when sampling fraction is non-negligible):</p>
+      <pre>n = n₀ / (1 + (n₀ − 1) / N)</pre>
+      <p>With clustering, inflate by the design effect:</p>
+      <pre>DEff = 1 + (m − 1) · ρ</pre>
+      <p>Finally inflate for expected drop-out: <code>n_final = n / (1 − dropout)</code>.</p>
+      <p><strong>References:</strong> Lwanga SK, Lemeshow S. <em>Sample Size
+      Determination in Health Studies</em>, WHO 1991. · Naing L et al. <em>Arch
+      Orofac Sci</em> 2006;1:9–14.</p>
+    </div>
+  </details>
+</section>
+
+<script src="_calculator.js"></script>
+<script>
+(function () {
+  'use strict';
+  var SS = window.StudyStats;
+
+  var presets = {
+    mmed:    { p: 0.30, d: 0.05, alpha: '0.05', useFPC: false, N: 1000,
+               useDEff: false, icc: 0.05, m: 20, dropout: 10 },
+    rare:    { p: 0.05, d: 0.02, alpha: '0.05', useFPC: false, N: 1000,
+               useDEff: false, icc: 0.05, m: 20, dropout: 10 },
+    unknown: { p: 0.50, d: 0.05, alpha: '0.05', useFPC: false, N: 1000,
+               useDEff: false, icc: 0.05, m: 20, dropout: 10 }
+  };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var ids = ['p','d','alpha','useFPC','N','useDEff','icc','m','dropout'];
+
+  function readVals() {
+    return {
+      p: parseFloat($('p').value),
+      d: parseFloat($('d').value),
+      alpha: parseFloat($('alpha').value),
+      useFPC: $('useFPC').checked,
+      N: parseFloat($('N').value),
+      useDEff: $('useDEff').checked,
+      icc: parseFloat($('icc').value),
+      m: parseFloat($('m').value),
+      dropout: parseFloat($('dropout').value) / 100
+    };
+  }
+
+  function n0For(p, d, alpha) {
+    var z = SS.qnorm(1 - alpha / 2);
+    return z * z * p * (1 - p) / (d * d);
+  }
+
+  function update() {
+    var v = readVals();
+    $('fpcFields').hidden = !v.useFPC;
+    $('deffFields').hidden = !v.useDEff;
+
+    var big = $('ssBig'), sub = $('ssSub'), interp = $('ssInterpret');
+    if (!(v.p > 0 && v.p < 1) || !(v.d > 0)) {
+      big.textContent = '—'; big.classList.add('ss-warn');
+      sub.textContent = 'Set 0 < p < 1 and d > 0.';
+      interp.textContent = 'Adjust the inputs to see your sample size.';
+      return;
     }
-}
+    var n0 = n0For(v.p, v.d, v.alpha);
+    var deff = v.useDEff ? 1 + (v.m - 1) * v.icc : 1;
+    var n1 = n0 * deff;
+    var n2 = (v.useFPC && v.N > 0) ? n1 / (1 + (n1 - 1) / v.N) : n1;
+    var nFinal = n2 / Math.max(1e-9, 1 - v.dropout);
+    var nFinalCeil = Math.ceil(nFinal);
 
-ui &lt;- fluidPage(
-    theme = shinytheme("cyborg"),
-    useShinyjs(),
-    tags$style(HTML("
-    #protocolText {
-      font-family: 'Times New Roman', Times, serif;
-      white-space: pre-wrap;
-    }
-    .copy-button {
-      margin-bottom: 10px;
-    }
-  ")),
-    tags$script(HTML("
-    function copyProtocol() {
-      var protocol = document.getElementById('protocolText').innerText;
-      var tempInput = document.createElement('textarea');
-      tempInput.value = protocol;
-      document.body.appendChild(tempInput);
-      tempInput.select();
-      document.execCommand('copy');
-      document.body.removeChild(tempInput);
-      alert('Protocol text copied to clipboard!');
-    }
-  ")),
-    titlePanel("Prevalence Study Sample Size &amp; Confidence Interval Calculator"),
-    sidebarLayout(
-        sidebarPanel(
-            numericInput("prev", "Anticipated Prevalence (p):", value = 0.01, min = 0.001, max = 1, step = 0.001),
-            helpText("Enter prevalence as a decimal (e.g., 0.01 = 1%, 0.10 = 10%)."),
-            numericInput("alpha", "Significance Level (α):", value = 0.05, min = 0.001, max = 0.1, step = 0.005),
-            numericInput("d", "Desired Margin of Error (d):", value = 0.05, min = 0.001, max = 0.1, step = 0.001),
-            hr(),
-            helpText("The precision is how wide the confidence interval should be around the prevalence estimate. (e.g. 0.05 is ±5%)"),
-            hr(),
-            numericInput("sims", "Number of Simulations:", value = 100, min = 10, max = 10000, step = 10),
-            actionButton("runSim", "Run Simulations")
-        ),
-        mainPanel(
-            h3(textOutput("resultTitle")),
-            uiOutput("resultsUI"),
-            h4("Simulation Results:"),
-            plotOutput("simPlot"),
-            hr(),
-            tags$button("Copy Protocol Text", class = "copy-button", onclick = "copyProtocol()"),
-            h4("Protocol Text (Simplified)"),
-            uiOutput("protocolUI")
-        )
-    )
-)
+    big.classList.toggle('ss-warn', nFinalCeil > 2000);
+    big.textContent = SS.formatN(nFinalCeil) + ' participants';
+    var parts = ['unadjusted n = ' + SS.formatN(Math.ceil(n0))];
+    if (v.useDEff) parts.push('DEff = ' + deff.toFixed(2));
+    if (v.useFPC) parts.push('FPC applied (N = ' + v.N + ')');
+    if (v.dropout > 0) parts.push('+' + (v.dropout * 100).toFixed(0) + '% drop-out');
+    sub.textContent = parts.join('  ·  ');
 
-server &lt;- function(input, output, session) {
-    # Calculate sample size using the precision-based formula
-    calc_size &lt;- reactive({
-        precision_prevalence(input$prev, alpha = input$alpha, d = input$d)
-    })
+    interp.textContent = 'To estimate a prevalence of ' + (v.p * 100).toFixed(0) +
+      '% with a ' + ((1 - v.alpha) * 100).toFixed(0) + '% confidence interval of ± ' +
+      (v.d * 100).toFixed(1) + ' percentage points, you need ' +
+      SS.formatN(nFinalCeil) + ' participants.' +
+      (nFinalCeil > 2000 ? ' ⚠ Consider relaxing the margin of error.' : '');
+  }
 
-    # Calculate the Clopper-Pearson (exact binomial) confidence interval
-    calc_binom_CI &lt;- reactive({
-        n &lt;- calc_size()
-        # Calculate the expected number of events; ensure at least one event is considered.
-        x &lt;- max(1, round(n * input$prev))
-        binom.test(x, n, conf.level = 1 - input$alpha)$conf.int-&gt; conf_intervals
-        c(lower = conf_intervals[1], upper = conf_intervals[2])
-    })
+  function applyPreset(name) {
+    var p = presets[name]; if (!p) return;
+    $('p').value = p.p; $('d').value = p.d; $('alpha').value = p.alpha;
+    $('useFPC').checked = p.useFPC; $('N').value = p.N;
+    $('useDEff').checked = p.useDEff; $('icc').value = p.icc; $('m').value = p.m;
+    $('dropout').value = p.dropout;
+    update();
+    document.querySelectorAll('.ss-quickstart button').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.preset === name);
+    });
+  }
 
-    # Calculate the normal approximation confidence interval
-    calc_normal_CI &lt;- reactive({
-        n &lt;- calc_size()
-        p &lt;- input$prev
-        z &lt;- qnorm(1 - input$alpha / 2)
-        se &lt;- sqrt(p * (1 - p) / n)
-        lower &lt;- p - z * se
-        upper &lt;- p + z * se
-        c(lower = lower, upper = upper)
-    })
+  function methodsParagraph() {
+    var v = readVals();
+    var n0 = n0For(v.p, v.d, v.alpha);
+    var deff = v.useDEff ? 1 + (v.m - 1) * v.icc : 1;
+    var n1 = n0 * deff;
+    var n2 = (v.useFPC && v.N > 0) ? n1 / (1 + (n1 - 1) / v.N) : n1;
+    var nFinal = Math.ceil(n2 / Math.max(1e-9, 1 - v.dropout));
+    var s = 'Sample size was calculated for the estimation of a single proportion ' +
+      '(Lwanga & Lemeshow, WHO 1991), assuming an expected prevalence of ' +
+      (v.p * 100).toFixed(0) + '% and a desired ' + ((1 - v.alpha) * 100).toFixed(0) +
+      '% confidence-interval half-width of ' + (v.d * 100).toFixed(1) + ' percentage points.';
+    if (v.useDEff) s += ' A design effect of ' + deff.toFixed(2) +
+      ' was applied (ICC = ' + v.icc + ', average cluster size = ' + v.m + ').';
+    if (v.useFPC) s += ' A finite-population correction was applied (N = ' + v.N + ').';
+    if (v.dropout > 0) s += ' The target was inflated by ' + (v.dropout * 100).toFixed(0) +
+      '% to allow for non-response.';
+    s += ' The required sample size is ' + SS.formatN(nFinal) + ' participants. ' +
+      'Calculations were performed with the StudyStats sample-size tool ' +
+      '(https://study-stats.com/tools/prevalence.html).';
+    return s;
+  }
 
-    output$resultTitle &lt;- renderText({
-        "Your Estimated Sample Size &amp; 95% Confidence Intervals"
-    })
+  function rCode() {
+    var v = readVals();
+    var lines = [
+      '# Single-prevalence sample size (base R)',
+      'p     <- ' + v.p, 'd     <- ' + v.d, 'alpha <- ' + v.alpha,
+      'z     <- qnorm(1 - alpha / 2)',
+      'n0    <- z^2 * p * (1 - p) / d^2',
+      'ceiling(n0)'
+    ];
+    if (v.useDEff) lines.push('',
+      '# Design effect for clustering',
+      'icc <- ' + v.icc, 'm   <- ' + v.m,
+      'deff <- 1 + (m - 1) * icc', 'n1   <- n0 * deff');
+    else lines.push('n1 <- n0');
+    if (v.useFPC) lines.push('',
+      '# Finite-population correction', 'N <- ' + v.N,
+      'n2 <- n1 / (1 + (n1 - 1) / N)');
+    else lines.push('n2 <- n1');
+    if (v.dropout > 0) lines.push('',
+      '# Inflate for drop-out', 'dropout <- ' + v.dropout,
+      'ceiling(n2 / (1 - dropout))');
+    else lines.push('ceiling(n2)');
+    return lines.join('\n');
+  }
 
-    output$resultsUI &lt;- renderUI({
-        n_precision &lt;- calc_size()
-        binom_CI &lt;- calc_binom_CI()
-        normal_CI &lt;- calc_normal_CI()
-        tagList(
-            tags$p(paste(
-                "For an anticipated prevalence of", input$prev,
-                "with a desired margin of error of ±", input$d * 100, "% at a significance level of", input$alpha,
-                "the required sample size is:", n_precision
-            )),
-            tags$p(paste(
-                "The Clopper-Pearson (exact binomial) 95% CI is approximately:",
-                paste0(round(binom_CI["lower"] * 100, 2), "% to ", round(binom_CI["upper"] * 100, 2), "%")
-            )),
-            tags$p(paste(
-                "The normal approximation 95% CI is approximately:",
-                paste0(round(normal_CI["lower"] * 100, 2), "% to ", round(normal_CI["upper"] * 100, 2), "%")
-            ))
-        )
-    })
+  ids.forEach(function (id) {
+    var el = $(id);
+    el.addEventListener('input', update);
+    el.addEventListener('change', update);
+  });
+  document.querySelectorAll('.ss-quickstart button').forEach(function (b) {
+    b.addEventListener('click', function () { applyPreset(b.dataset.preset); });
+  });
+  $('copyMethods').addEventListener('click', function () { SS.copyText(methodsParagraph()); });
+  $('copyR').addEventListener('click', function () { SS.copyText(rCode()); });
 
-    # Simulation: simulate binomial samples using the computed sample size and record the half-width of the CI
-    simData &lt;- eventReactive(input$runSim, {
-        n &lt;- calc_size()
-        p &lt;- input$prev
-        alpha &lt;- input$alpha
-        sims &lt;- input$sims
-        # Storage for half-widths of CIs from the binom test
-        half_widths &lt;- numeric(sims)
-
-        withProgress(message = "Running simulations...", value = 0, {
-            for (i in 1:sims) {
-                # Simulate observed events using a binomial draw
-                x &lt;- rbinom(1, n, p)
-                # Compute the exact Clopper-Pearson confidence interval
-                ci &lt;- binom.test(x, n, conf.level = 1 - alpha)$conf.int
-                # Compute the half-width (take the maximum deviation from p)
-                half_widths[i] &lt;- max(p - ci[1], ci[2] - p)
-                incProgress(1 / sims)
-            }
-        })
-
-        return(half_widths)
-    })
-
-    output$simPlot &lt;- renderPlot({
-        req(simData())
-        hist(simData(),
-            main = "Distribution of CI Half-Widths",
-            xlab = "Half-Width of 95% CI", col = "skyblue", border = "white"
-        )
-    })
-
-    # Simple protocol text (for copying) in plain text with simple math notation
-    output$protocolUI &lt;- renderUI({
-        n_val &lt;- calc_size()
-        binom_CI &lt;- calc_binom_CI()
-        normal_CI &lt;- calc_normal_CI()
-        simple_text &lt;- paste(
-            "Based on an anticipated prevalence (p) of ", input$prev, " and a desired margin of error (d) of ±", input$d * 100, "%,",
-            "with a significance level (α) of ", input$alpha, ", the required sample size (n) is calculated using the formula:\n",
-            "  n = (z^2 * p * (1-p)) / d^2\n",
-            "where z is the z-score corresponding to a confidence level of (1 - α/2).\n",
-            "For these parameters, the calculated sample size is ", n_val, ".\n",
-            "This sample size is expected to yield approximate 95% confidence intervals for the prevalence as follows:\n",
-            "  - Clopper-Pearson (exact): ", paste0(round(binom_CI["lower"] * 100, 2), "% to ", round(binom_CI["upper"] * 100, 2), "%\n"),
-            "  - Normal approximation: ", paste0(round(normal_CI["lower"] * 100, 2), "% to ", round(normal_CI["upper"] * 100, 2), "%\n")
-        )
-        tags$pre(simple_text, id = "protocolText")
-    })
-}
-
-shinyApp(ui = ui, server = server)
-
-</code></pre>
+  update();
+})();
+</script>
 
 
 
