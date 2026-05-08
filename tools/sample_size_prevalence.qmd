@@ -1,0 +1,292 @@
+---
+title: "Sample size: estimating a single prevalence"
+date: "2026-05-08"
+categories: ["sample size", "prevalence", "survey"]
+description: "Sample-size calculator for estimating a single proportion or prevalence with a desired margin of error. Includes design effect and finite-population correction."
+pagetitle: "Sample size for a single prevalence — StudyStats"
+output-file: prevalence.html
+aliases:
+  - shiny_sample_size_prevalence.html
+format:
+  html:
+    toc: false
+    css:
+      - _calculator.css
+resources:
+  - _calculator.js
+---
+
+```{=html}
+<section class="ss-calc" id="prevCalc" aria-labelledby="prevTitle">
+  <h2 id="prevTitle">Estimate a single prevalence (one-group survey)</h2>
+  <p class="ss-lede">
+    Use this tool when you want to estimate <strong>how common something is</strong>
+    in a single population — e.g. prevalence of hypertension, vaccine coverage, or
+    the proportion of patients with a complication. Defaults match a typical
+    cross-sectional MMed survey.
+  </p>
+
+  <div class="ss-quickstart" role="group" aria-label="Quick start scenarios">
+    <button type="button" data-preset="mmed" class="active">▶ MMed default</button>
+    <button type="button" data-preset="rare">▶ Rare outcome (5%)</button>
+    <button type="button" data-preset="unknown">▶ Unknown (use 50%)</button>
+  </div>
+
+  <div class="ss-grid">
+    <div class="ss-inputs">
+      <div class="ss-field">
+        <label for="p">Expected prevalence <span class="ss-symbol">p</span></label>
+        <p class="ss-tip">As a proportion (e.g. 0.30 = 30 %). If unsure, use 0.50 — it gives the most conservative (largest) sample size.</p>
+        <input type="number" id="p" min="0.001" max="0.999" step="0.01" value="0.30">
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p>Use a recent local survey, registry, or systematic review. If
+            no prior estimate exists, use <strong>p = 0.50</strong> — this maximises
+            <em>p(1−p)</em> and gives a conservative sample size.</p>
+            <p><em>In your protocol:</em> "Based on Mokoena et al. (2023), the
+            expected prevalence of hypertension in adult outpatients was 30%."</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ss-field">
+        <label for="d">Margin of error <span class="ss-symbol">d</span></label>
+        <p class="ss-tip">Half-width of the 95 % confidence interval. 0.05 = ± 5 percentage points.</p>
+        <input type="number" id="d" min="0.005" max="0.5" step="0.005" value="0.05">
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p>How precise do you need to be? For a prevalence near 30%, a margin
+            of ± 5 percentage points (i.e. CI 25–35%) is usually acceptable. Tighter
+            margins blow up your sample size quickly.</p>
+            <p><em>Rule of thumb:</em> halving the margin of error <em>quadruples</em> the sample size.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ss-field">
+        <label for="alpha">Confidence level <span class="ss-symbol">1 − α</span></label>
+        <p class="ss-tip">Conventionally 95 %.</p>
+        <select id="alpha">
+          <option value="0.10">90 %</option>
+          <option value="0.05" selected>95 % (standard)</option>
+          <option value="0.01">99 % (high stakes)</option>
+        </select>
+      </div>
+
+      <div class="ss-field">
+        <label>
+          <input type="checkbox" id="useFPC"> Apply finite-population correction
+        </label>
+        <p class="ss-tip">Tick this if you're sampling more than ~10 % of a known, finite population (e.g. all 800 patients on a ward register).</p>
+      </div>
+
+      <div id="fpcFields" hidden>
+        <div class="ss-field">
+          <label for="N">Total population size <span class="ss-symbol">N</span></label>
+          <input type="number" id="N" min="10" step="1" value="1000">
+        </div>
+      </div>
+
+      <div class="ss-field">
+        <label>
+          <input type="checkbox" id="useDEff"> Account for clustering / multi-stage sampling
+        </label>
+        <p class="ss-tip">Tick this if you're sampling whole groups (clinics, classrooms, households) instead of individuals.</p>
+      </div>
+
+      <div id="deffFields" hidden>
+        <div class="ss-field">
+          <label for="icc">Intracluster correlation <span class="ss-symbol">ρ (ICC)</span></label>
+          <input type="number" id="icc" min="0.001" max="0.5" step="0.005" value="0.05">
+        </div>
+        <div class="ss-field">
+          <label for="m">Average cluster size <span class="ss-symbol">m</span></label>
+          <input type="number" id="m" min="2" max="500" step="1" value="20">
+        </div>
+      </div>
+
+      <div class="ss-field">
+        <label for="dropout">Expected drop-out / non-response (%)</label>
+        <p class="ss-tip">Inflate your target to allow for refusals, lost-to-follow-up, missing data.</p>
+        <input type="number" id="dropout" min="0" max="50" step="1" value="10">
+      </div>
+    </div>
+
+    <div class="ss-result" aria-live="polite">
+      <h3>You need</h3>
+      <div id="ssBig" class="ss-big">—</div>
+      <div id="ssSub" class="ss-sub">—</div>
+
+      <div id="ssInterpret" class="ss-interpret">Adjust the inputs to see your sample size.</div>
+
+      <div class="ss-actions">
+        <button type="button" id="copyMethods">📋 Copy methods paragraph</button>
+        <button type="button" id="copyR" class="ss-secondary">📋 Copy R code</button>
+      </div>
+    </div>
+  </div>
+
+  <details class="ss-details">
+    <summary>What does this calculation actually do?</summary>
+    <div class="ss-details-body">
+      <p>For estimating a single proportion with a desired margin of error <em>d</em>:</p>
+      <pre>n₀ = z² · p · (1 − p) / d²</pre>
+      <p>With finite-population correction (when sampling fraction is non-negligible):</p>
+      <pre>n = n₀ / (1 + (n₀ − 1) / N)</pre>
+      <p>With clustering, inflate by the design effect:</p>
+      <pre>DEff = 1 + (m − 1) · ρ</pre>
+      <p>Finally inflate for expected drop-out: <code>n_final = n / (1 − dropout)</code>.</p>
+      <p><strong>References:</strong> Lwanga SK, Lemeshow S. <em>Sample Size
+      Determination in Health Studies</em>, WHO 1991. · Naing L et al. <em>Arch
+      Orofac Sci</em> 2006;1:9–14.</p>
+    </div>
+  </details>
+</section>
+
+<script src="_calculator.js"></script>
+<script>
+(function () {
+  'use strict';
+  var SS = window.StudyStats;
+
+  var presets = {
+    mmed:    { p: 0.30, d: 0.05, alpha: '0.05', useFPC: false, N: 1000,
+               useDEff: false, icc: 0.05, m: 20, dropout: 10 },
+    rare:    { p: 0.05, d: 0.02, alpha: '0.05', useFPC: false, N: 1000,
+               useDEff: false, icc: 0.05, m: 20, dropout: 10 },
+    unknown: { p: 0.50, d: 0.05, alpha: '0.05', useFPC: false, N: 1000,
+               useDEff: false, icc: 0.05, m: 20, dropout: 10 }
+  };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var ids = ['p','d','alpha','useFPC','N','useDEff','icc','m','dropout'];
+
+  function readVals() {
+    return {
+      p: parseFloat($('p').value),
+      d: parseFloat($('d').value),
+      alpha: parseFloat($('alpha').value),
+      useFPC: $('useFPC').checked,
+      N: parseFloat($('N').value),
+      useDEff: $('useDEff').checked,
+      icc: parseFloat($('icc').value),
+      m: parseFloat($('m').value),
+      dropout: parseFloat($('dropout').value) / 100
+    };
+  }
+
+  function n0For(p, d, alpha) {
+    var z = SS.qnorm(1 - alpha / 2);
+    return z * z * p * (1 - p) / (d * d);
+  }
+
+  function update() {
+    var v = readVals();
+    $('fpcFields').hidden = !v.useFPC;
+    $('deffFields').hidden = !v.useDEff;
+
+    var big = $('ssBig'), sub = $('ssSub'), interp = $('ssInterpret');
+    if (!(v.p > 0 && v.p < 1) || !(v.d > 0)) {
+      big.textContent = '—'; big.classList.add('ss-warn');
+      sub.textContent = 'Set 0 < p < 1 and d > 0.';
+      interp.textContent = 'Adjust the inputs to see your sample size.';
+      return;
+    }
+    var n0 = n0For(v.p, v.d, v.alpha);
+    var deff = v.useDEff ? 1 + (v.m - 1) * v.icc : 1;
+    var n1 = n0 * deff;
+    var n2 = (v.useFPC && v.N > 0) ? n1 / (1 + (n1 - 1) / v.N) : n1;
+    var nFinal = n2 / Math.max(1e-9, 1 - v.dropout);
+    var nFinalCeil = Math.ceil(nFinal);
+
+    big.classList.toggle('ss-warn', nFinalCeil > 2000);
+    big.textContent = SS.formatN(nFinalCeil) + ' participants';
+    var parts = ['unadjusted n = ' + SS.formatN(Math.ceil(n0))];
+    if (v.useDEff) parts.push('DEff = ' + deff.toFixed(2));
+    if (v.useFPC) parts.push('FPC applied (N = ' + v.N + ')');
+    if (v.dropout > 0) parts.push('+' + (v.dropout * 100).toFixed(0) + '% drop-out');
+    sub.textContent = parts.join('  ·  ');
+
+    interp.textContent = 'To estimate a prevalence of ' + (v.p * 100).toFixed(0) +
+      '% with a ' + ((1 - v.alpha) * 100).toFixed(0) + '% confidence interval of ± ' +
+      (v.d * 100).toFixed(1) + ' percentage points, you need ' +
+      SS.formatN(nFinalCeil) + ' participants.' +
+      (nFinalCeil > 2000 ? ' ⚠ Consider relaxing the margin of error.' : '');
+  }
+
+  function applyPreset(name) {
+    var p = presets[name]; if (!p) return;
+    $('p').value = p.p; $('d').value = p.d; $('alpha').value = p.alpha;
+    $('useFPC').checked = p.useFPC; $('N').value = p.N;
+    $('useDEff').checked = p.useDEff; $('icc').value = p.icc; $('m').value = p.m;
+    $('dropout').value = p.dropout;
+    update();
+    document.querySelectorAll('.ss-quickstart button').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.preset === name);
+    });
+  }
+
+  function methodsParagraph() {
+    var v = readVals();
+    var n0 = n0For(v.p, v.d, v.alpha);
+    var deff = v.useDEff ? 1 + (v.m - 1) * v.icc : 1;
+    var n1 = n0 * deff;
+    var n2 = (v.useFPC && v.N > 0) ? n1 / (1 + (n1 - 1) / v.N) : n1;
+    var nFinal = Math.ceil(n2 / Math.max(1e-9, 1 - v.dropout));
+    var s = 'Sample size was calculated for the estimation of a single proportion ' +
+      '(Lwanga & Lemeshow, WHO 1991), assuming an expected prevalence of ' +
+      (v.p * 100).toFixed(0) + '% and a desired ' + ((1 - v.alpha) * 100).toFixed(0) +
+      '% confidence-interval half-width of ' + (v.d * 100).toFixed(1) + ' percentage points.';
+    if (v.useDEff) s += ' A design effect of ' + deff.toFixed(2) +
+      ' was applied (ICC = ' + v.icc + ', average cluster size = ' + v.m + ').';
+    if (v.useFPC) s += ' A finite-population correction was applied (N = ' + v.N + ').';
+    if (v.dropout > 0) s += ' The target was inflated by ' + (v.dropout * 100).toFixed(0) +
+      '% to allow for non-response.';
+    s += ' The required sample size is ' + SS.formatN(nFinal) + ' participants. ' +
+      'Calculations were performed with the StudyStats sample-size tool ' +
+      '(https://study-stats.com/tools/prevalence.html).';
+    return s;
+  }
+
+  function rCode() {
+    var v = readVals();
+    var lines = [
+      '# Single-prevalence sample size (base R)',
+      'p     <- ' + v.p, 'd     <- ' + v.d, 'alpha <- ' + v.alpha,
+      'z     <- qnorm(1 - alpha / 2)',
+      'n0    <- z^2 * p * (1 - p) / d^2',
+      'ceiling(n0)'
+    ];
+    if (v.useDEff) lines.push('',
+      '# Design effect for clustering',
+      'icc <- ' + v.icc, 'm   <- ' + v.m,
+      'deff <- 1 + (m - 1) * icc', 'n1   <- n0 * deff');
+    else lines.push('n1 <- n0');
+    if (v.useFPC) lines.push('',
+      '# Finite-population correction', 'N <- ' + v.N,
+      'n2 <- n1 / (1 + (n1 - 1) / N)');
+    else lines.push('n2 <- n1');
+    if (v.dropout > 0) lines.push('',
+      '# Inflate for drop-out', 'dropout <- ' + v.dropout,
+      'ceiling(n2 / (1 - dropout))');
+    else lines.push('ceiling(n2)');
+    return lines.join('\n');
+  }
+
+  ids.forEach(function (id) {
+    var el = $(id);
+    el.addEventListener('input', update);
+    el.addEventListener('change', update);
+  });
+  document.querySelectorAll('.ss-quickstart button').forEach(function (b) {
+    b.addEventListener('click', function () { applyPreset(b.dataset.preset); });
+  });
+  $('copyMethods').addEventListener('click', function () { SS.copyText(methodsParagraph()); });
+  $('copyR').addEventListener('click', function () { SS.copyText(rCode()); });
+
+  update();
+})();
+</script>
+```

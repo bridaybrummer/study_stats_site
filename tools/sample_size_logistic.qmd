@@ -1,0 +1,357 @@
+---
+title: "Sample size: logistic regression"
+date: "2026-05-08"
+categories: ["sample size", "logistic regression", "modelling"]
+description: "Sample-size calculator for logistic regression — events-per-variable rule plus the Hsieh (1989) formula. Plain-language inputs and a copy-ready methods paragraph."
+pagetitle: "Sample size for logistic regression — StudyStats"
+output-file: logistic.html
+aliases:
+  - shiny_sample_size_log_regression.html
+format:
+  html:
+    toc: false
+    css:
+      - _calculator.css
+resources:
+  - _calculator.js
+---
+
+```{=html}
+<section class="ss-calc" id="logitCalc" aria-labelledby="logitTitle">
+  <h2 id="logitTitle">Sample size for logistic regression</h2>
+  <p class="ss-lede">
+    Use this tool when you're modelling a <strong>binary outcome</strong> (yes/no,
+    died/survived) with one or more predictors. We give you both the
+    <em>events-per-variable</em> rule of thumb (Peduzzi 1996) and the
+    Hsieh (1989) formula for a single primary predictor.
+  </p>
+
+  <div class="ss-quickstart" role="group" aria-label="Quick start scenarios">
+    <button type="button" data-preset="mmed" class="active">▶ MMed default</button>
+    <button type="button" data-preset="binary">▶ Binary predictor</button>
+    <button type="button" data-preset="continuous">▶ Continuous predictor</button>
+  </div>
+
+  <div class="ss-grid">
+    <div class="ss-inputs">
+
+      <div class="ss-field">
+        <label for="kPred">Number of candidate predictors <span class="ss-symbol">k</span></label>
+        <p class="ss-tip">Count every coefficient your final model will estimate (including dummy variables for each level of a categorical variable beyond the reference).</p>
+        <input type="number" id="kPred" min="1" max="50" step="1" value="5">
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p>List the variables you genuinely plan to include in the final
+            multivariable model — not every variable in your dataset. Pre-specify
+            this in your protocol; post-hoc inflation defeats the purpose.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ss-field">
+        <label for="pEvent">Probability of the outcome <span class="ss-symbol">p</span></label>
+        <p class="ss-tip">Overall event rate in your study population (e.g. 30-day mortality, complication rate).</p>
+        <input type="number" id="pEvent" min="0.001" max="0.999" step="0.01" value="0.20">
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p>Use a recent local cohort, registry, or systematic review. The
+            sample size is most sensitive to this number — a rare outcome
+            (&lt; 10 %) inflates the required sample dramatically.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ss-field">
+        <label for="epv">Events per variable (EPV)</label>
+        <p class="ss-tip">Convention is 10. Increase to 20 for sparse data or unstable models.</p>
+        <select id="epv">
+          <option value="10" selected>10 (standard, Peduzzi 1996)</option>
+          <option value="15">15 (more conservative)</option>
+          <option value="20">20 (sparse data, rare outcome)</option>
+        </select>
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p><em>Cite:</em> <span class="ss-cite">Peduzzi P et al. <em>J Clin
+            Epidemiol</em> 1996;49:1373–9</span>. Use 20 for sparse outcomes or
+            when calibration matters more than discrimination
+            (<span class="ss-cite">van Smeden et al. 2019</span>).</p>
+          </div>
+        </details>
+      </div>
+
+      <hr style="border:none;border-top:1px solid #2a2a2a;margin:1rem 0">
+      <p style="margin:0 0 .5rem;color:#cfcfcf;font-weight:600">Hsieh formula (single primary predictor)</p>
+      <p class="ss-tip" style="margin-top:0">If you have <em>one</em> primary predictor of interest and want a more rigorous estimate, fill in the next two fields.</p>
+
+      <div class="ss-field">
+        <label for="predType">Type of primary predictor</label>
+        <select id="predType">
+          <option value="continuous" selected>Continuous (per 1-SD change)</option>
+          <option value="binary">Binary (yes/no, exposed/unexposed)</option>
+        </select>
+      </div>
+
+      <div class="ss-field">
+        <label for="effect">Expected odds ratio per 1-unit change <span class="ss-symbol">OR</span></label>
+        <p class="ss-tip">For continuous: OR per 1-SD change. For binary: OR for exposed vs unexposed.</p>
+        <input type="number" id="effect" min="0.05" max="20" step="0.05" value="1.5">
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p>An OR of 1.3–1.5 is a small-to-modest effect; 2.0+ is large.
+            Take the smallest OR your study still needs to detect, not the
+            largest you might find.</p>
+          </div>
+        </details>
+      </div>
+
+      <div id="binaryFields" hidden>
+        <div class="ss-field">
+          <label for="pX">Proportion exposed (binary predictor)</label>
+          <input type="number" id="pX" min="0.05" max="0.95" step="0.05" value="0.30">
+        </div>
+      </div>
+
+      <div id="contFields">
+        <div class="ss-field">
+          <label for="r2">R² of primary predictor with other covariates</label>
+          <p class="ss-tip">If your primary predictor is correlated with adjustment variables, set this. 0 = independent; 0.3 = mild collinearity; 0.5+ = strong.</p>
+          <input type="number" id="r2" min="0" max="0.9" step="0.05" value="0">
+        </div>
+      </div>
+
+      <div class="ss-field">
+        <label for="alpha">Significance level <span class="ss-symbol">α</span></label>
+        <select id="alpha">
+          <option value="0.01">0.01</option>
+          <option value="0.05" selected>0.05 (standard)</option>
+          <option value="0.10">0.10 (exploratory)</option>
+        </select>
+      </div>
+
+      <div class="ss-field">
+        <label for="power">Power <span class="ss-symbol">1 − β</span></label>
+        <select id="power">
+          <option value="0.80" selected>0.80 (standard)</option>
+          <option value="0.90">0.90 (more conservative)</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="ss-result" aria-live="polite">
+      <h3>You need</h3>
+      <div id="ssBig" class="ss-big">—</div>
+      <div id="ssSub" class="ss-sub">—</div>
+
+      <div id="ssInterpret" class="ss-interpret">Adjust the inputs to see your sample size.</div>
+
+      <div class="ss-actions">
+        <button type="button" id="copyMethods">📋 Copy methods paragraph</button>
+        <button type="button" id="copyR" class="ss-secondary">📋 Copy R code</button>
+      </div>
+    </div>
+  </div>
+
+  <details class="ss-details">
+    <summary>What does this calculation actually do?</summary>
+    <div class="ss-details-body">
+      <p><strong>Events-per-variable rule</strong> (Peduzzi 1996): the minimum
+      sample size is whichever gives at least <em>EPV</em> events per
+      coefficient:</p>
+      <pre>n_EPV = (k · EPV) / p</pre>
+      <p><strong>Hsieh formula for a continuous primary predictor</strong>
+      (Hsieh 1989, adjusted for collinearity by VIF = 1/(1−R²)):</p>
+      <pre>n = (z₁₋α/₂ + z₁₋β)² / (p · (1 − p) · ln(OR)²) · 1/(1 − R²)</pre>
+      <p><strong>Hsieh formula for a binary primary predictor</strong>
+      (Hsieh, Bloch & Larsen 1998):</p>
+      <pre>n = (z₁₋α/₂ √(p̄(1−p̄)/B) + z₁₋β √(p₁(1−p₁) + p₂(1−p₂)·(1−B)/B))² / ((p₁ − p₂)² · (1 − B))</pre>
+      <p>where <em>B</em> is the proportion exposed and <em>p₁</em>, <em>p₂</em>
+      are derived from the overall event rate and OR. We report the
+      <strong>larger</strong> of the EPV estimate and the Hsieh estimate.</p>
+      <p><strong>References:</strong> Peduzzi P et al. <em>J Clin Epidemiol</em>
+      1996;49:1373–9. · Hsieh FY. <em>Statist Med</em> 1989;8:795–802. ·
+      Hsieh FY, Bloch DA, Larsen MD. <em>Statist Med</em> 1998;17:1623–34.</p>
+    </div>
+  </details>
+</section>
+
+<script src="_calculator.js"></script>
+<script>
+(function () {
+  'use strict';
+  var SS = window.StudyStats;
+
+  var presets = {
+    mmed:       { kPred: 5, pEvent: 0.20, epv: '10', predType: 'continuous',
+                  effect: 1.5, pX: 0.30, r2: 0, alpha: '0.05', power: '0.80' },
+    binary:     { kPred: 4, pEvent: 0.20, epv: '10', predType: 'binary',
+                  effect: 2.0, pX: 0.30, r2: 0, alpha: '0.05', power: '0.80' },
+    continuous: { kPred: 4, pEvent: 0.20, epv: '10', predType: 'continuous',
+                  effect: 1.4, pX: 0.30, r2: 0.1, alpha: '0.05', power: '0.80' }
+  };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var ids = ['kPred','pEvent','epv','predType','effect','pX','r2','alpha','power'];
+
+  function readVals() {
+    return {
+      kPred: parseFloat($('kPred').value),
+      pEvent: parseFloat($('pEvent').value),
+      epv: parseFloat($('epv').value),
+      predType: $('predType').value,
+      effect: parseFloat($('effect').value),
+      pX: parseFloat($('pX').value),
+      r2: parseFloat($('r2').value),
+      alpha: parseFloat($('alpha').value),
+      power: parseFloat($('power').value)
+    };
+  }
+
+  function nEPV(k, p, epv) { return (k * epv) / p; }
+
+  function nHsiehContinuous(p, OR, alpha, power, r2) {
+    var zA = SS.qnorm(1 - alpha / 2);
+    var zB = SS.qnorm(power);
+    var b = Math.log(OR);
+    if (b === 0) return Infinity;
+    return Math.pow(zA + zB, 2) / (p * (1 - p) * b * b) / Math.max(1e-9, 1 - r2);
+  }
+
+  function nHsiehBinary(p, OR, alpha, power, B) {
+    // Hsieh, Bloch & Larsen 1998. Solve for p1 (exposed) and p2 (unexposed)
+    // from overall p = B*p1 + (1-B)*p2 and OR = (p1/(1-p1)) / (p2/(1-p2)).
+    // Iterate p2 to match overall p.
+    function p1FromP2(p2) {
+      var odds = (p2 / (1 - p2)) * OR;
+      return odds / (1 + odds);
+    }
+    var lo = 0.0001, hi = 0.9999, p2;
+    for (var i = 0; i < 60; i++) {
+      p2 = (lo + hi) / 2;
+      var overall = B * p1FromP2(p2) + (1 - B) * p2;
+      if (overall > p) hi = p2; else lo = p2;
+    }
+    var p1 = p1FromP2(p2);
+    var pBar = B * p1 + (1 - B) * p2;
+    var zA = SS.qnorm(1 - alpha / 2);
+    var zB = SS.qnorm(power);
+    var num = zA * Math.sqrt(pBar * (1 - pBar) / B) +
+              zB * Math.sqrt(p1 * (1 - p1) + p2 * (1 - p2) * (1 - B) / B);
+    var denom = Math.pow(p1 - p2, 2) * (1 - B);
+    if (denom <= 0) return Infinity;
+    return (num * num) / denom;
+  }
+
+  function update() {
+    var v = readVals();
+    $('binaryFields').hidden = (v.predType !== 'binary');
+    $('contFields').hidden = (v.predType !== 'continuous');
+
+    var big = $('ssBig'), sub = $('ssSub'), interp = $('ssInterpret');
+    if (!(v.pEvent > 0 && v.pEvent < 1) || v.kPred < 1 || !(v.effect > 0)) {
+      big.textContent = '—'; big.classList.add('ss-warn');
+      sub.textContent = 'Set valid inputs.';
+      interp.textContent = 'Adjust the inputs to see your sample size.';
+      return;
+    }
+    var nEpv = nEPV(v.kPred, v.pEvent, v.epv);
+    var nH = (v.predType === 'binary')
+      ? nHsiehBinary(v.pEvent, v.effect, v.alpha, v.power, v.pX)
+      : nHsiehContinuous(v.pEvent, v.effect, v.alpha, v.power, v.r2);
+    var nFinal = Math.max(nEpv, nH);
+    var nFinalCeil = Math.ceil(nFinal);
+    var events = Math.ceil(nFinalCeil * v.pEvent);
+
+    big.classList.toggle('ss-warn', nFinalCeil > 1000);
+    big.textContent = SS.formatN(nFinalCeil) + ' participants';
+    sub.textContent = SS.formatN(events) + ' expected events  ·  EPV n = ' +
+                      SS.formatN(Math.ceil(nEpv)) + '  ·  Hsieh n = ' +
+                      SS.formatN(Math.ceil(nH));
+
+    var driver = (nEpv >= nH) ? 'events-per-variable rule' : 'Hsieh formula';
+    interp.textContent = 'For a logistic-regression model with ' + v.kPred +
+      ' coefficients and an outcome rate of ' + (v.pEvent * 100).toFixed(0) +
+      '%, you need ' + SS.formatN(nFinalCeil) + ' participants (≈ ' +
+      events + ' events). The binding constraint is the ' + driver + '.' +
+      (nFinalCeil > 1000 ? ' ⚠ This may exceed typical MMed feasibility.' : '');
+  }
+
+  function applyPreset(name) {
+    var p = presets[name]; if (!p) return;
+    Object.keys(p).forEach(function (k) { $(k).value = p[k]; });
+    update();
+    document.querySelectorAll('.ss-quickstart button').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.preset === name);
+    });
+  }
+
+  function methodsParagraph() {
+    var v = readVals();
+    var nEpv = nEPV(v.kPred, v.pEvent, v.epv);
+    var nH = (v.predType === 'binary')
+      ? nHsiehBinary(v.pEvent, v.effect, v.alpha, v.power, v.pX)
+      : nHsiehContinuous(v.pEvent, v.effect, v.alpha, v.power, v.r2);
+    var nFinal = Math.ceil(Math.max(nEpv, nH));
+    return 'Sample size was estimated for a multivariable logistic-regression model. ' +
+      'The events-per-variable rule (Peduzzi et al., 1996) requires ' +
+      SS.formatN(Math.ceil(nEpv)) + ' participants for ' + v.kPred +
+      ' coefficients at an outcome rate of ' + (v.pEvent * 100).toFixed(0) + '% with EPV = ' + v.epv +
+      '. The Hsieh formula (Hsieh, 1989; Hsieh, Bloch & Larsen, 1998) for a ' +
+      v.predType + ' primary predictor with OR = ' + v.effect +
+      ', α = ' + v.alpha + ' and ' + (v.power * 100).toFixed(0) +
+      '% power requires ' + SS.formatN(Math.ceil(nH)) + '. The larger value, ' +
+      SS.formatN(nFinal) + ' participants, was adopted. ' +
+      'Calculations were performed with the StudyStats sample-size tool ' +
+      '(https://study-stats.com/tools/logistic.html).';
+  }
+
+  function rCode() {
+    var v = readVals();
+    var lines = [
+      '# Logistic regression sample size (base R)',
+      'k     <- ' + v.kPred + '   # number of model coefficients',
+      'p     <- ' + v.pEvent + '   # overall event probability',
+      'epv   <- ' + v.epv,
+      'alpha <- ' + v.alpha, 'power <- ' + v.power,
+      '',
+      '# 1) Events-per-variable rule (Peduzzi 1996)',
+      'n_epv <- (k * epv) / p',
+      'ceiling(n_epv)',
+      '',
+      '# 2) Hsieh formula'
+    ];
+    if (v.predType === 'continuous') {
+      lines.push('OR    <- ' + v.effect, 'r2    <- ' + v.r2,
+        'zA    <- qnorm(1 - alpha / 2)', 'zB    <- qnorm(power)',
+        'n_h   <- (zA + zB)^2 / (p * (1 - p) * log(OR)^2) / (1 - r2)',
+        'ceiling(n_h)');
+    } else {
+      lines.push('OR    <- ' + v.effect, 'B     <- ' + v.pX + '   # proportion exposed',
+        '# Solve p1, p2 from overall p and OR (use uniroot or pwr/WebPower)',
+        'library(WebPower)',
+        'wp.logistic(p0 = NULL, p1 = NULL, alpha = alpha, power = power,',
+        '            family = "Bernoulli", parameter = list(p_exp = B, OR = OR, p = p))');
+    }
+    lines.push('', '# Take the larger of the two', 'ceiling(max(n_epv, n_h))');
+    return lines.join('\n');
+  }
+
+  ids.forEach(function (id) {
+    var el = $(id);
+    el.addEventListener('input', update);
+    el.addEventListener('change', update);
+  });
+  document.querySelectorAll('.ss-quickstart button').forEach(function (b) {
+    b.addEventListener('click', function () { applyPreset(b.dataset.preset); });
+  });
+  $('copyMethods').addEventListener('click', function () { SS.copyText(methodsParagraph()); });
+  $('copyR').addEventListener('click', function () { SS.copyText(rCode()); });
+
+  update();
+})();
+</script>
+```

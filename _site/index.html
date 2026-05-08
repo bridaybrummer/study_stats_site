@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="description" content="Plain-language statistical consulting for clinicians, MMed candidates and health researchers: study design, sample size, analysis and write-up.">
 
-<title>STUDYSTATS</title>
+<title>StudyStats — Expert Statistical Consulting for Health Researchers – STUDYSTATS</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -104,11 +105,13 @@ cookieconsent.run({
 
 
 <link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="STUDYSTATS">
+<meta property="og:title" content="StudyStats — Expert Statistical Consulting for Health Researchers">
+<meta property="og:description" content="Plain-language statistical consulting for clinicians, MMed candidates and health researchers: study design, sample size, analysis and write-up.">
 <meta property="og:image" content="https://study-stats.com/logo/StudyStats_Logo Files/CMYK/Primary Logo (Landscape)/Grey/StudyStats_Primary Logo_Grey.svg">
 <meta property="og:site_name" content="STUDYSTATS">
 <meta property="og:locale" content="en_ZA">
-<meta name="twitter:title" content="STUDYSTATS">
+<meta name="twitter:title" content="StudyStats — Expert Statistical Consulting for Health Researchers">
+<meta name="twitter:description" content="Plain-language statistical consulting for clinicians, MMed candidates and health researchers: study design, sample size, analysis and write-up.">
 <meta name="twitter:image" content="https://study-stats.com/logo/StudyStats_Logo Files/CMYK/Primary Logo (Landscape)/Grey/StudyStats_Primary Logo_Grey.svg">
 <meta name="twitter:card" content="summary_large_image">
 </head>
@@ -174,14 +177,12 @@ cookieconsent.run({
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
-    </div>
+    
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content column-page" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
 <!-- before.html -->
 <div class="custom-before">
     <p></p>
@@ -193,150 +194,134 @@ cookieconsent.run({
 
 
 
-<!-- Hero Section -->
-<div class="hero" style="display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; background-color: #121212; color: #fff; text-align: center; padding: 2rem;">
-<!-- Logo -->
-<p><img src="logo/StudyStats_Logo Files/CMYK/second_logo_portrait/White/white.png" alt="StudyStats Logo" style="max-width: 300px; margin-bottom: 1.5rem;"></p>
-<!-- Title and Tagline -->
-<p style="font-size: 1.5rem; margin-bottom: 2rem;">
-</p><p>Expert statistical consulting for health professionals and researchers.</p>
-<p></p>
-<!-- Navigation Links -->
-<nav style="font-size: 1.2rem;">
-<p><a href="./index.html" style="margin: 0 1rem; color: #fff; text-decoration: none;">Home</a> <a href="./about.html" style="margin: 0 1rem; color: #fff; text-decoration: none;">About</a> <a href="services.qmd" style="margin: 0 1rem; color: #fff; text-decoration: none;">Services</a> <a href="./contact.html" style="margin: 0 1rem; color: #fff; text-decoration: none;">Contact</a></p>
-</nav>
-<!-- Date and Epiweek Display -->
-<div id="current-date" style="font-size: 1.5rem; margin-top: 2rem;">
+<style>
+  .ss-hero{min-height:88vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4rem 1.25rem 3rem;background:radial-gradient(ellipse at top,rgba(255,255,255,.06),transparent 60%),#121212}
+  .ss-hero img.logo{max-width:220px;margin-bottom:1.25rem}
+  .ss-hero h1{font-size:clamp(2rem,4.5vw,3.5rem);font-weight:700;line-height:1.15;margin:0 0 1rem;letter-spacing:-.5px}
+  .ss-hero .subhead{font-size:clamp(1.05rem,1.6vw,1.35rem);color:#cfcfcf;max-width:720px;margin:0 auto 2rem;line-height:1.55}
+  .ss-cta-row{display:flex;flex-wrap:wrap;gap:.75rem;justify-content:center}
+  .ss-btn{display:inline-block;padding:.85rem 1.6rem;border-radius:6px;font-weight:600;font-size:1rem;text-decoration:none!important;transition:transform .08s,box-shadow .15s,background .15s;border:1.5px solid transparent}
+  .ss-btn-primary{background:#fff;color:#121212!important}
+  .ss-btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(255,255,255,.12)}
+  .ss-btn-secondary{background:transparent;color:#fff!important;border-color:#fff}
+  .ss-btn-secondary:hover{background:rgba(255,255,255,.08)}
+  .ss-trustline{margin-top:2.25rem;color:#9a9a9a;font-size:.85rem;letter-spacing:.3px;text-transform:uppercase}
+  .ss-section{max-width:1080px;margin:0 auto;padding:4rem 1.25rem}
+  .ss-section h2{font-size:clamp(1.6rem,2.6vw,2.2rem);margin:0 0 .5rem;text-align:center}
+  .ss-section .lead{text-align:center;color:#b8b8b8;max-width:720px;margin:0 auto 2.5rem}
+  .ss-grid{display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  .ss-card{background:#1b1b1b;border:1px solid #2a2a2a;border-radius:10px;padding:1.5rem 1.4rem;transition:transform .12s,border-color .15s}
+  .ss-card:hover{transform:translateY(-3px);border-color:#4a4a4a}
+  .ss-card h3{font-size:1.15rem;margin:0 0 .5rem}
+  .ss-card p{color:#bdbdbd;font-size:.95rem;line-height:1.5;margin:0 0 .85rem}
+  .ss-card a.more{color:#fff;font-size:.9rem;font-weight:600}
+  .ss-steps{counter-reset:step;display:grid;gap:1.25rem;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+  .ss-step{background:#1b1b1b;border-radius:10px;padding:1.5rem 1.4rem;border:1px solid #2a2a2a;position:relative}
+  .ss-step::before{counter-increment:step;content:counter(step);position:absolute;top:-14px;left:-14px;background:#fff;color:#121212;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}
+  .ss-step h3{margin:.25rem 0 .4rem;font-size:1.05rem}
+  .ss-step p{color:#bdbdbd;font-size:.92rem;margin:0;line-height:1.5}
+  .ss-chips{display:flex;flex-wrap:wrap;gap:.5rem;justify-content:center;margin-top:1rem}
+  .ss-chip{background:#1b1b1b;border:1px solid #2a2a2a;padding:.4rem .85rem;border-radius:999px;font-size:.85rem;color:#cfcfcf}
+  .ss-final{background:linear-gradient(135deg,#1b1b1b,#2a2a2a);border-radius:14px;padding:3rem 1.5rem;text-align:center;margin:3rem auto 5rem;max-width:900px}
+  .ss-final h2{margin-top:0}
+  .ss-final p{color:#cfcfcf;max-width:600px;margin:0 auto 1.5rem}
+  .ss-today{text-align:center;color:#7a7a7a;font-size:.85rem;padding:1rem;border-top:1px solid #2a2a2a}
+  .ss-today strong{color:#cfcfcf}
+</style>
+<div class="ss-hero">
+<p><img src="logo/StudyStats_Logo Files/CMYK/second_logo_portrait/White/white.png" alt="StudyStats logo" class="logo"></p>
+<section id="statistics-made-clear-for-the-research-that-matters." class="level1">
+<h1>Statistics, made clear — for the research that matters.</h1>
+<div class="subhead">
+<p>Plain-language statistical consulting for clinicians, MMed candidates and health researchers. We design your study, justify your sample size, run the analysis and help you write it up — so you can defend it.</p>
+</div>
+<div class="ss-cta-row">
+<p><a href="./contact.html" class="ss-btn ss-btn-primary">Book a free 15-min consult →</a> <a href="./tools/index.html" class="ss-btn ss-btn-secondary">Try the free calculators</a></p>
+</div>
+<div class="ss-trustline">
+<p>Trusted by MMed candidates · postgraduate researchers · clinical teams</p>
+</div>
+</section>
+</div>
+<section id="what-we-help-with" class="level2 ss-section">
+<h2 class="anchored" data-anchor-id="what-we-help-with">What we help with</h2>
+<div class="lead">
+<p>Three things, done well — from protocol to publication.</p>
+</div>
+<div class="ss-grid">
+<section id="study-design-protocol" class="level3 ss-card">
+<h3 class="anchored" data-anchor-id="study-design-protocol">📐 Study design &amp; protocol</h3>
+<p>A statistician in the room <em>before</em> you collect data. We help you frame the research question, pick the right design, and pre-empt the reviewers who will read your protocol. <a href="./how_it_works.html" class="more">Learn more →</a></p>
+</section>
+<section id="sample-size-power" class="level3 ss-card">
+<h3 class="anchored" data-anchor-id="sample-size-power">🔢 Sample size &amp; power</h3>
+<p>Defensible sample-size calculations with the assumptions, citations, and a copy-ready methods paragraph. Free interactive calculators included. <a href="./tools/index.html" class="more">Open the calculators →</a></p>
+</section>
+<section id="analysis-write-up" class="level3 ss-card">
+<h3 class="anchored" data-anchor-id="analysis-write-up">📊 Analysis &amp; write-up</h3>
+<p>From data cleaning to regression, survival analysis and figures. We deliver reproducible code, clear tables, and methods text you can paste into your thesis or paper. <a href="./how_it_works.html" class="more">See how it works →</a></p>
+</section>
+</div>
+</section>
+<section id="how-it-works" class="level2 ss-section">
+<h2 class="anchored" data-anchor-id="how-it-works">How it works</h2>
+<div class="lead">
+<p>A simple, predictable process — built around your deadline.</p>
+</div>
+<div class="ss-steps">
+<section id="free-15-min-consult" class="level3 ss-step">
+<h3 class="anchored" data-anchor-id="free-15-min-consult">Free 15-min consult</h3>
+<p>Tell us your research question and timeline. We tell you, honestly, whether we can help.</p>
+</section>
+<section id="scoped-quote" class="level3 ss-step">
+<h3 class="anchored" data-anchor-id="scoped-quote">Scoped quote</h3>
+<p>A fixed-fee quote with deliverables, milestones and turnaround — no hourly surprises.</p>
+</section>
+<section id="deliver-defend" class="level3 ss-step">
+<h3 class="anchored" data-anchor-id="deliver-defend">Deliver &amp; defend</h3>
+<p>Code, tables, figures and methods text. We stay available through review and your defence.</p>
+</section>
+</div>
+</section>
+<section id="who-we-work-with" class="level2 ss-section">
+<h2 class="anchored" data-anchor-id="who-we-work-with">Who we work with</h2>
+<div class="lead">
+<p>If you’re producing health research, we’ve probably helped someone like you.</p>
+</div>
+<div class="ss-chips">
+<p><span class="ss-chip">MMed candidates</span> <span class="ss-chip">PhD students</span> <span class="ss-chip">Clinical registrars</span> <span class="ss-chip">Public-health teams</span> <span class="ss-chip">NGOs &amp; implementers</span> <span class="ss-chip">Pharma &amp; medtech</span></p>
+</div>
+</section>
+<section id="ready-to-talk-it-through" class="level2 ss-final">
+<h2 class="anchored" data-anchor-id="ready-to-talk-it-through">Ready to talk it through?</h2>
+<p>Most projects start with a free 15-minute call. No commitment, no jargon — just a clear sense of whether we can help.</p>
+<div class="ss-cta-row">
+<p><a href="./contact.html" class="ss-btn ss-btn-primary">Get in touch →</a> <a href="./rates.html" class="ss-btn ss-btn-secondary">See pricing</a></p>
+</div>
+</section>
+<div class="ss-today">
+<div id="current-date">
 
 </div>
-<!-- Calendar Visualization -->
-<div id="calendar" style="margin-top: 2rem;">
-
 </div>
 <script>
 document.addEventListener('DOMContentLoaded', function(){
   var now = new Date();
-  // Get the full day name explicitly (e.g., "Monday") for the current date
-  var dayName = now.toLocaleDateString('en-US', { weekday: 'long' });
-  // Full formatted date without the weekday (e.g., "January 1, 2025")
-  var fullDate = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
-  
-  // Function to calculate CDC epiweek details
-  function getEpiWeek(date) {
-    var year = date.getFullYear();
-    var jan1 = new Date(year, 0, 1);
-    var epiWeek1Start;
-    // Determine epiweek 1: the week with at least 4 days in January.
-    if (jan1.getDay() <= 3) {
-      epiWeek1Start = new Date(jan1);
-      epiWeek1Start.setDate(jan1.getDate() - jan1.getDay());
-    } else {
-      epiWeek1Start = new Date(jan1);
-      epiWeek1Start.setDate(jan1.getDate() + (7 - jan1.getDay()));
-    }
-    
-    // Get the Sunday of the current week.
-    var currentSunday = new Date(date);
-    currentSunday.setDate(date.getDate() - date.getDay());
-    
-    // Calculate epiweek number.
-    var diffDays = Math.floor((currentSunday - epiWeek1Start) / (1000 * 60 * 60 * 24));
-    var epiWeek = Math.floor(diffDays / 7) + 1;
-    
-    // Define the start (Sunday) and end (Saturday) dates of the current epiweek.
-    var weekStart = new Date(currentSunday);
-    var weekEnd = new Date(weekStart);
-    weekEnd.setDate(weekStart.getDate() + 6);
-    
-    return { epiWeek: epiWeek, weekStart: weekStart, weekEnd: weekEnd };
+  var dayName  = now.toLocaleDateString('en-US', { weekday: 'long' });
+  var fullDate = now.toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+  function getEpiWeek(date){
+    var year=date.getFullYear(), jan1=new Date(year,0,1), s;
+    if(jan1.getDay()<=3){ s=new Date(jan1); s.setDate(jan1.getDate()-jan1.getDay()); }
+    else{ s=new Date(jan1); s.setDate(jan1.getDate()+(7-jan1.getDay())); }
+    var sun=new Date(date); sun.setDate(date.getDate()-date.getDay());
+    return Math.floor((sun-s)/(1000*60*60*24)/7)+1;
   }
-  
-  var epiInfo = getEpiWeek(now);
-  var epiWeek = epiInfo.epiWeek;
-  
-  // Format the start and end dates for display (e.g., "Jan 1")
-  var weekStartStr = epiInfo.weekStart.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  var weekEndStr = epiInfo.weekEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-  // Get the full day names for the start and end of the epiweek
-  var weekStartDay = epiInfo.weekStart.toLocaleDateString('en-US', { weekday: 'long' });
-  var weekEndDay = epiInfo.weekEnd.toLocaleDateString('en-US', { weekday: 'long' });
-  
-  // Update the display with the current date and epiweek details.
-  document.getElementById('current-date').innerHTML = 
-    dayName + ", " + fullDate + 
-    '<br><span style="font-size:0.9rem;">Epiweek ' + epiWeek + 
-    ' (starts ' + weekStartDay + ', ' + weekStartStr + 
-    ' and Ends ' + weekEndDay + ', ' + weekEndStr + ')</span>';
-  
-  // Utility: normalize a date by zeroing out time components.
-  function normalizeDate(date) {
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
-  }
-  
-  // Generate calendar for the current month
-  function generateCalendar() {
-    var year = now.getFullYear();
-    var month = now.getMonth(); // current month (0-indexed)
-    var firstDay = new Date(year, month, 1);
-    var lastDay = new Date(year, month + 1, 0);
-    var startDay = firstDay.getDay(); // day of week for the 1st
-    var daysInMonth = lastDay.getDate();
-    
-    var html = '<table style="width: 100%; max-width: 400px; margin: 0 auto; border-collapse: collapse; background-color: #1f1f1f; color: #fff;">';
-    // Header row for day names
-    var dayNames = ['Sun','Mon','Tue','Wed','Thu',' Fri   ','Sat'];
-    html += '<tr>';
-    dayNames.forEach(function(day) {
-      html += '<th style="padding: 8px; border: 1px solid #333; width: 14.28%;">' + day + '</th>';
-    });
-    html += '</tr>';
-    
-    var dateNum = 1;
-    var totalRows = Math.ceil((startDay + daysInMonth) / 7);
-    for (var i = 0; i < totalRows; i++) {
-      html += '<tr>';
-      for (var j = 0; j < 7; j++) {
-        var cellContent = '';
-        var cellDate = null;
-        if (i === 0 && j < startDay) {
-          cellContent = '';
-        } else if (dateNum > daysInMonth) {
-          cellContent = '';
-        } else {
-          cellContent = dateNum;
-          cellDate = new Date(year, month, dateNum);
-          dateNum++;
-        }
-        // Normalize dates to compare only the date parts.
-        var normCellDate = cellDate ? normalizeDate(cellDate) : null;
-        var normWeekStart = normalizeDate(epiInfo.weekStart);
-        
-        // Check if cellDate falls within the current epiweek range.
-        var highlight = '';
-        if (cellDate && cellDate >= epiInfo.weekStart && cellDate <= epiInfo.weekEnd) {
-          // If this cell is the epiweek's starting Sunday, apply special highlight.
-          if (normCellDate && normCellDate.getTime() === normWeekStart.getTime()) {
-            highlight = 'background-color: white; color: black; border: 2px solid white; font-weight: bold;';
-          } else {
-            highlight = 'background-color: white; color: black;';
-          }
-        }
-        html += '<td style="padding: 8px; border: 1px solid #333; text-align: center; width: 14.28%; ' + highlight + '">' + cellContent + '</td>';
-      }
-      html += '</tr>';
-    }
-    html += '</table>';
-    document.getElementById('calendar').innerHTML = html;
-  }
-  
-  // Generate and display the calendar.
-  generateCalendar();
+  var el=document.getElementById('current-date');
+  if(el) el.innerHTML='<strong>'+dayName+', '+fullDate+'</strong> · CDC Epiweek '+getEpiWeek(now);
 });
 </script>
-<p>:::::</p>
 
 
-</div>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

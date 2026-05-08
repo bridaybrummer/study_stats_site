@@ -1,0 +1,309 @@
+---
+title: "Sample size: comparing two means"
+date: "2026-05-08"
+categories: ["sample size", "means", "t-test"]
+description: "Fast, MMed-friendly sample-size calculator for comparing two independent means (two-sample t-test). Plain-language inputs, citations, and a copy-ready methods paragraph."
+pagetitle: "Sample size for two means — StudyStats"
+output-file: means.html
+aliases:
+  - shiny_sample_size_ttest.html
+format:
+  html:
+    toc: false
+    css:
+      - _calculator.css
+resources:
+  - _calculator.js
+---
+
+```{=html}
+<section class="ss-calc" id="meansCalc" aria-labelledby="meansTitle">
+  <h2 id="meansTitle">Compare two means (two-sample t-test)</h2>
+  <p class="ss-lede">
+    Use this tool when your outcome is <strong>continuous</strong> (e.g. blood pressure,
+    BMI, length of stay) and you want to compare two independent groups. Defaults
+    are tuned for a typical MMed-level study.
+  </p>
+
+  <div class="ss-quickstart" role="group" aria-label="Quick start scenarios">
+    <button type="button" data-preset="mmed" class="active">▶ MMed default</button>
+    <button type="button" data-preset="small">▶ Small effect (d=0.3)</button>
+    <button type="button" data-preset="large">▶ Large effect (d=0.8)</button>
+  </div>
+
+  <div class="ss-grid">
+    <div class="ss-inputs">
+      <div class="ss-field">
+        <label for="m1">Mean in Group 1 (control / reference) <span class="ss-symbol">μ₁</span></label>
+        <p class="ss-tip">The expected average outcome in your reference group.</p>
+        <input type="number" id="m1" step="0.1" value="120">
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p>Sources, in order of strength:</p>
+            <ol>
+              <li>A recent local study in a similar setting.</li>
+              <li>A systematic review or meta-analysis.</li>
+              <li>A pilot of 30–50 of your own records.</li>
+            </ol>
+            <p><em>In your protocol:</em> "Based on Smith et al. (2024), the mean
+            systolic BP in our cohort was approximately 120 mmHg."</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ss-field">
+        <label for="m2">Mean in Group 2 (intervention / comparison) <span class="ss-symbol">μ₂</span></label>
+        <p class="ss-tip">The expected mean in the comparison group.</p>
+        <input type="number" id="m2" step="0.1" value="115">
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p>Two valid framings:</p>
+            <ul>
+              <li><strong>Expected mean</strong> based on prior trials.</li>
+              <li><strong>Minimum clinically important difference (MCID)</strong> —
+              the smallest change that would change practice. Often more defensible.</li>
+            </ul>
+            <p>Cite an MCID from clinical guidelines (e.g. 5 mmHg for systolic BP
+            per <span class="ss-cite">SEMDSA hypertension guideline 2018</span>).</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ss-field">
+        <label for="sd">Standard deviation (pooled) <span class="ss-symbol">σ</span></label>
+        <p class="ss-tip">Spread of the outcome — assumed roughly equal in both groups.</p>
+        <input type="number" id="sd" min="0.001" step="0.1" value="15">
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p>The hardest input to pin down. Best sources:</p>
+            <ul>
+              <li>SD reported in the same paper you used for the means.</li>
+              <li>Width of a 95 % CI: <code>SD ≈ √n × (CI width) / 3.92</code>.</li>
+              <li>Range / 4 if only min–max is reported (rough).</li>
+              <li>Pilot data (n ≥ 30) from your own records.</li>
+            </ul>
+            <p>If unsure, run sensitivity at ± 25 % around your best guess and report it.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ss-field">
+        <label for="alpha">Significance level <span class="ss-symbol">α</span></label>
+        <p class="ss-tip">Acceptable false-positive rate. Two-sided test.</p>
+        <select id="alpha">
+          <option value="0.01">0.01 (stricter — confirmatory trials)</option>
+          <option value="0.05" selected>0.05 (standard)</option>
+          <option value="0.10">0.10 (exploratory / pilot only)</option>
+        </select>
+        <details class="ss-justify">
+          <summary>How to justify this number</summary>
+          <div class="ss-justify-body">
+            <p>α = 0.05 is the universal default. <em>Cite:</em>
+            <span class="ss-cite">ICH E9 (1998) Statistical Principles for Clinical Trials</span>.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="ss-field">
+        <label for="power">Power <span class="ss-symbol">1 − β</span></label>
+        <p class="ss-tip">Probability of detecting the effect if it really exists.</p>
+        <select id="power">
+          <option value="0.80" selected>0.80 (standard)</option>
+          <option value="0.85">0.85</option>
+          <option value="0.90">0.90 (more conservative)</option>
+          <option value="0.95">0.95 (large / high-stakes trials)</option>
+        </select>
+      </div>
+
+      <div class="ss-field">
+        <label for="ratio">Allocation ratio <span class="ss-symbol">k = n₂ / n₁</span></label>
+        <p class="ss-tip">Equal groups = 1. Set to 2 for a 2:1 design (e.g. one control to two cases).</p>
+        <select id="ratio">
+          <option value="1" selected>1 (equal groups)</option>
+          <option value="2">2 (1:2)</option>
+          <option value="3">3 (1:3)</option>
+          <option value="0.5">0.5 (2:1)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="ss-result" aria-live="polite">
+      <h3>You need</h3>
+      <div id="ssBig" class="ss-big">— in Group 1</div>
+      <div id="ssSub" class="ss-sub">— in total</div>
+
+      <div id="ssInterpret" class="ss-interpret">Adjust the inputs to see your sample size.</div>
+
+      <div class="ss-actions">
+        <button type="button" id="copyMethods">📋 Copy methods paragraph</button>
+        <button type="button" id="copyR" class="ss-secondary">📋 Copy R code</button>
+      </div>
+
+      <div class="ss-chart" id="powerChart" aria-label="Power curve"></div>
+    </div>
+  </div>
+
+  <details class="ss-details">
+    <summary>What does this calculation actually do?</summary>
+    <div class="ss-details-body">
+      <p>For a two-sample t-test with allocation ratio <em>k</em>, the required sample
+      size in Group 1 is approximately:</p>
+      <pre>n₁ = (1 + 1/k) · σ² · (z₁₋α/₂ + z₁₋β)² / (μ₁ − μ₂)²
+n₂ = k · n₁</pre>
+      <p>Cohen's effect size <em>d</em> = (μ₁ − μ₂) / σ. We add 1 to each group as
+      a small-sample correction (Snedecor &amp; Cochran 1989) — this matches
+      <code>power.t.test()</code> in base R closely for n ≥ 20.</p>
+      <p><strong>Assumptions:</strong> independent observations, approximately
+      normal outcomes (or n ≥ 30 per group via the central limit theorem),
+      roughly equal variances. Inflate by your expected drop-out rate before
+      recruiting.</p>
+      <p><strong>References:</strong> Snedecor GW, Cochran WG. <em>Statistical
+      Methods</em>, 8th ed. 1989. · Cohen J. <em>Statistical Power Analysis</em>
+      1988. · Lwanga SK, Lemeshow S. <em>Sample Size Determination in Health
+      Studies</em>, WHO 1991.</p>
+    </div>
+  </details>
+</section>
+
+<script src="_calculator.js"></script>
+<script>
+(function () {
+  'use strict';
+  var SS = window.StudyStats;
+
+  var presets = {
+    mmed:  { m1: 120, m2: 115, sd: 15, alpha: '0.05', power: '0.80', ratio: '1' },
+    small: { m1: 100, m2: 103, sd: 10, alpha: '0.05', power: '0.80', ratio: '1' },
+    large: { m1: 100, m2: 108, sd: 10, alpha: '0.05', power: '0.80', ratio: '1' }
+  };
+
+  var $ = function (id) { return document.getElementById(id); };
+  var ids = ['m1','m2','sd','alpha','power','ratio'];
+
+  function readVals() {
+    return {
+      m1: parseFloat($('m1').value),
+      m2: parseFloat($('m2').value),
+      sd: parseFloat($('sd').value),
+      alpha: parseFloat($('alpha').value),
+      power: parseFloat($('power').value),
+      ratio: parseFloat($('ratio').value)
+    };
+  }
+
+  // n in group 1 for two-sample t-test, allocation ratio k = n2/n1.
+  function n1For(d, alpha, power, k) {
+    if (!isFinite(d) || d === 0) return Infinity;
+    var zA = SS.qnorm(1 - alpha / 2);
+    var zB = SS.qnorm(power);
+    return (1 + 1 / k) * Math.pow(zA + zB, 2) / (d * d) + 1;
+  }
+
+  function powerAt(n1, d, alpha, k) {
+    var zA = SS.qnorm(1 - alpha / 2);
+    var ncp = Math.abs(d) / Math.sqrt((1 + 1 / k) / n1);
+    return 1 - SS.pnorm(zA - ncp) + SS.pnorm(-zA - ncp);
+  }
+
+  function update() {
+    var v = readVals();
+    var d = (v.m1 - v.m2) / v.sd;
+    var n1 = n1For(d, v.alpha, v.power, v.ratio);
+
+    var big = $('ssBig'), sub = $('ssSub'), interp = $('ssInterpret');
+    if (!isFinite(n1) || isNaN(n1) || !(v.sd > 0)) {
+      big.textContent = '—';
+      big.classList.add('ss-warn');
+      sub.textContent = 'Set means to different values and SD > 0.';
+      interp.textContent = 'Adjust the inputs to see your sample size.';
+      $('powerChart').innerHTML = '';
+      return;
+    }
+    var n1Ceil = Math.ceil(n1);
+    var n2Ceil = Math.ceil(n1 * v.ratio);
+    var total = n1Ceil + n2Ceil;
+    big.classList.toggle('ss-warn', total > 400);
+    big.textContent = SS.formatN(n1Ceil) + ' in Group 1';
+    sub.textContent = SS.formatN(n2Ceil) + ' in Group 2  ·  ' + SS.formatN(total) +
+                      ' in total  ·  Cohen\'s d = ' + d.toFixed(2);
+
+    interp.textContent = 'To detect a difference of ' + (v.m1 - v.m2).toFixed(1) +
+      ' (means ' + v.m1 + ' vs ' + v.m2 + ', SD ' + v.sd +
+      ', Cohen\'s d = ' + d.toFixed(2) + ') at α = ' + v.alpha +
+      ' with ' + (v.power * 100).toFixed(0) + '% power, you need ' +
+      SS.formatN(n1Ceil) + ' in Group 1 and ' + SS.formatN(n2Ceil) +
+      ' in Group 2 (' + SS.formatN(total) + ' total).' +
+      (total > 400 ? ' ⚠ This may exceed typical MMed feasibility.' : '');
+
+    var nLo = Math.max(5, Math.round(n1 * 0.2));
+    var nHi = Math.max(nLo + 10, Math.round(n1 * 2.5));
+    var step = Math.max(1, Math.round((nHi - nLo) / 60));
+    var pts = [];
+    for (var n = nLo; n <= nHi; n += step) {
+      pts.push({ x: n, y: Math.max(0, Math.min(1, powerAt(n, d, v.alpha, v.ratio))) });
+    }
+    SS.svgPowerCurve($('powerChart'), pts, n1Ceil,
+                     Math.max(0, Math.min(1, powerAt(n1Ceil, d, v.alpha, v.ratio))),
+                     { xlab: 'Sample size in Group 1', ylab: 'Power (1 − β)' });
+  }
+
+  function applyPreset(name) {
+    var p = presets[name]; if (!p) return;
+    $('m1').value = p.m1; $('m2').value = p.m2; $('sd').value = p.sd;
+    $('alpha').value = p.alpha; $('power').value = p.power; $('ratio').value = p.ratio;
+    update();
+    document.querySelectorAll('.ss-quickstart button').forEach(function (b) {
+      b.classList.toggle('active', b.dataset.preset === name);
+    });
+  }
+
+  function methodsParagraph() {
+    var v = readVals();
+    var d = (v.m1 - v.m2) / v.sd;
+    var n1 = Math.ceil(n1For(d, v.alpha, v.power, v.ratio));
+    var n2 = Math.ceil(n1 * v.ratio);
+    return 'Sample size was calculated for the comparison of two independent means ' +
+      'using a two-sided two-sample t-test (Snedecor & Cochran, 1989) at α = ' + v.alpha +
+      ' with ' + (v.power * 100).toFixed(0) + '% power. Assuming means of ' +
+      v.m1 + ' and ' + v.m2 + ' (SD = ' + v.sd + ', Cohen\'s d = ' + d.toFixed(2) +
+      '), ' + SS.formatN(n1) + ' participants in Group 1 and ' + SS.formatN(n2) +
+      ' in Group 2 (' + SS.formatN(n1 + n2) + ' total) are required. ' +
+      'Calculations were performed with the StudyStats sample-size tool ' +
+      '(https://study-stats.com/tools/means.html).';
+  }
+
+  function rCode() {
+    var v = readVals();
+    return [
+      '# Two-sample t-test sample size (base R)',
+      'm1    <- ' + v.m1, 'm2    <- ' + v.m2, 'sd    <- ' + v.sd,
+      'alpha <- ' + v.alpha, 'power <- ' + v.power, 'k     <- ' + v.ratio + '   # n2 / n1',
+      'd     <- (m1 - m2) / sd',
+      'zA    <- qnorm(1 - alpha / 2)', 'zB    <- qnorm(power)',
+      'n1    <- (1 + 1/k) * (zA + zB)^2 / d^2 + 1',
+      'ceiling(n1); ceiling(n1 * k)',
+      '',
+      '# Or, using base R\'s power.t.test (equal allocation only):',
+      'power.t.test(delta = m1 - m2, sd = sd, sig.level = alpha,',
+      '             power = power, type = "two.sample")'
+    ].join('\n');
+  }
+
+  ids.forEach(function (id) {
+    var el = $(id);
+    el.addEventListener('input', update);
+    el.addEventListener('change', update);
+  });
+  document.querySelectorAll('.ss-quickstart button').forEach(function (b) {
+    b.addEventListener('click', function () { applyPreset(b.dataset.preset); });
+  });
+  $('copyMethods').addEventListener('click', function () { SS.copyText(methodsParagraph()); });
+  $('copyR').addEventListener('click', function () { SS.copyText(rCode()); });
+
+  update();
+})();
+</script>
+```
