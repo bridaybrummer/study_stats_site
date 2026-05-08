@@ -6,8 +6,9 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="dcterms.date" content="2025-02-20">
 
-<title>Tools – STUDYSTATS</title>
+<title>Diagnostic Accuracy (sensitivity/specificity) Sample Size Calculator – STUDYSTATS</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -34,8 +35,6 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../">
 <link href="../logo/StudyStats_Logo Files/CMYK/second_logo_portrait/White/white_big_C.png" rel="icon" type="image/png">
-<script src="../site_libs/quarto-listing/list.min.js"></script>
-<script src="../site_libs/quarto-listing/quarto-listing.js"></script>
 <script src="../site_libs/cookie-consent/cookie-consent.js"></script>
 <link href="../site_libs/cookie-consent/cookie-consent.css" rel="stylesheet">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script>
@@ -48,6 +47,11 @@ ul.task-list li input[type="checkbox"] {
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../site_libs/bootstrap/bootstrap-c76ffff97d0325988a61ab36bec4ba29.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<meta name="shinylive:serviceworker_dir" content="..">
+<script src="../site_libs/quarto-contrib/shinylive-0.10.8/shinylive/load-shinylive-sw.js" type="module"></script>
+<script src="../site_libs/quarto-contrib/shinylive-0.10.8/shinylive/run-python-blocks.js" type="module"></script>
+<link href="../site_libs/quarto-contrib/shinylive-0.10.8/shinylive/shinylive.css" rel="stylesheet">
+<link href="../site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -75,35 +79,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-MKT52KHL7C"></script>
 
 <script type="text/plain" cookie-consent="tracking">
@@ -163,12 +138,12 @@ window.Quarto = {
 };
 </script>
 
-<meta property="og:title" content="Tools – STUDYSTATS">
+<meta property="og:title" content="Diagnostic Accuracy (sensitivity/specificity) Sample Size Calculator – STUDYSTATS">
 <meta property="og:description" content="StudyStats: Expert statistical consulting, blog, and tools.">
 <meta property="og:image" content="https://study-stats.com/tools/logo/StudyStats_Logo Files/CMYK/Primary Logo (Landscape)/Grey/StudyStats_Primary Logo_Grey.svg">
 <meta property="og:site_name" content="STUDYSTATS">
 <meta property="og:locale" content="en_ZA">
-<meta name="twitter:title" content="Tools – STUDYSTATS">
+<meta name="twitter:title" content="Diagnostic Accuracy (sensitivity/specificity) Sample Size Calculator – STUDYSTATS">
 <meta name="twitter:description" content="StudyStats: Expert statistical consulting, blog, and tools.">
 <meta name="twitter:image" content="https://study-stats.com/tools/logo/StudyStats_Logo Files/CMYK/Primary Logo (Landscape)/Grey/StudyStats_Primary Logo_Grey.svg">
 <meta name="twitter:card" content="summary_large_image">
@@ -216,7 +191,7 @@ window.Quarto = {
 <span class="menu-text">Blog</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link active" href="../tools/index.html" aria-current="page"> 
+    <a class="nav-link" href="../tools/index.html"> 
 <span class="menu-text">Tools</span></a>
   </li>  
   <li class="nav-item">
@@ -238,8 +213,14 @@ window.Quarto = {
 <div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#interactive-example" id="toc-interactive-example" class="nav-link active" data-scroll-target="#interactive-example">Interactive Example</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -253,14 +234,25 @@ window.Quarto = {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Tools</h1>
-</div>
+<h1 class="title"><strong>Diagnostic Accuracy</strong> (sensitivity/specificity) Sample Size Calculator</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">statistics</div>
+    <div class="quarto-category">shiny</div>
+    <div class="quarto-category">blog</div>
+  </div>
+  </div>
 
 
 
 <div class="quarto-title-meta">
 
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 20, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -270,152 +262,230 @@ window.Quarto = {
 </header>
 
 
-<p>We have a set of tools for estimating sample sizes.</p>
+<p>Diagnostics studies are relatively simple to conduct but require careful planning and data collection. It is important to identify gold standard test and diagnostic criteria you are going to use (usually some sort of standard of care) and an experimental test you are going to study. You must have an idea of the prevalence of the disease you are studying and the estimated sensitivity and specificity of the experimental diagnostics. Sometimes, we want to correlate two diagnostic measures that are not binary, like Cd4 and Viral load. This is a different type of analysis and we will cover this in a future post. There is also finding a threshold of a continuous diagnostic, perhaps a viral load, that is most predictive of a binary outcome, like death. This is also a different type of analysis and we will cover this in a future post.</p>
+<p>It is crucial to include enough subjects in both the diseased and non-diseased groups. Two key performance measures are <strong>sensitivity</strong> (the test’s ability to correctly identify those with the disease) and <strong>specificity</strong> (the test’s ability to correctly identify those without the disease).</p>
+<p>To estimate either sensitivity or specificity with a desired level of precision, you can use the standard formula for proportions:</p>
+<p><span class="math display">\[
+n=z^2×p(1−p)d^2
+\]</span></p>
+<p><span class="math display">\[
+n = \frac{z^2 \times p(1-p)}{d^2}
+\]</span></p>
+<p><span class="math display">\[
+n=d^2z^2×p(1−p)​
+\]</span></p>
+<p>Where:</p>
+<ul>
+<li><p><span class="math inline">\(n\)</span> is the required sample size within the subgroup (diseased or non-diseased),</p></li>
+<li><p><span class="math inline">\(z\)</span> is the critical value corresponding to your desired confidence level (for a 95% confidence interval, <span class="math inline">\(z≈1.96z\)</span>)</p></li>
+<li><p><span class="math inline">\(p\)</span> is the expected sensitivity (or specificity), and</p></li>
+<li><p><span class="math inline">\(d\)</span> is the desired margin of error (half-width of the confidence interval).</p></li>
+</ul>
+<p><strong>Practical Example:</strong><br>
+Suppose you expect your diagnostic test to have a sensitivity of 90% (0.90) and you desire a 95% confidence interval with a margin of error of ±5% (0.05). The required number of diseased subjects is:</p>
+<p><span class="math display">\[
+n_{\text{disease}} =(1.96)^2×0.90(1−0.90)(0.05)^2≈139
+\]</span> <span class="math display">\[
+n_{\text{disease}} = \frac{(1.96)^2 \times 0.90(1-0.90)}{(0.05)^2} \approx 139
+\]</span> <span class="math display">\[
+n_{\text{disease}} =(0.05)^2(1.96)^2×0.90(1−0.90)​≈139
+\]</span></p>
+<p>Similarly, if you expect a specificity of 90%, you would also need approximately 139 non-diseased subjects to achieve the same precision.</p>
+<p>If the prevalence of the disease in your study population is known, you can determine the overall total sample size required. For example, if the disease prevalence is 10% (0.10), then to obtain about 139 diseased subjects you would need approximately:</p>
+<p>Total&nbsp;sample&nbsp;size&nbsp;(for&nbsp;disease)=1390.10≈1390 = 1390Total&nbsp;sample&nbsp;size&nbsp;(for&nbsp;disease)=0.10139​≈1390</p>
+<p>Likewise, you can calculate the total number needed to yield the required number of non-diseased subjects.</p>
+<blockquote class="blockquote">
+<p><strong>Reference:</strong><br>
+Buderer, N. M. F. (1996). Statistical methodology: I. Incorporating the prevalence of disease into the sample size calculation for sensitivity and specificity. <em>Academic Emergency Medicine, 3</em>(9), 895-900.</p>
+</blockquote>
+<section id="interactive-example" class="level1">
+<h1>Interactive Example</h1>
+<p>Below is an interactive Shiny tool pre‐set to the example above. The default inputs assume:</p>
+<ul>
+<li><p>An expected sensitivity and specificity of 90%</p></li>
+<li><p>A desired margin of error of 5%</p></li>
+<li><p>A 95% confidence level (with z≈1.96z 1.96z≈1.96)</p></li>
+<li><p>A disease prevalence of 10%</p></li>
+</ul>
+<p>Users can adjust these parameters to match the specifics of their own diagnostic study.</p>
+<pre class="shinylive-r" data-engine="r"><code>#| '!! shinylive warning !!': |
+#|   shinylive does not work in self-contained HTML documents.
+#|   Please set `embed-resources: false` in your metadata.
+#| standalone: true
+#| echo: false 
+#| messages: false
+#| viewerHeight: 800
 
+library(shiny)
+library(shinythemes)
+library(shinyjs)
 
-
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="c2FtcGxlJTIwc2l6ZSUyQ3Byb3BvcnRpb25zJTJDcmF0ZXM=" data-listing-date-sort="1778104800000" data-listing-file-modified-sort="1778184536927" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="21" data-listing-word-count-sort="4194">
-<div class="thumbnail"><a href="../tools/proportions.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../tools/proportions.html" class="no-external">Sample size: comparing two proportions</a>
-</h3>
-<div class="delink listing-description"><a href="../tools/proportions.html" class="no-external">
-<p>Fast, MMed-friendly sample-size calculator for comparing two independent proportions or rates. Plain-language inputs, citations to support each assumption, and a copy-ready methods paragraph.</p>
-</a></div>
-</div>
-<div class="metadata">
-<a href="../tools/proportions.html" class="no-external">
-<div class="listing-date">
-May 7, 2026
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="c3RhdGlzdGljcyUyQ3R0ZXN0JTJDc2FtcGxlc2l6ZQ==" data-listing-date-sort="1740002400000" data-listing-file-modified-sort="1778184514451" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="8" data-listing-word-count-sort="1440">
-<div class="thumbnail"><a href="../tools/means.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../tools/means.html" class="no-external">Comparing two averages (means)</a>
-</h3>
-<div class="delink listing-description"><a href="../tools/means.html" class="no-external">
-
-    <p></p>
+ui &lt;- fluidPage(
+  theme = shinytheme("cyborg"),
+  useShinyjs(),
+  tags$style(HTML("
+    #explanationText {
+      font-family: 'Times New Roman', Times, serif;
+      white-space: pre-wrap;
+    }
+    .copy-button {
+      margin-bottom: 10px;
+    }
+  ")),
+  tags$script(HTML("
+    function copyExplanation() {
+      var explanation = document.getElementById('explanationText').innerText;
+      var tempInput = document.createElement('textarea');
+      tempInput.value = explanation;
+      document.body.appendChild(tempInput);
+      tempInput.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempInput);
+      alert('Complete calculation with your current inputs copied to clipboard!');
+    }
+  ")),
   
-</a></div>
-</div>
-<div class="metadata">
-<a href="../tools/means.html" class="no-external">
-<div class="listing-date">
-Feb 20, 2025
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="c3RhdGlzdGljcyUyQ3NoaW55JTJDYmxvZw==" data-listing-date-sort="1740002400000" data-listing-file-modified-sort="1778184514451" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="14" data-listing-word-count-sort="2736">
-<div class="thumbnail"><a href="../tools/prevalence.html" class="no-external">
+  titlePanel("Sample Size Calculator for Diagnostic Accuracy Studies"),
+  sidebarLayout(
+    sidebarPanel(
+      numericInput("sens", "Expected Sensitivity:", value = 0.90, min = 0.5, max = 1, step = 0.01),
+      numericInput("spec", "Expected Specificity:", value = 0.90, min = 0.5, max = 1, step = 0.01),
+      numericInput("d", "Desired Margin of Error (d):", value = 0.05, min = 0.01, max = 0.2, step = 0.01),
+      numericInput("alpha", "Significance Level (α):", value = 0.05, min = 0.001, max = 0.1, step = 0.005),
+      numericInput("prev", "Disease Prevalence:", value = 0.10, min = 0.001, max = 1, step = 0.01)
+    ),
+    mainPanel(
+      h3(textOutput("resultTitle")),
+      uiOutput("resultsUI"),
+      tags$button("Copy Full Calculation", class = "copy-button", onclick = "copyExplanation()"),
+      uiOutput("explanationUI"),
+      plotOutput("barPlot")
+    )
+  )
+)
 
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../tools/prevalence.html" class="no-external"><strong>Prevalence Study</strong> sample size calculator</a>
-</h3>
-<div class="delink listing-description"><a href="../tools/prevalence.html" class="no-external">
-We often want to estimate the <strong>prevalence</strong> in a population (i.e., the proportion of individuals with a certain condition). For example, if we want to estimate the prevalence…
-</a></div>
-</div>
-<div class="metadata">
-<a href="../tools/prevalence.html" class="no-external">
-<div class="listing-date">
-Feb 20, 2025
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="3" data-categories="c3RhdGlzdGljcyUyQ3Byb3BvcnRpb25zJTJDcmF0ZXM=" data-listing-date-sort="1740002400000" data-listing-file-modified-sort="1778182097376" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="23" data-listing-word-count-sort="4483">
-<div class="thumbnail"><a href="../tools/lab/proportions_shiny.html" class="no-external">
-
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../tools/lab/proportions_shiny.html" class="no-external">Comparing two <strong>rates/proportions</strong> (R/Shiny lab version)</a>
-</h3>
-<div class="delink listing-description"><a href="../tools/lab/proportions_shiny.html" class="no-external">
-
-    <p></p>
+server &lt;- function(input, output, session) {
   
-</a></div>
-</div>
-<div class="metadata">
-<a href="../tools/lab/proportions_shiny.html" class="no-external">
-<div class="listing-date">
-Feb 20, 2025
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="4" data-categories="c3RhdGlzdGljcyUyQ3NoaW55JTJDYmxvZw==" data-listing-date-sort="1740002400000" data-listing-file-modified-sort="1778184514453" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="6" data-listing-word-count-sort="1012">
-<div class="thumbnail"><a href="../tools/logistic.html" class="no-external">
+  # Calculate critical value from alpha
+  calc_z &lt;- reactive({
+    qnorm(1 - input$alpha/2)
+  })
+  
+  # Calculate required sample sizes for sensitivity and specificity (in diseased and non-diseased groups)
+  calc_sample_sizes &lt;- reactive({
+    z &lt;- calc_z()
+    sens &lt;- input$sens
+    spec &lt;- input$spec
+    d &lt;- input$d
+    prev &lt;- input$prev
+    
+    # Sample size for diseased subjects (for sensitivity)
+    n_disease &lt;- (z^2 * sens * (1 - sens)) / (d^2)
+    # Sample size for non-diseased subjects (for specificity)
+    n_nondisease &lt;- (z^2 * spec * (1 - spec)) / (d^2)
+    
+    # Overall total required given the prevalence
+    total_disease &lt;- n_disease / prev
+    total_nondisease &lt;- n_nondisease / (1 - prev)
+    overall_total &lt;- ceiling(max(total_disease, total_nondisease))
+    
+    list(n_disease = ceiling(n_disease),
+         n_nondisease = ceiling(n_nondisease),
+         total_disease = ceiling(total_disease),
+         total_nondisease = ceiling(total_nondisease),
+         overall_total = overall_total)
+  })
+  
+  output$resultTitle &lt;- renderText({
+    "Estimated Sample Size Requirements"
+  })
+  
+  output$resultsUI &lt;- renderUI({
+    sizes &lt;- calc_sample_sizes()
+    tagList(
+      tags$p(paste("Required number of diseased subjects (for sensitivity):", sizes$n_disease)),
+      tags$p(paste("Estimated total sample size needed to yield sufficient diseased subjects:", sizes$total_disease)),
+      tags$p(paste("Required number of non-diseased subjects (for specificity):", sizes$n_nondisease)),
+      tags$p(paste("Estimated total sample size needed to yield sufficient non-diseased subjects:", sizes$total_nondisease)),
+      tags$p(paste("Overall total sample size required (largest estimate):", sizes$overall_total))
+    )
+  })
+  
+  output$explanationUI &lt;- renderUI({
+    sizes &lt;- calc_sample_sizes()
+    z &lt;- calc_z()
+    sens &lt;- input$sens
+    spec &lt;- input$spec
+    d &lt;- input$d
+    alpha &lt;- input$alpha
+    prev &lt;- input$prev
+    confidence_level &lt;- (1 - alpha) * 100
+    
+    # Calculate intermediate values for explanation
+    sens_numerator &lt;- z^2 * sens * (1 - sens)
+    spec_numerator &lt;- z^2 * spec * (1 - spec)
+    denominator &lt;- d^2
+    
+    explanation &lt;- paste0(
+      "CALCULATION BASED ON YOUR INPUTS:\n\n",
+      "Parameters:\n",
+      "• Expected Sensitivity: ", round(sens, 3), " (", round(sens*100, 1), "%)\n",
+      "• Expected Specificity: ", round(spec, 3), " (", round(spec*100, 1), "%)\n",
+      "• Desired Margin of Error: ±", round(d, 3), " (±", round(d*100, 1), "%)\n",
+      "• Confidence Level: ", round(confidence_level, 1), "% (α = ", alpha, ", z = ", round(z, 3), ")\n",
+      "• Disease Prevalence: ", round(prev, 3), " (", round(prev*100, 1), "%)\n\n",
+      "Formula: n = (z² × p(1-p)) / d²\n\n",
+      "For SENSITIVITY (diseased subjects needed):\n",
+      "    n_sens = (", round(z, 3), "² × ", round(sens, 3), " × (1-", round(sens, 3), ")) / ", round(d, 3), "²\n",
+      "    n_sens = (", round(z^2, 3), " × ", round(sens, 3), " × ", round(1-sens, 3), ") / ", round(d^2, 4), "\n",
+      "    n_sens = ", round(sens_numerator, 4), " / ", round(denominator, 4), " = ", round(sens_numerator/denominator, 1), "\n",
+      "    Required diseased subjects: ", sizes$n_disease, "\n\n",
+      "For SPECIFICITY (non-diseased subjects needed):\n",
+      "    n_spec = (", round(z, 3), "² × ", round(spec, 3), " × (1-", round(spec, 3), ")) / ", round(d, 3), "²\n",
+      "    n_spec = (", round(z^2, 3), " × ", round(spec, 3), " × ", round(1-spec, 3), ") / ", round(d^2, 4), "\n",
+      "    n_spec = ", round(spec_numerator, 4), " / ", round(denominator, 4), " = ", round(spec_numerator/denominator, 1), "\n",
+      "    Required non-diseased subjects: ", sizes$n_nondisease, "\n\n",
+      "TOTAL SAMPLE SIZE CALCULATIONS:\n",
+      "Given disease prevalence of ", round(prev*100, 1), "% (", round(prev, 3), "):\n\n",
+      "To obtain ", sizes$n_disease, " diseased subjects:\n",
+      "    Total needed = ", sizes$n_disease, " / ", round(prev, 3), " = ", sizes$total_disease, "\n\n",
+      "To obtain ", sizes$n_nondisease, " non-diseased subjects:\n",
+      "    Total needed = ", sizes$n_nondisease, " / ", round(1-prev, 3), " = ", sizes$total_nondisease, "\n\n",
+      "FINAL RECOMMENDATION:\n",
+      "Overall total sample size required: ", sizes$overall_total, " participants\n",
+      "(This is the larger of the two total sample size estimates)\n\n",
+      "With this sample size, you can expect:\n",
+      "• Approximately ", round(sizes$overall_total * prev), " diseased subjects\n",
+      "• Approximately ", round(sizes$overall_total * (1-prev)), " non-diseased subjects\n\n",
+      "Reference: Buderer, N. M. F. (1996). Statistical methodology: I. Incorporating the prevalence of disease into the sample size calculation for sensitivity and specificity. Academic Emergency Medicine, 3(9), 895-900."
+    )
+    
+    tags$pre(explanation, id = "explanationText")
+  })
+  
+  output$barPlot &lt;- renderPlot({
+    sizes &lt;- calc_sample_sizes()
+    bar_data &lt;- c(sizes$total_disease, sizes$total_nondisease)
+    bar_labels &lt;- c("Total for Diseased", "Total for Non-Diseased")
+    
+    barplot(bar_data, names.arg = bar_labels,
+            col = c("tomato", "skyblue"),
+            main = "Estimated Total Sample Sizes",
+            ylab = "Number of Participants",
+            ylim = c(0, max(bar_data) * 1.1))
+    abline(h = sizes$overall_total, col = "darkgreen", lty = 2)
+    legend("topright", legend = paste("Overall Required =", sizes$overall_total),
+           bty = "n", col = "darkgreen", lty = 2)
+  })
+}
 
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+shinyApp(ui = ui, server = server)
+</code></pre>
 
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../tools/logistic.html" class="no-external"><strong>Logistic Regression</strong> Sample Size Calculator</a>
-</h3>
-<div class="delink listing-description"><a href="../tools/logistic.html" class="no-external">
-A <strong>logistic regression</strong> has the output of Odds Ratios (OR) and is usually used when the outcome is binary (e.g.&nbsp;yes/no, success/failure). We usually use a logistic regression…
-</a></div>
-</div>
-<div class="metadata">
-<a href="../tools/logistic.html" class="no-external">
-<div class="listing-date">
-Feb 20, 2025
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="5" data-categories="c3RhdGlzdGljcyUyQ3NoaW55JTJDYmxvZw==" data-listing-date-sort="1740002400000" data-listing-file-modified-sort="1778184514457" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="10" data-listing-word-count-sort="1960">
-<div class="thumbnail"><a href="../tools/diagnostic.html" class="no-external">
 
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
+</section>
 
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="../tools/diagnostic.html" class="no-external"><strong>Diagnostic Accuracy</strong> (sensitivity/specificity) Sample Size Calculator</a>
-</h3>
-<div class="delink listing-description"><a href="../tools/diagnostic.html" class="no-external">
-Diagnostics studies are relatively simple to conduct but require careful planning and data collection. It is important to identify gold standard test and diagnostic criteria…
-</a></div>
-</div>
-<div class="metadata">
-<a href="../tools/diagnostic.html" class="no-external">
-<div class="listing-date">
-Feb 20, 2025
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
