@@ -47,6 +47,15 @@ fi
 print_status "Starting StudyStats Site Deployment v2..."
 print_status "Project directory: $PROJECT_DIR"
 
+# Purge iCloud / Finder sync-conflict duplicates (e.g. "foo 2.qmd")
+# These break Quarto render with `os error 60` (TimedOut) when iCloud
+# leaves them as offline-only stubs. Safe: only matches "<name> <digits>"
+# suffixes, excludes .git/.venv/_site/etc by default.
+if [ -x "$SCRIPT_DIR/clean_icloud_dupes.sh" ]; then
+    print_status "Purging iCloud sync-conflict duplicates..."
+    "$SCRIPT_DIR/clean_icloud_dupes.sh" --apply | tail -3 || true
+fi
+
 # Check if we're in a git repository
 if [ ! -d ".git" ]; then
     print_error "Not a git repository. Please initialize git first."
