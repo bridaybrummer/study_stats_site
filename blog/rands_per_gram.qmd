@@ -36,6 +36,16 @@ This post is a look at the cost of sports nutrition in South Africa, specificall
 # Methodology
 We used chatbots to scrape prices from websites and included the website the price was taken from so that each price was then checked. We collected claimed product weight and carbohydrate contents from the nutrition label and the price from the website to calculate the rands per gram. We divided products into four categories: gels, bars, drink mixes, and everyday foods for real-life comparisons.
 
+**Update (May 2026):** prices are now refreshed automatically by a small R
+scraper (`dev/scrape_prices.r`) that pulls live prices from a curated list of
+South African retailer URLs (`blog/data/product_urls.csv`) — including Cycle
+Lab, Dis-Chem, Dis-Chem LivingFit, Science in Sport SA, Biogen, Cadence
+Nutrition, 226ERS SA, PVM, 32Gi, SiSu Nutrition, Maurten SA, USN, vivovita,
+gearchange, Arch Cycles, Solomon's Cycles, Finishline Cycles, Specialized
+Paarl, krag kroeg, and Pick n Pay. Each scrape stores the price plus a
+timestamp in `blog/data/products.csv`. The blog post falls back to the inline
+table below when no scrape is present.
+
 
 ```{r}
 #| include: false
@@ -931,6 +941,296 @@ ggplotly(p, tooltip = "text") %>%
 
 
 ```
+
+
+# Deal Dashboard
+
+The dashboard below classifies every product into one of five deal-rating tiers
+based on its rand-per-gram-of-carbohydrate, compared against other products of
+the **same type** (gel / bar / drink / grocery). Tiers are quantile cuts within
+each type so that "excellent" always means "in the cheapest 20 % of its
+category" rather than an arbitrary fixed threshold. Where a fresh price scrape
+is available (`blog/data/products.csv`, written by `dev/scrape_prices.r`), the
+dashboard uses the scraped price; otherwise it falls back to the inline tribble
+above.
+
+```{r}
+#| label: deal-dashboard-data
+#| include: false
+
+library(dplyr)
+library(stringr)
+
+# Optionally merge scraped prices over the inline tribble
+scraped_path <- "data/products.csv"
+if (file.exists(scraped_path)) {
+    scraped <- readr::read_csv(scraped_path, show_col_types = FALSE) %>%
+        filter(!is.na(Price_ZAR)) %>%
+        select(Product, Brand, Price_ZAR_new = Price_ZAR, scraped_at)
+    all_products <- all_products %>%
+        left_join(scraped, by = c("Product", "Brand")) %>%
+        mutate(
+            Price_ZAR = coalesce(Price_ZAR_new, Price_ZAR),
+            rand_per_gram = round(Price_ZAR / Carbs_per_Serving, 2)
+        ) %>%
+        select(-Price_ZAR_new)
+    scrape_note <- paste0("Prices last refreshed: ",
+                          format(max(as.POSIXct(scraped$scraped_at)), "%Y-%m-%d"))
+} else {
+    scrape_note <- "Prices: inline snapshot (run `Rscript dev/scrape_prices.r` to refresh)."
+}
+
+# Quantile-based deal rating, computed within product_type
+rate_deals <- function(df) {
+    df %>%
+        group_by(product_type) %>%
+        mutate(
+            q = case_when(
+                n() < 5 ~ NA_real_,
+                TRUE    ~ ecdf(rand_per_gram)(rand_per_gram)
+            ),
+            deal_rating = factor(
+                case_when(
+                    is.na(q)    ~ "Fair",
+                    q <= 0.20   ~ "Excellent",
+                    q <= 0.40   ~ "Good",
+                    q <= 0.60   ~ "Fair",
+                    q <= 0.80   ~ "Poor",
+                    TRUE        ~ "Avoid"
+                ),
+                levels = c("Excellent", "Good", "Fair", "Poor", "Avoid")
+            )
+        ) %>%
+        ungroup() %>%
+        select(-q)
+}
+
+all_products <- rate_deals(all_products)
+
+# KPIs (non-grocery only — groceries skew everything cheap)
+sport_only <- all_products %>% filter(!is_grocery)
+kpi_n_products  <- nrow(sport_only)
+kpi_n_brands    <- n_distinct(sport_only$Brand)
+kpi_min_rpg     <- min(sport_only$rand_per_gram, na.rm = TRUE)
+kpi_median_rpg  <- median(sport_only$rand_per_gram, na.rm = TRUE)
+kpi_max_rpg     <- max(sport_only$rand_per_gram, na.rm = TRUE)
+kpi_cheapest    <- sport_only %>% slice_min(rand_per_gram, n = 1, with_ties = FALSE)
+kpi_priciest    <- sport_only %>% slice_max(rand_per_gram, n = 1, with_ties = FALSE)
+```
+
+```{r}
+#| label: deal-dashboard-kpis
+#| results: asis
+
+# Render KPI value-box cards as plain HTML (no Shiny dep)
+cat(sprintf('
+<div class="kpi-grid">
+  <div class="kpi-card kpi-blue">
+    <div class="kpi-label">Products tracked</div>
+    <div class="kpi-value">%d</div>
+    <div class="kpi-sub">across %d brands</div>
+  </div>
+  <div class="kpi-card kpi-green">
+    <div class="kpi-label">Cheapest R/g</div>
+    <div class="kpi-value">R %.2f</div>
+    <div class="kpi-sub">%s</div>
+  </div>
+  <div class="kpi-card kpi-amber">
+    <div class="kpi-label">Median R/g</div>
+    <div class="kpi-value">R %.2f</div>
+    <div class="kpi-sub">across all sports products</div>
+  </div>
+  <div class="kpi-card kpi-red">
+    <div class="kpi-label">Priciest R/g</div>
+    <div class="kpi-value">R %.2f</div>
+    <div class="kpi-sub">%s</div>
+  </div>
+</div>
+<p class="kpi-footnote"><em>%s</em></p>
+<style>
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.75rem; margin: 1rem 0; }
+.kpi-card { padding: 0.9rem 1rem; border-radius: 10px; color: #fff;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08); }
+.kpi-blue  { background: linear-gradient(135deg,#4a6fdc,#3a4fb0); }
+.kpi-green { background: linear-gradient(135deg,#2ea36b,#1f7a4e); }
+.kpi-amber { background: linear-gradient(135deg,#e08a2b,#b86a14); }
+.kpi-red   { background: linear-gradient(135deg,#c94a4a,#9a2f2f); }
+.kpi-label { font-size: 0.8rem; opacity: 0.9; text-transform: uppercase; letter-spacing: 0.04em; }
+.kpi-value { font-size: 1.6rem; font-weight: 700; margin: 0.2rem 0; }
+.kpi-sub   { font-size: 0.78rem; opacity: 0.85; }
+.kpi-footnote { font-size: 0.8rem; color: #666; margin-top: -0.3rem; }
+.deal-pill { display:inline-block; padding:2px 8px; border-radius:10px; color:#fff; font-size:0.78rem; font-weight:600; }
+.deal-Excellent { background:#1f7a4e; }
+.deal-Good      { background:#4a9d52; }
+.deal-Fair      { background:#d49a2a; }
+.deal-Poor      { background:#c97336; }
+.deal-Avoid     { background:#9a2f2f; }
+</style>
+',
+kpi_n_products, kpi_n_brands,
+kpi_min_rpg, kpi_cheapest$Product[1],
+kpi_median_rpg,
+kpi_max_rpg, kpi_priciest$Product[1],
+scrape_note
+))
+```
+
+## Best in class
+
+```{r}
+#| label: deal-dashboard-bic
+
+best_in_class <- all_products %>%
+    filter(!is_grocery) %>%
+    group_by(product_type) %>%
+    slice_min(rand_per_gram, n = 1, with_ties = FALSE) %>%
+    ungroup() %>%
+    transmute(
+        Category = as.character(product_type),
+        Winner = Product,
+        Brand,
+        `R/g` = rand_per_gram,
+        `Price (ZAR)` = Price_ZAR,
+        `Carbs (g)` = Carbs_per_Serving
+    ) %>%
+    arrange(`R/g`)
+
+worst_in_class <- all_products %>%
+    filter(!is_grocery) %>%
+    group_by(product_type) %>%
+    slice_max(rand_per_gram, n = 1, with_ties = FALSE) %>%
+    ungroup() %>%
+    transmute(
+        Category = as.character(product_type),
+        Loser = Product,
+        Brand,
+        `R/g` = rand_per_gram
+    ) %>%
+    arrange(desc(`R/g`))
+
+best_in_class %>%
+    DT::datatable(
+        rownames = FALSE, options = list(dom = "t", pageLength = 10),
+        caption = "Cheapest product per category (sports nutrition only)."
+    ) %>%
+    DT::formatRound("R/g", 2) %>%
+    DT::formatCurrency("Price (ZAR)", currency = "R", interval = 3)
+```
+
+```{r}
+#| label: deal-dashboard-worst
+
+worst_in_class %>%
+    DT::datatable(
+        rownames = FALSE, options = list(dom = "t", pageLength = 10),
+        caption = "Most expensive product per category."
+    ) %>%
+    DT::formatRound("R/g", 2)
+```
+
+## Brand league table
+
+```{r}
+#| label: deal-dashboard-brand-league
+
+brand_league <- all_products %>%
+    filter(!is_grocery) %>%
+    group_by(Brand) %>%
+    summarise(
+        Products = n(),
+        `Median R/g` = round(median(rand_per_gram, na.rm = TRUE), 2),
+        `Cheapest R/g` = round(min(rand_per_gram, na.rm = TRUE), 2),
+        `Priciest R/g` = round(max(rand_per_gram, na.rm = TRUE), 2),
+        `% Excellent/Good` = round(100 * mean(deal_rating %in% c("Excellent", "Good"), na.rm = TRUE), 0),
+        `% Poor/Avoid`     = round(100 * mean(deal_rating %in% c("Poor", "Avoid"), na.rm = TRUE), 0),
+        .groups = "drop"
+    ) %>%
+    arrange(`Median R/g`)
+
+brand_league %>%
+    DT::datatable(
+        rownames = FALSE,
+        extensions = "Buttons",
+        options = list(dom = "Bfrtip", buttons = c("csv", "excel"),
+                       pageLength = 10, scrollX = TRUE),
+        caption = "Brands ranked by median rand-per-gram (cheaper = better)."
+    ) %>%
+    DT::formatStyle("Median R/g",
+        background = DT::styleColorBar(brand_league$`Median R/g`, "#cfe0f5"),
+        backgroundSize = "98% 70%", backgroundRepeat = "no-repeat",
+        backgroundPosition = "left"
+    ) %>%
+    DT::formatStyle("% Excellent/Good",
+        backgroundColor = DT::styleInterval(c(20, 50), c("#fff", "#e6f4e6", "#bfe1bf"))
+    ) %>%
+    DT::formatStyle("% Poor/Avoid",
+        backgroundColor = DT::styleInterval(c(20, 50), c("#fff", "#fbe3d6", "#f4b5b5"))
+    )
+```
+
+## Full product table — deal rated
+
+```{r}
+#| label: deal-dashboard-full
+
+deal_pill <- function(x) {
+    sprintf('<span class="deal-pill deal-%s">%s</span>', x, x)
+}
+
+all_products %>%
+    mutate(
+        Deal = deal_pill(deal_rating),
+        Type = as.character(product_type)
+    ) %>%
+    select(Deal, Type, Brand, Product,
+           `R/g` = rand_per_gram,
+           `Price (ZAR)` = Price_ZAR,
+           `Carbs (g)` = Carbs_per_Serving,
+           Source = Source_Link) %>%
+    arrange(`R/g`) %>%
+    DT::datatable(
+        rownames = FALSE, escape = FALSE,
+        extensions = "Buttons",
+        filter = "top",
+        options = list(
+            dom = "Bfrtip",
+            buttons = c("csv", "excel"),
+            pageLength = 15, scrollX = TRUE,
+            columnDefs = list(list(className = "dt-center", targets = 0:1))
+        ),
+        caption = "All products with quantile-based deal rating (within product type)."
+    ) %>%
+    DT::formatRound("R/g", 2) %>%
+    DT::formatCurrency("Price (ZAR)", currency = "R", interval = 3)
+```
+
+```{r}
+#| label: deal-dashboard-counts
+#| fig-height: 3
+
+library(ggplot2)
+all_products %>%
+    filter(!is_grocery) %>%
+    count(product_type, deal_rating) %>%
+    ggplot(aes(x = product_type, y = n, fill = deal_rating)) +
+    geom_col(position = "stack") +
+    scale_fill_manual(values = c(
+        "Excellent" = "#1f7a4e",
+        "Good"      = "#4a9d52",
+        "Fair"      = "#d49a2a",
+        "Poor"      = "#c97336",
+        "Avoid"     = "#9a2f2f"
+    )) +
+    labs(x = NULL, y = "Number of products", fill = "Deal rating",
+         title = "Deal-rating mix by product type") +
+    theme_minimal(base_size = 12) +
+    theme(legend.position = "bottom")
+```
+
+> **How to read it:** an "Excellent" gel is in the cheapest 20 % of *gels*,
+> not the cheapest 20 % of everything. That stops drink-mix tubs (which are
+> always cheap per gram) from making every gel look "Avoid".
 
 
 # Limitations
