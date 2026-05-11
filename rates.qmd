@@ -50,98 +50,62 @@ css: styles.css
 
 ::: {.ss-rates}
 
-# Service menu & rough guide pricing
+# Service menu &amp; indicative pricing
 
 ::: {.lead}
-Below is the StudyStats service menu — a transparent reference for the kinds of deliverables we produce and what each typically costs. Use it to estimate your project. Every engagement is then **individually scoped, priced and invoiced** based on your specific data, objectives and timeline.
+A short menu of typical engagements. It's deliberately brief — most projects mix and match items from more than one tier, and the exact scope is settled on the discovery call. Use this to anchor what your project might cost; we send a fully itemised quote afterwards.
 :::
 
-<p class="currency-note">All prices in <strong>ZAR</strong>, exclusive of VAT. Effective May 2026. Indicative only — see disclaimer below.</p>
+<p class="currency-note">All prices in <strong>ZAR</strong>, exclusive of VAT. Indicative only. Projects start from <strong>R5&nbsp;000</strong>.</p>
 
-<h2 class="ss-cat">Descriptive analysis &amp; comparison</h2>
-<p class="cat-blurb">Tables, graphs and basic comparisons that describe your sample.</p>
+<h2 class="ss-cat">Quick-turn analysis <span style="color:#9a9a9a;font-weight:400;font-size:.85rem;">— from R5&nbsp;000</span></h2>
+<p class="cat-blurb">A focused piece of work, typically returned in under a week.</p>
 
 <table class="ss-pricetable">
-<thead><tr><th>Item</th><th>Description</th><th style="text-align:right;">Price</th></tr></thead>
+<thead><tr><th>Item</th><th>Typical scope</th><th style="text-align:right;">From</th></tr></thead>
 <tbody>
-<tr><td class="label">Simple descriptive table</td><td class="desc">Counts, percentages, means, medians. One table = descriptive statistics from the same denominator.</td><td class="price">R300</td></tr>
-<tr><td class="label">Simple graph</td><td class="desc">Bar charts, histograms, x–y scatter plots.</td><td class="price">R300</td></tr>
-<tr><td class="label">Advanced descriptive table</td><td class="desc">Stratified by groups, summary statistics across multiple variables.</td><td class="price">R500</td></tr>
-<tr><td class="label">Advanced visualisation</td><td class="desc">Boxplots, violin plots, multi-panel figures, coefficient (forest) plots.</td><td class="price">R600</td></tr>
-<tr><td class="label">Data wrangling for descriptives</td><td class="desc">Cleaning, merging or reshaping data (per dataset).</td><td class="price">R400</td></tr>
+<tr><td class="label">Sample-size &amp; protocol stats</td><td class="desc">Sample size, statistical analysis plan, methods paragraph for your protocol or ethics submission.</td><td class="price">R5&nbsp;000</td></tr>
+<tr><td class="label">Descriptive analysis package</td><td class="desc">Table 1, two or three figures, brief results paragraph. One clean dataset.</td><td class="price">R5&nbsp;000</td></tr>
+<tr><td class="label">Single-model analysis</td><td class="desc">One regression model (linear / logistic / Cox / Poisson) with diagnostics and a short results write-up.</td><td class="price">R6&nbsp;000</td></tr>
 </tbody>
 </table>
 
-<h2 class="ss-cat">Simple modelling <span style="color:#9a9a9a;font-weight:400;font-size:.85rem;">— correlations, odds ratios, risk ratios</span></h2>
-<p class="cat-blurb">Univariate models for unadjusted associations and effect sizes.</p>
+<h2 class="ss-cat">Full study analysis <span style="color:#9a9a9a;font-weight:400;font-size:.85rem;">— from R12&nbsp;000</span></h2>
+<p class="cat-blurb">End-to-end statistical work for a manuscript, thesis chapter or report.</p>
 
 <table class="ss-pricetable">
-<thead><tr><th>Item</th><th>Description</th><th style="text-align:right;">Price</th></tr></thead>
+<thead><tr><th>Item</th><th>Typical scope</th><th style="text-align:right;">From</th></tr></thead>
 <tbody>
-<tr><td class="label">Univariate regression model</td><td class="desc">Linear, logistic, Poisson, Cox, etc.</td><td class="price">R600</td></tr>
-<tr><td class="label">Model diagnostics</td><td class="desc">Residual plots, fit statistics, VIF, assumptions check.</td><td class="price">R400</td></tr>
-<tr><td class="label">Data wrangling for model</td><td class="desc">Preparing the analysis dataset.</td><td class="price">R400</td></tr>
+<tr><td class="label">Manuscript-ready analysis</td><td class="desc">Cleaning, descriptives, adjusted models, sensitivity analyses, methods + results sections, tables and figures ready for submission.</td><td class="price">R12&nbsp;000</td></tr>
+<tr><td class="label">Diagnostic accuracy study</td><td class="desc">Sensitivity, specificity, PPV/NPV, ROC/AUC (with comparison), calibration, full write-up.</td><td class="price">R12&nbsp;000</td></tr>
+<tr><td class="label">MMed / MSc thesis support</td><td class="desc">Aims rewrite, analysis plan, all tables and figures, methods + results chapters, two rounds of revision.</td><td class="price">R18&nbsp;000</td></tr>
 </tbody>
 </table>
 
-<h2 class="ss-cat">Modelling adjusted for confounders</h2>
-<p class="cat-blurb">Multivariable models with sensitivity analyses and full diagnostics.</p>
+<h2 class="ss-cat">Bespoke &amp; ongoing <span style="color:#9a9a9a;font-weight:400;font-size:.85rem;">— quoted on scope</span></h2>
+<p class="cat-blurb">Larger or recurring work where a flat package doesn't fit.</p>
 
 <table class="ss-pricetable">
-<thead><tr><th>Item</th><th>Description</th><th style="text-align:right;">Price</th></tr></thead>
+<thead><tr><th>Item</th><th>Typical scope</th><th style="text-align:right;">From</th></tr></thead>
 <tbody>
-<tr><td class="label">Multivariable regression model</td><td class="desc">Linear, logistic, Poisson, Cox, etc.</td><td class="price">R900</td></tr>
-<tr><td class="label">Model diagnostics</td><td class="desc">Residual plots, AIC/BIC, ROC, calibration.</td><td class="price">R500</td></tr>
-<tr><td class="label">Sensitivity analyses</td><td class="desc">Alternative specifications, sub-group models.</td><td class="price">R500</td></tr>
-<tr><td class="label">Data wrangling for model</td><td class="desc">Handling missingness, transformations, variable coding.</td><td class="price">R500</td></tr>
-</tbody>
-</table>
-
-<h2 class="ss-cat">Writing &amp; interpretation</h2>
-<p class="cat-blurb">Methodology, results and interpretation text — drop-in for your manuscript or thesis.</p>
-
-<table class="ss-pricetable">
-<thead><tr><th>Item</th><th>Description</th><th style="text-align:right;">Price</th></tr></thead>
-<tbody>
-<tr><td class="label">Methodology section</td><td class="desc">Clear description of methods used; adequate for short manuscript (100–200 words).</td><td class="price">R600</td></tr>
-<tr><td class="label">Interpretation of results</td><td class="desc">Short narrative summary of findings — a starting point for the discussion, completed by the PI.</td><td class="price">R600</td></tr>
-<tr><td class="label">Formal results — descriptives</td><td class="desc">Formal results writing of descriptive statistics (&lt; 100 words).</td><td class="price">R500</td></tr>
-<tr><td class="label">Formal results — simple modelling</td><td class="desc">Formal results writing of simple modelling statistics (&lt; 100 words).</td><td class="price">R500</td></tr>
-<tr><td class="label">Formal results — complex modelling</td><td class="desc">Formal results writing of complex modelling (&lt; 100 words).</td><td class="price">R500</td></tr>
-</tbody>
-</table>
-
-<h2 class="ss-cat">Diagnostic performance studies</h2>
-<p class="cat-blurb">For sensitivity / specificity, ROC and prediction-model accuracy work.</p>
-
-<table class="ss-pricetable">
-<thead><tr><th>Item</th><th>Description</th><th style="text-align:right;">Price</th></tr></thead>
-<tbody>
-<tr><td class="label">Sensitivity &amp; specificity</td><td class="desc">Basic 2×2 table (test vs. gold standard) with confidence intervals.</td><td class="price">R500</td></tr>
-<tr><td class="label">Predictive values (PPV, NPV)</td><td class="desc">Added calculation, with prevalence adjustment if needed.</td><td class="price">R400</td></tr>
-<tr><td class="label">ROC curve (single test/model)</td><td class="desc">ROC curve and AUC with confidence intervals.</td><td class="price">R700</td></tr>
-<tr><td class="label">ROC curve comparison</td><td class="desc">Compare AUCs of two or more tests / models.</td><td class="price">R900</td></tr>
-<tr><td class="label">Calibration / agreement</td><td class="desc">Hosmer–Lemeshow, Brier score, kappa.</td><td class="price">R600</td></tr>
-<tr><td class="label">Decision curve analysis</td><td class="desc">Net benefit curves (optional advanced).</td><td class="price">R900</td></tr>
-<tr><td class="label">Data wrangling for accuracy</td><td class="desc">Preparing dataset, binary outcomes, thresholds.</td><td class="price">R500</td></tr>
-<tr><td class="label">Methodology write-up</td><td class="desc">Clear explanation of diagnostic methods used.</td><td class="price">R600</td></tr>
-<tr><td class="label">Interpretation write-up</td><td class="desc">Plain-language summary of accuracy results.</td><td class="price">R600</td></tr>
-<tr><td class="label">Formal results section</td><td class="desc">Journal-ready tables and figures.</td><td class="price">R800</td></tr>
+<tr><td class="label">Prediction / risk model</td><td class="desc">Model development, internal validation, decision-curve analysis, reporting (TRIPOD).</td><td class="price">R20&nbsp;000</td></tr>
+<tr><td class="label">Reviewer-response package</td><td class="desc">Re-analysis, additional models or sensitivity work, point-by-point statistical response to reviewers.</td><td class="price">R6&nbsp;000</td></tr>
+<tr><td class="label">Retainer / department support</td><td class="desc">Block of hours per month for a research unit or supervisor. Priority turnaround.</td><td class="price">on request</td></tr>
 </tbody>
 </table>
 
 <div class="ss-disclaimer">
-<strong>This menu is a rough guide.</strong> Every project is individually scoped and quoted based on the complexity of your data, the number of objectives and your timeline. Some items combine, some need extending, and some don't apply. After our free 15-minute call you'll receive an itemised written quote drawn from this menu — the prices on your quote are what you pay, full stop.
+<strong>This is a menu, not a price list.</strong> Each project is individually scoped on a free 15-minute call and you receive a written, itemised quote before any work starts. The price on your quote is what you pay — no hourly surprises.
 </div>
 
 <div class="ss-callout">
-<h3>Revisions, updates &amp; ad-hoc work</h3>
-<p>The first round of revisions on each deliverable is included free (within 14 days of delivery). Subsequent revisions, supervisor changes and reviewer responses are billed in <strong>30-minute blocks at R400</strong>, tracked transparently and invoiced monthly.</p>
+<h3>Revisions &amp; ad-hoc work</h3>
+<p>One round of revisions per deliverable is included (within 14 days of delivery). Further revisions, supervisor changes and reviewer responses are billed in <strong>30-minute blocks at R500</strong>, tracked transparently.</p>
 </div>
 
 <div class="ss-callout">
 <h3>Payment terms</h3>
-<p><strong>50% deposit</strong> secures your project start; the balance is due on delivery. Quotes are valid for 30 days. EFT and PayFast accepted. Tax invoice issued on payment. StudyStats is a registered vendor with several South African universities — purchase-order-compliant invoicing available on request.</p>
+<p><strong>50% deposit</strong> secures your project start; the balance is due on delivery. Quotes valid for 30 days. EFT and PayFast accepted; tax invoice issued on payment. Purchase-order-compliant invoicing available for South African universities.</p>
 </div>
 
 ## Common questions
@@ -152,7 +116,7 @@ Below is the StudyStats service menu — a transparent reference for the kinds o
 
 <details><summary>What if my data needs more cleaning than expected?</summary><p>The cleaning fee is set during the scoping call once we've seen the data. If reality differs from what we agreed, we re-quote <em>before</em> doing the extra work — never after.</p></details>
 
-<details><summary>Can I buy just one or two items?</summary><p>Yes. Many clients only need a sample size calculation, an ethics statistics section, or a single table. Minimum invoice R500.</p></details>
+<details><summary>Can I buy just one or two items?</summary><p>Yes — many clients only need a sample-size calculation or a single analysis. Minimum project value is <strong>R5&nbsp;000</strong>; anything smaller is usually better handled as part of a wider engagement.</p></details>
 
 <details><summary>Do you charge for the discovery call?</summary><p>No. The first 15-minute call is free. If you need a deeper working session before committing, that can be booked as a paid scoping consult — and the fee is credited to your project if you proceed within 30 days.</p></details>
 
